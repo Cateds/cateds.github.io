@@ -1,0 +1,82 @@
+---
+import PageLayout from '../layouts/PageLayout.astro'
+import SemesterDrawer from '../components/SemesterDrawer'
+import { siteConfig } from '../config'
+
+const { profile, semesters } = siteConfig
+---
+
+<PageLayout title={`${profile.name} - Notes`} currentPath="/">
+  <header class="page-header">
+    <h1 class="page-title">Notes</h1>
+    <p class="page-subtitle">Study materials organized by semester</p>
+  </header>
+  
+  <section class="semesters-section">
+    {semesters.map((semester, index) => (
+      <SemesterDrawer 
+        semester={semester} 
+        defaultOpen={index === 0}
+        client:load 
+      />
+    ))}
+  </section>
+
+  <footer class="page-footer">
+    <p>Built with Astro & React</p>
+  </footer>
+</PageLayout>
+
+<style>
+  .page-header {
+    margin-bottom: 2.5rem;
+  }
+
+  .page-title {
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--color-text);
+    margin-bottom: 0.375rem;
+  }
+
+  .page-subtitle {
+    font-size: 1rem;
+    color: var(--color-text-secondary);
+  }
+
+  .semesters-section {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .page-footer {
+    margin-top: 3rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--color-border);
+    text-align: center;
+  }
+
+  .page-footer p {
+    font-size: 0.8125rem;
+    color: var(--color-text-secondary);
+  }
+
+  @media (max-width: 768px) {
+    .page-header {
+      margin-bottom: 1.5rem;
+    }
+
+    .page-title {
+      font-size: 1.5rem;
+    }
+
+    .page-subtitle {
+      font-size: 0.9375rem;
+    }
+
+    .semesters-section {
+      gap: 0.75rem;
+    }
+  }
+</style>

@@ -1,0 +1,166 @@
+---
+import PageLayout from '../../layouts/PageLayout.astro'
+import BlogCard from '../../components/BlogCard'
+import { siteConfig } from '../../config'
+import { getCollection } from 'astro:content'
+
+const { profile } = siteConfig
+const allPosts = await getCollection('blog')
+
+const posts = allPosts
+  .map((post) => ({
+    id: post.slug,
+    title: post.data.title,
+    description: post.data.description,
+    date: post.data.date,
+    tags: post.data.tags,
+    content: post.body,
+  }))
+  .sort((a, b) => b.date.getTime() - a.date.getTime())
+
+const allTags = [...new Set(posts.flatMap((p) => p.tags || []))]
+---
+
+<PageLayout title={`${profile.name} - Blog`} currentPath="/blog">
+  <header class="page-header">
+    <h1 class="page-title">Blog</h1>
+    <p class="page-subtitle">Thoughts, tutorials, and explorations</p>
+  </header>
+
+  <div class="tag-filter" id="tag-filter">
+    <button class="tag-btn active" data-tag="all">All</button>
+    {allTags.map((tag) => (
+      <button class="tag-btn" data-tag={tag}>{tag}</button>
+    ))}
+  </div>
+  
+  <section class="blog-list" id="blog-list">
+    {posts.map((post) => (
+      <BlogCard post={post} data-tags={(post.tags || []).join(',')} client:load />
+    ))}
+  </section>
+
+  <footer class="page-footer">
+    <p>Built with Astro & React</p>
+  </footer>
+</PageLayout>
+
+<style>
+  .page-header {
+    margin-bottom: 2rem;
+  }
+
+  .page-title {
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--color-text);
+    margin-bottom: 0.375rem;
+  }
+
+  .page-subtitle {
+    font-size: 1rem;
+    color: var(--color-text-secondary);
+  }
+
+  .tag-filter {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-bottom: 2rem;
+    padding-bottom: 1.5rem;
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .tag-btn {
+    padding: 0.375rem 0.875rem;
+    font-size: 0.875rem;
+    font-weight: 500;
+    border-radius: 999px;
+    background: var(--color-bg-secondary);
+    color: var(--color-text-secondary);
+    border: 1px solid transparent;
+    transition: all var(--transition-fast);
+    cursor: pointer;
+  }
+
+  .tag-btn:hover {
+    background: var(--color-accent-light);
+    color: var(--color-accent);
+  }
+
+  .tag-btn.active {
+    background: var(--color-accent);
+    color: white;
+  }
+
+  .blog-list {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .hidden {
+    display: none !important;
+  }
+
+  .page-footer {
+    margin-top: 3rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--color-border);
+    text-align: center;
+  }
+
+  .page-footer p {
+    font-size: 0.8125rem;
+    color: var(--color-text-secondary);
+  }
+
+  @media (max-width: 768px) {
+    .page-header {
+      margin-bottom: 1.5rem;
+    }
+
+    .page-title {
+      font-size: 1.5rem;
+    }
+
+    .page-subtitle {
+      font-size: 0.9375rem;
+    }
+
+    .tag-filter {
+      gap: 0.375rem;
+      margin-bottom: 1.5rem;
+      padding-bottom: 1rem;
+    }
+
+    .tag-btn {
+      padding: 0.3125rem 0.75rem;
+      font-size: 0.8125rem;
+    }
+  }
+</style>
+
+<script>
+  const tagFilter = document.getElementById('tag-filter')
+  const blogList = document.getElementById('blog-list')
+  
+  tagFilter?.addEventListener('click', (e) => {
+    const target = e.target as HTMLElement
+    if (target.classList.contains('tag-btn')) {
+      const tag = target.dataset.tag
+      
+      document.querySelectorAll('.tag-btn').forEach((btn) => {
+        btn.classList.toggle('active', btn === target)
+      })
+      
+      blogList?.querySelectorAll('article').forEach((article) => {
+        const articleTags = (article as HTMLElement).dataset.tags?.split(',') || []
+        if (tag === 'all' || articleTags.includes(tag || '')) {
+          article.classList.remove('hidden')
+        } else {
+          article.classList.add('hidden')
+        }
+      })
+    }
+  })
+</script>

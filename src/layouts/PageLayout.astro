@@ -1,0 +1,58 @@
+---
+import BaseLayout from './BaseLayout.astro'
+import ParticleBackground from '../components/ParticleBackground'
+import Sidebar from '../components/Sidebar'
+import { siteConfig } from '../config'
+
+interface Props {
+  title: string
+  currentPath: string
+}
+
+const { title, currentPath } = Astro.props
+const { profile } = siteConfig
+---
+
+<BaseLayout title={title}>
+  <ParticleBackground client:load />
+  
+  <div class="app-container">
+    <Sidebar profile={profile} currentPath={currentPath} client:load />
+    
+    <main class="main-content">
+      <slot />
+    </main>
+  </div>
+</BaseLayout>
+
+<style>
+  .app-container {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    position: relative;
+    z-index: 1;
+    overflow-x: hidden;
+  }
+
+  @media (min-width: 769px) {
+    .app-container {
+      flex-direction: row;
+    }
+  }
+
+  .main-content {
+    flex: 1;
+    margin-left: var(--sidebar-width);
+    padding: 2.5rem 2rem;
+    box-sizing: border-box;
+    min-width: 0;
+  }
+
+  @media (max-width: 768px) {
+    .main-content {
+      margin-left: 0;
+      padding: 1.5rem 1rem;
+    }
+  }
+</style>
