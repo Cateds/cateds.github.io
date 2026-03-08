@@ -5,7 +5,7 @@
 }
 
 .blog-card::before {
-  content: '';
+  content: "";
   position: absolute;
   left: 0;
   top: 0.5rem;
@@ -17,7 +17,7 @@
 }
 
 .blog-card::after {
-  content: '';
+  content: "";
   position: absolute;
   left: 4px;
   top: 1.5rem;
@@ -131,7 +131,7 @@
     width: 8px;
     height: 8px;
   }
-  
+
   .blog-card::after {
     bottom: -0.75rem;
   }

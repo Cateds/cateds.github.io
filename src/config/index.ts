@@ -1,9 +1,16 @@
-import type { SiteConfig, Profile, Semester, ThemeConfig, Repo, ToolItem } from '../types'
-import { siteConfig as defaultConfig } from './default'
+import type {
+  SiteConfig,
+  Profile,
+  Semester,
+  ThemeConfig,
+  Repo,
+  ToolItem,
+} from "../types";
+import { siteConfig as defaultConfig } from "./default";
 
-export type { SiteConfig, Profile, Semester, ThemeConfig, Repo, ToolItem }
+export type { SiteConfig, Profile, Semester, ThemeConfig, Repo, ToolItem };
 
-export const siteConfig: SiteConfig = defaultConfig
+export const siteConfig: SiteConfig = defaultConfig;
 
 export function createConfig(config: Partial<SiteConfig>): SiteConfig {
   return {
@@ -12,25 +19,25 @@ export function createConfig(config: Partial<SiteConfig>): SiteConfig {
     repos: config.repos || defaultConfig.repos,
     tools: config.tools || defaultConfig.tools,
     theme: { ...defaultConfig.theme, ...config.theme },
-  }
+  };
 }
 
 export function updateProfile(profile: Partial<Profile>): Profile {
-  return { ...defaultConfig.profile, ...profile }
+  return { ...defaultConfig.profile, ...profile };
 }
 
 export function addSemester(semester: Semester): Semester[] {
-  return [...defaultConfig.semesters, semester]
+  return [...defaultConfig.semesters, semester];
 }
 
 export function addRepo(repo: Repo): Repo[] {
-  return [...defaultConfig.repos, repo]
+  return [...defaultConfig.repos, repo];
 }
 
 export function addTool(tool: ToolItem): ToolItem[] {
-  return [...defaultConfig.tools, tool]
+  return [...defaultConfig.tools, tool];
 }
 
 export function updateTheme(theme: Partial<ThemeConfig>): ThemeConfig {
-  return { ...defaultConfig.theme, ...theme }
+  return { ...defaultConfig.theme, ...theme };
 }

@@ -1,77 +1,77 @@
 export interface NavLink {
-  name: string
-  path: string
-  icon?: string
+  name: string;
+  path: string;
+  icon?: string;
 }
 
 export interface ExternalLink {
-  name: string
-  url: string
-  icon?: string
+  name: string;
+  url: string;
+  icon?: string;
 }
 
 export interface Profile {
-  name: string
-  avatar?: string
-  bio?: string
-  navLinks: NavLink[]
-  externalLinks: ExternalLink[]
+  name: string;
+  avatar?: string;
+  bio?: string;
+  navLinks: NavLink[];
+  externalLinks: ExternalLink[];
 }
 
 export interface Subject {
-  id: string
-  name: string
-  description?: string
-  url: string
-  color?: string
+  id: string;
+  name: string;
+  description?: string;
+  url: string;
+  color?: string;
 }
 
 export interface Semester {
-  id: string
-  name: string
-  subjects: Subject[]
+  id: string;
+  name: string;
+  subjects: Subject[];
 }
 
 export interface Repo {
-  id: string
-  name: string
-  description?: string
-  url: string
-  language?: string
-  stars?: number
-  forks?: number
-  color?: string
+  id: string;
+  name: string;
+  description?: string;
+  url: string;
+  language?: string;
+  stars?: number;
+  forks?: number;
+  color?: string;
 }
 
 export interface BlogPost {
-  id: string
-  title: string
-  description?: string
-  date: Date
-  tags?: string[]
-  content?: string
-  readingTime?: number
+  id: string;
+  title: string;
+  description?: string;
+  date: Date;
+  tags?: string[];
+  content?: string;
+  readingTime?: number;
 }
 
 export interface ToolItem {
-  id: string
-  name: string
-  description?: string
-  url: string
-  icon?: string
-  color?: string
+  id: string;
+  name: string;
+  description?: string;
+  url: string;
+  icon?: string;
+  color?: string;
 }
 
 export interface ThemeConfig {
-  defaultTheme: 'light' | 'dark' | 'system'
-  warmAccent: string
-  particleColor: string
+  defaultTheme: "light" | "dark" | "system";
+  warmAccent: string;
+  particleColor: string;
 }
 
 export interface SiteConfig {
-  profile: Profile
-  semesters: Semester[]
-  repos: Repo[]
-  tools: ToolItem[]
-  theme: ThemeConfig
+  profile: Profile;
+  semesters: Semester[];
+  repos: Repo[];
+  tools: ToolItem[];
+  theme: ThemeConfig;
 }

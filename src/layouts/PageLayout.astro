@@ -1,24 +1,29 @@
 ---
-import BaseLayout from './BaseLayout.astro'
-import ParticleBackground from '../components/ParticleBackground'
-import Sidebar from '../components/Sidebar'
-import { siteConfig } from '../config'
+import BaseLayout from "./BaseLayout.astro";
+import ParticleBackground from "../components/ParticleBackground";
+import Sidebar from "../components/Sidebar";
+import { siteConfig } from "../config";
 
 interface Props {
-  title: string
-  currentPath: string
+  title: string;
+  currentPath: string;
 }
 
-const { title, currentPath } = Astro.props
-const { profile } = siteConfig
+const { title, currentPath } = Astro.props;
+const { profile } = siteConfig;
 ---
 
 <BaseLayout title={title}>
-  <ParticleBackground client:load />
-  
+  <ParticleBackground
+    client:load
+    mouseRadius={30000}
+    mouseStrength={500000}
+    damping={0.8}
+  />
+
   <div class="app-container">
     <Sidebar profile={profile} currentPath={currentPath} client:load />
-    
+
     <main class="main-content">
       <slot />
     </main>

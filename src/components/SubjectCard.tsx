@@ -1,8 +1,8 @@
-import type { Subject } from '../types'
-import './SubjectCard.css'
+import type { Subject } from "../types";
+import "./SubjectCard.css";
 
 interface SubjectCardProps {
-  subject: Subject
+  subject: Subject;
 }
 
 export default function SubjectCard({ subject }: SubjectCardProps) {
@@ -10,7 +10,11 @@ export default function SubjectCard({ subject }: SubjectCardProps) {
     <a
       href={subject.url}
       className="subject-card"
-      style={{ '--subject-color': subject.color || 'var(--color-accent)' } as React.CSSProperties}
+      style={
+        {
+          "--subject-color": subject.color || "var(--color-accent)",
+        } as React.CSSProperties
+      }
     >
       <div className="card-indicator" />
       <div className="card-content">
@@ -28,8 +32,8 @@ export default function SubjectCard({ subject }: SubjectCardProps) {
         width="16"
         height="16"
       >
-        <path d="M5 12h14M12 5l7 7-7 7"/>
+        <path d="M5 12h14M12 5l7 7-7 7" />
       </svg>
     </a>
-  )
+  );
 }

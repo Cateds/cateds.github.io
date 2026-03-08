@@ -1,18 +1,21 @@
-import { useState } from 'react'
-import type { Semester } from '../types'
-import SubjectCard from './SubjectCard'
-import './SemesterDrawer.css'
+import { useState } from "react";
+import type { Semester } from "../types";
+import SubjectCard from "./SubjectCard";
+import "./SemesterDrawer.css";
 
 interface SemesterDrawerProps {
-  semester: Semester
-  defaultOpen?: boolean
+  semester: Semester;
+  defaultOpen?: boolean;
 }
 
-export default function SemesterDrawer({ semester, defaultOpen = false }: SemesterDrawerProps) {
-  const [isOpen, setIsOpen] = useState(defaultOpen)
+export default function SemesterDrawer({
+  semester,
+  defaultOpen = false,
+}: SemesterDrawerProps) {
+  const [isOpen, setIsOpen] = useState(defaultOpen);
 
   return (
-    <div className={`semester-drawer ${isOpen ? 'open' : ''}`}>
+    <div className={`semester-drawer ${isOpen ? "open" : ""}`}>
       <button
         className="drawer-header"
         onClick={() => setIsOpen(!isOpen)}
@@ -32,7 +35,7 @@ export default function SemesterDrawer({ semester, defaultOpen = false }: Semest
           <polyline points="6 9 12 15 18 9" />
         </svg>
       </button>
-      
+
       <div className="drawer-content">
         <div className="subjects-scroll">
           {semester.subjects.map((subject) => (
@@ -41,5 +44,5 @@ export default function SemesterDrawer({ semester, defaultOpen = false }: Semest
         </div>
       </div>
     </div>
-  )
+  );
 }
