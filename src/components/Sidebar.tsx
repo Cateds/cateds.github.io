@@ -13,7 +13,7 @@ const navIconMap: Record<string, JSX.Element> = {
       viewBox="0 0 24 24"
       fill="none"
       stroke="currentColor"
-      strokeWidth="2"
+      stroke-width="2"
       width="18"
       height="18"
     >
@@ -26,7 +26,7 @@ const navIconMap: Record<string, JSX.Element> = {
       viewBox="0 0 24 24"
       fill="none"
       stroke="currentColor"
-      strokeWidth="2"
+      stroke-width="2"
       width="18"
       height="18"
     >
@@ -39,7 +39,7 @@ const navIconMap: Record<string, JSX.Element> = {
       viewBox="0 0 24 24"
       fill="none"
       stroke="currentColor"
-      strokeWidth="2"
+      stroke-width="2"
       width="18"
       height="18"
     >
@@ -54,7 +54,7 @@ const navIconMap: Record<string, JSX.Element> = {
       viewBox="0 0 24 24"
       fill="none"
       stroke="currentColor"
-      strokeWidth="2"
+      stroke-width="2"
       width="18"
       height="18"
     >
@@ -74,7 +74,7 @@ const externalIconMap: Record<string, JSX.Element> = {
       viewBox="0 0 24 24"
       fill="none"
       stroke="currentColor"
-      strokeWidth="2"
+      stroke-width="2"
       width="18"
       height="18"
     >
@@ -87,7 +87,7 @@ const externalIconMap: Record<string, JSX.Element> = {
       viewBox="0 0 24 24"
       fill="none"
       stroke="currentColor"
-      strokeWidth="2"
+      stroke-width="2"
       width="18"
       height="18"
     >
@@ -102,60 +102,63 @@ const externalIconMap: Record<string, JSX.Element> = {
   ),
 };
 
-export default function Sidebar({ profile, currentPath = "" }: SidebarProps) {
+export default function Sidebar(props: SidebarProps) {
+  const currentPath = () => props.currentPath ?? "";
+
   return (
-    <aside className="sidebar">
-      <div className="sidebar-content">
-        <div className="profile-section">
-          <div className="avatar">
-            {profile.avatar ? (
-              <img src={profile.avatar} alt={profile.name} />
+    <aside class="sidebar">
+      <div class="sidebar-content">
+        <div class="profile-section">
+          <div class="avatar">
+            {props.profile.avatar ? (
+              <img src={props.profile.avatar} alt={props.profile.name} />
             ) : (
-              <div className="avatar-placeholder">
-                {profile.name.charAt(0).toUpperCase()}
+              <div class="avatar-placeholder">
+                {props.profile.name.charAt(0).toUpperCase()}
               </div>
             )}
           </div>
-          <h1 className="profile-name">{profile.name}</h1>
-          {profile.bio && <p className="profile-bio">{profile.bio}</p>}
+          <h1 class="profile-name">{props.profile.name}</h1>
+          {props.profile.bio && <p class="profile-bio">{props.profile.bio}</p>}
         </div>
 
-        <nav className="nav-section">
-          <div className="section-label">Navigation</div>
-          {profile.navLinks.map((link) => (
+        <nav class="nav-section">
+          <div class="section-label">Navigation</div>
+          {props.profile.navLinks.map((link) => (
             <a
-              key={link.name}
               href={link.path}
-              className={`nav-item ${currentPath === link.path ? "active" : ""}`}
+              classList={{
+                "nav-item": true,
+                active: currentPath() === link.path,
+              }}
             >
-              <span className="nav-icon">
+              <span class="nav-icon">
                 {link.icon && navIconMap[link.icon]}
               </span>
-              <span className="nav-name">{link.name}</span>
+              <span class="nav-name">{link.name}</span>
             </a>
           ))}
         </nav>
 
-        <nav className="links-section">
-          <div className="section-label">Links</div>
-          {profile.externalLinks.map((link) => (
+        <nav class="links-section">
+          <div class="section-label">Links</div>
+          {props.profile.externalLinks.map((link) => (
             <a
-              key={link.name}
               href={link.url}
-              className="link-item"
+              class="link-item"
               target="_blank"
               rel="noopener noreferrer"
             >
-              <span className="link-icon">
+              <span class="link-icon">
                 {link.icon && externalIconMap[link.icon]}
               </span>
-              <span className="link-name">{link.name}</span>
+              <span class="link-name">{link.name}</span>
               <svg
-                className="external-arrow"
+                class="external-arrow"
                 viewBox="0 0 24 24"
                 fill="none"
                 stroke="currentColor"
-                strokeWidth="2"
+                stroke-width="2"
                 width="12"
                 height="12"
               >
@@ -165,7 +168,7 @@ export default function Sidebar({ profile, currentPath = "" }: SidebarProps) {
           ))}
         </nav>
 
-        <div className="sidebar-footer">
+        <div class="sidebar-footer">
           <ThemeToggle />
         </div>
       </div>

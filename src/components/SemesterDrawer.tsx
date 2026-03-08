@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { createSignal } from "solid-js";
 import type { Semester } from "../types";
 import SubjectCard from "./SubjectCard";
 import "./SemesterDrawer.css";
@@ -8,27 +8,24 @@ interface SemesterDrawerProps {
   defaultOpen?: boolean;
 }
 
-export default function SemesterDrawer({
-  semester,
-  defaultOpen = false,
-}: SemesterDrawerProps) {
-  const [isOpen, setIsOpen] = useState(defaultOpen);
+export default function SemesterDrawer(props: SemesterDrawerProps) {
+  const [isOpen, setIsOpen] = createSignal(props.defaultOpen ?? false);
 
   return (
-    <div className={`semester-drawer ${isOpen ? "open" : ""}`}>
+    <div classList={{ "semester-drawer": true, open: isOpen() }}>
       <button
-        className="drawer-header"
-        onClick={() => setIsOpen(!isOpen)}
-        aria-expanded={isOpen}
+        class="drawer-header"
+        onClick={() => setIsOpen(!isOpen())}
+        aria-expanded={isOpen()}
       >
-        <span className="drawer-title">{semester.name}</span>
-        <span className="drawer-meta">{semester.subjects.length} subjects</span>
+        <span class="drawer-title">{props.semester.name}</span>
+        <span class="drawer-meta">{props.semester.subjects.length} subjects</span>
         <svg
-          className="drawer-chevron"
+          class="drawer-chevron"
           viewBox="0 0 24 24"
           fill="none"
           stroke="currentColor"
-          strokeWidth="2"
+          stroke-width="2"
           width="16"
           height="16"
         >
@@ -36,10 +33,10 @@ export default function SemesterDrawer({
         </svg>
       </button>
 
-      <div className="drawer-content">
-        <div className="subjects-scroll">
-          {semester.subjects.map((subject) => (
-            <SubjectCard key={subject.id} subject={subject} />
+      <div class="drawer-content">
+        <div class="subjects-scroll">
+          {props.semester.subjects.map((subject) => (
+            <SubjectCard subject={subject} />
           ))}
         </div>
       </div>

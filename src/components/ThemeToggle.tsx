@@ -1,11 +1,11 @@
-import { useEffect, useState } from "react";
+import { createSignal, onMount } from "solid-js";
 import "./ThemeToggle.css";
 
 export default function ThemeToggle() {
-  const [theme, setTheme] = useState<"light" | "dark">("light");
-  const [mounted, setMounted] = useState(false);
+  const [theme, setTheme] = createSignal<"light" | "dark">("light");
+  const [mounted, setMounted] = createSignal(false);
 
-  useEffect(() => {
+  onMount(() => {
     setMounted(true);
     const savedTheme = localStorage.getItem("theme") as "light" | "dark" | null;
     const prefersDark = window.matchMedia(
@@ -19,29 +19,29 @@ export default function ThemeToggle() {
       setTheme("dark");
       document.documentElement.setAttribute("data-theme", "dark");
     }
-  }, []);
+  });
 
   const toggleTheme = () => {
-    const newTheme = theme === "light" ? "dark" : "light";
+    const newTheme = theme() === "light" ? "dark" : "light";
     setTheme(newTheme);
     document.documentElement.setAttribute("data-theme", newTheme);
     localStorage.setItem("theme", newTheme);
   };
 
-  if (!mounted) return null;
+  if (!mounted()) return null;
 
   return (
     <button
-      className="theme-toggle"
+      class="theme-toggle"
       onClick={toggleTheme}
-      aria-label={`Switch to ${theme === "light" ? "dark" : "light"} mode`}
+      aria-label={`Switch to ${theme() === "light" ? "dark" : "light"} mode`}
     >
-      {theme === "light" ? (
+      {theme() === "light" ? (
         <svg
           viewBox="0 0 24 24"
           fill="none"
           stroke="currentColor"
-          strokeWidth="2"
+          stroke-width="2"
           width="20"
           height="20"
         >
@@ -52,7 +52,7 @@ export default function ThemeToggle() {
           viewBox="0 0 24 24"
           fill="none"
           stroke="currentColor"
-          strokeWidth="2"
+          stroke-width="2"
           width="20"
           height="20"
         >

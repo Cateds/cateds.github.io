@@ -1,4 +1,4 @@
-import { useEffect, useRef, useCallback } from "react";
+import { onMount, onCleanup } from "solid-js";
 
 interface Particle {
   x: number;
@@ -68,59 +68,54 @@ function perlin(x: number, y: number): number {
   );
 }
 
-export default function ParticleBackground({
-  spacing = 25,
-  springStiffness = 0.018,
-  damping = 0.92,
-  mouseRadius = 500,
-  mouseStrength = 12000,
-  particleRadius = 1.5,
-  flowSpeed = 0.008,
-  flowScale = 0.0012,
-  flowStrength = 25,
-}: ParticleGridProps) {
-  const canvasRef = useRef<HTMLCanvasElement>(null);
-  const particlesRef = useRef<Particle[]>([]);
-  const mouseRef = useRef({ x: -1000, y: -1000 });
-  const animationRef = useRef<number>(0);
-  const timeRef = useRef(0);
-  const prefersReducedMotion = useRef(false);
+let canvasRef: HTMLCanvasElement | undefined;
+let particles: Particle[] = [];
+let mouse = { x: -1000, y: -1000 };
+let animationId = 0;
+let time = 0;
+let prefersReducedMotion = false;
 
-  const initParticles = useCallback(
-    (width: number, height: number) => {
-      const particles: Particle[] = [];
-      const cols = Math.ceil(width / spacing) + 1;
-      const rows = Math.ceil(height / spacing) + 1;
-      const offsetX = (width - (cols - 1) * spacing) / 2;
-      const offsetY = (height - (rows - 1) * spacing) / 2;
+export default function ParticleBackground(props: ParticleGridProps) {
+  const spacing = () => props.spacing ?? 25;
+  const springStiffness = () => props.springStiffness ?? 0.018;
+  const damping = () => props.damping ?? 0.92;
+  const mouseRadius = () => props.mouseRadius ?? 500;
+  const mouseStrength = () => props.mouseStrength ?? 12000;
+  const particleRadius = () => props.particleRadius ?? 1.5;
+  const flowSpeed = () => props.flowSpeed ?? 0.008;
+  const flowScale = () => props.flowScale ?? 0.0012;
+  const flowStrength = () => props.flowStrength ?? 25;
 
-      for (let row = 0; row < rows; row++) {
-        for (let col = 0; col < cols; col++) {
-          const restX = offsetX + col * spacing;
-          const restY = offsetY + row * spacing;
-          particles.push({
-            x: restX,
-            y: restY,
-            vx: 0,
-            vy: 0,
-            restX,
-            restY,
-          });
-        }
+  const initParticles = (width: number, height: number) => {
+    const newParticles: Particle[] = [];
+    const cols = Math.ceil(width / spacing()) + 1;
+    const rows = Math.ceil(height / spacing()) + 1;
+    const offsetX = (width - (cols - 1) * spacing()) / 2;
+    const offsetY = (height - (rows - 1) * spacing()) / 2;
+
+    for (let row = 0; row < rows; row++) {
+      for (let col = 0; col < cols; col++) {
+        const restX = offsetX + col * spacing();
+        const restY = offsetY + row * spacing();
+        newParticles.push({
+          x: restX,
+          y: restY,
+          vx: 0,
+          vy: 0,
+          restX,
+          restY,
+        });
       }
-      particlesRef.current = particles;
-    },
-    [spacing],
-  );
+    }
+    particles = newParticles;
+  };
 
-  useEffect(() => {
-    prefersReducedMotion.current = window.matchMedia(
+  onMount(() => {
+    prefersReducedMotion = window.matchMedia(
       "(prefers-reduced-motion: reduce)",
     ).matches;
-  }, []);
 
-  useEffect(() => {
-    const canvas = canvasRef.current;
+    const canvas = canvasRef;
     if (!canvas) return;
 
     const ctx = canvas.getContext("2d");
@@ -136,11 +131,11 @@ export default function ParticleBackground({
     window.addEventListener("resize", resizeCanvas);
 
     const handleMouseMove = (e: MouseEvent) => {
-      mouseRef.current = { x: e.clientX, y: e.clientY };
+      mouse = { x: e.clientX, y: e.clientY };
     };
 
     const handleMouseLeave = () => {
-      mouseRef.current = { x: -1000, y: -1000 };
+      mouse = { x: -1000, y: -1000 };
     };
 
     window.addEventListener("mousemove", handleMouseMove);
@@ -156,37 +151,37 @@ export default function ParticleBackground({
       const baseColor = isDark ? "220, 215, 210" : "100, 95, 90";
       const accentColor = isDark ? "232, 154, 120" : "224, 123, 83";
 
-      const t = timeRef.current * flowSpeed;
+      const t = time * flowSpeed();
 
-      particlesRef.current.forEach((particle) => {
-        if (!prefersReducedMotion.current) {
-          const dx = mouseRef.current.x - particle.x;
-          const dy = mouseRef.current.y - particle.y;
+      particles.forEach((particle) => {
+        if (!prefersReducedMotion) {
+          const dx = mouse.x - particle.x;
+          const dy = mouse.y - particle.y;
           const distSq = dx * dx + dy * dy;
           const dist = Math.sqrt(distSq);
 
-          if (dist < mouseRadius && dist > 0) {
-            const force = mouseStrength / (distSq + 1);
+          if (dist < mouseRadius() && dist > 0) {
+            const force = mouseStrength() / (distSq + 1);
             particle.vx -= (dx / dist) * force * 0.01;
             particle.vy -= (dy / dist) * force * 0.01;
           }
 
-          const noiseX = particle.restX * flowScale + t * 0.3;
-          const noiseY = particle.restY * flowScale + t * 0.2;
+          const noiseX = particle.restX * flowScale() + t * 0.3;
+          const noiseY = particle.restY * flowScale() + t * 0.2;
 
-          const offsetX = perlin(noiseX, noiseY) * flowStrength;
-          const offsetY = perlin(noiseX + 100, noiseY + 100) * flowStrength;
+          const offsetX = perlin(noiseX, noiseY) * flowStrength();
+          const offsetY = perlin(noiseX + 100, noiseY + 100) * flowStrength();
 
           const targetX = particle.restX + offsetX;
           const targetY = particle.restY + offsetY;
 
-          const springX = (targetX - particle.x) * springStiffness;
-          const springY = (targetY - particle.y) * springStiffness;
+          const springX = (targetX - particle.x) * springStiffness();
+          const springY = (targetY - particle.y) * springStiffness();
           particle.vx += springX;
           particle.vy += springY;
 
-          particle.vx *= damping;
-          particle.vy *= damping;
+          particle.vx *= damping();
+          particle.vy *= damping();
 
           particle.x += particle.vx;
           particle.y += particle.vy;
@@ -203,7 +198,7 @@ export default function ParticleBackground({
         const opacity = 0.25 + intensity * 0.45;
 
         ctx.beginPath();
-        ctx.arc(particle.x, particle.y, particleRadius, 0, Math.PI * 2);
+        ctx.arc(particle.x, particle.y, particleRadius(), 0, Math.PI * 2);
 
         if (intensity > 0.15) {
           ctx.fillStyle = `rgba(${accentColor}, ${opacity})`;
@@ -213,31 +208,21 @@ export default function ParticleBackground({
         ctx.fill();
       });
 
-      timeRef.current += 1;
-      animationRef.current = requestAnimationFrame(animate);
+      time += 1;
+      animationId = requestAnimationFrame(animate);
     };
 
     animate();
 
-    return () => {
+    onCleanup(() => {
       window.removeEventListener("resize", resizeCanvas);
       window.removeEventListener("mousemove", handleMouseMove);
       window.removeEventListener("mouseleave", handleMouseLeave);
-      if (animationRef.current) {
-        cancelAnimationFrame(animationRef.current);
+      if (animationId) {
+        cancelAnimationFrame(animationId);
       }
-    };
-  }, [
-    initParticles,
-    springStiffness,
-    damping,
-    mouseRadius,
-    mouseStrength,
-    particleRadius,
-    flowSpeed,
-    flowScale,
-    flowStrength,
-  ]);
+    });
+  });
 
   return (
     <canvas
@@ -248,8 +233,8 @@ export default function ParticleBackground({
         left: 0,
         width: "100%",
         height: "100%",
-        pointerEvents: "none",
-        zIndex: 0,
+        "pointer-events": "none",
+        "z-index": 0,
       }}
     />
   );

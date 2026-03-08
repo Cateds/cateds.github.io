@@ -1,5 +1,4 @@
-import { useState, useEffect } from "react";
-import Sidebar from "./Sidebar";
+import { createSignal, createEffect, onCleanup } from "solid-js";
 import type { Profile } from "../types";
 import "./MobileLayout.css";
 
@@ -7,33 +6,34 @@ interface MobileLayoutProps {
   profile: Profile;
 }
 
-export default function MobileLayout({ profile }: MobileLayoutProps) {
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
+export default function MobileLayout(props: MobileLayoutProps) {
+  const [isMenuOpen, setIsMenuOpen] = createSignal(false);
 
-  useEffect(() => {
-    if (isMenuOpen) {
+  createEffect(() => {
+    if (isMenuOpen()) {
       document.body.style.overflow = "hidden";
     } else {
       document.body.style.overflow = "";
     }
-    return () => {
-      document.body.style.overflow = "";
-    };
-  }, [isMenuOpen]);
+  });
+
+  onCleanup(() => {
+    document.body.style.overflow = "";
+  });
 
   return (
     <>
       <button
-        className="mobile-menu-btn"
-        onClick={() => setIsMenuOpen(!isMenuOpen)}
+        class="mobile-menu-btn"
+        onClick={() => setIsMenuOpen(!isMenuOpen())}
         aria-label="Toggle menu"
       >
-        {isMenuOpen ? (
+        {isMenuOpen() ? (
           <svg
             viewBox="0 0 24 24"
             fill="none"
             stroke="currentColor"
-            strokeWidth="2"
+            stroke-width="2"
             width="24"
             height="24"
           >
@@ -45,7 +45,7 @@ export default function MobileLayout({ profile }: MobileLayoutProps) {
             viewBox="0 0 24 24"
             fill="none"
             stroke="currentColor"
-            strokeWidth="2"
+            stroke-width="2"
             width="24"
             height="24"
           >
@@ -56,8 +56,8 @@ export default function MobileLayout({ profile }: MobileLayoutProps) {
         )}
       </button>
 
-      {isMenuOpen && (
-        <div className="mobile-overlay" onClick={() => setIsMenuOpen(false)} />
+      {isMenuOpen() && (
+        <div class="mobile-overlay" onClick={() => setIsMenuOpen(false)} />
       )}
     </>
   );

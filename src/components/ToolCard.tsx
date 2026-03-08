@@ -11,7 +11,7 @@ const iconMap: Record<string, JSX.Element> = {
       viewBox="0 0 24 24"
       fill="none"
       stroke="currentColor"
-      strokeWidth="1.5"
+      stroke-width="1.5"
       width="24"
       height="24"
     >
@@ -24,7 +24,7 @@ const iconMap: Record<string, JSX.Element> = {
       viewBox="0 0 24 24"
       fill="none"
       stroke="currentColor"
-      strokeWidth="1.5"
+      stroke-width="1.5"
       width="24"
       height="24"
     >
@@ -38,7 +38,7 @@ const iconMap: Record<string, JSX.Element> = {
       viewBox="0 0 24 24"
       fill="none"
       stroke="currentColor"
-      strokeWidth="1.5"
+      stroke-width="1.5"
       width="24"
       height="24"
     >
@@ -50,7 +50,7 @@ const iconMap: Record<string, JSX.Element> = {
       viewBox="0 0 24 24"
       fill="none"
       stroke="currentColor"
-      strokeWidth="1.5"
+      stroke-width="1.5"
       width="24"
       height="24"
     >
@@ -64,7 +64,7 @@ const iconMap: Record<string, JSX.Element> = {
       viewBox="0 0 24 24"
       fill="none"
       stroke="currentColor"
-      strokeWidth="1.5"
+      stroke-width="1.5"
       width="24"
       height="24"
     >
@@ -77,7 +77,7 @@ const iconMap: Record<string, JSX.Element> = {
       viewBox="0 0 24 24"
       fill="none"
       stroke="currentColor"
-      strokeWidth="1.5"
+      stroke-width="1.5"
       width="24"
       height="24"
     >
@@ -93,34 +93,32 @@ const iconMap: Record<string, JSX.Element> = {
   ),
 };
 
-export default function ToolCard({ tool }: ToolCardProps) {
+export default function ToolCard(props: ToolCardProps) {
   return (
     <a
-      href={tool.url}
-      className="tool-card"
-      style={
-        {
-          "--tool-color": tool.color || "var(--color-accent)",
-        } as React.CSSProperties
-      }
+      href={props.tool.url}
+      class="tool-card"
+      style={{
+        "--tool-color": props.tool.color || "var(--color-accent)",
+      }}
       target="_blank"
       rel="noopener noreferrer"
     >
-      <div className="tool-icon">{tool.icon && iconMap[tool.icon]}</div>
+      <div class="tool-icon">{props.tool.icon && iconMap[props.tool.icon]}</div>
 
-      <div className="tool-content">
-        <h3 className="tool-name">{tool.name}</h3>
-        {tool.description && (
-          <p className="tool-description">{tool.description}</p>
+      <div class="tool-content">
+        <h3 class="tool-name">{props.tool.name}</h3>
+        {props.tool.description && (
+          <p class="tool-description">{props.tool.description}</p>
         )}
       </div>
 
       <svg
-        className="tool-arrow"
+        class="tool-arrow"
         viewBox="0 0 24 24"
         fill="none"
         stroke="currentColor"
-        strokeWidth="2"
+        stroke-width="2"
         width="16"
         height="16"
       >

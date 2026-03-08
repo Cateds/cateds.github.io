@@ -5,30 +5,28 @@ interface SubjectCardProps {
   subject: Subject;
 }
 
-export default function SubjectCard({ subject }: SubjectCardProps) {
+export default function SubjectCard(props: SubjectCardProps) {
   return (
     <a
-      href={subject.url}
-      className="subject-card"
-      style={
-        {
-          "--subject-color": subject.color || "var(--color-accent)",
-        } as React.CSSProperties
-      }
+      href={props.subject.url}
+      class="subject-card"
+      style={{
+        "--subject-color": props.subject.color || "var(--color-accent)",
+      }}
     >
-      <div className="card-indicator" />
-      <div className="card-content">
-        <h3 className="card-title">{subject.name}</h3>
-        {subject.description && (
-          <p className="card-description">{subject.description}</p>
+      <div class="card-indicator" />
+      <div class="card-content">
+        <h3 class="card-title">{props.subject.name}</h3>
+        {props.subject.description && (
+          <p class="card-description">{props.subject.description}</p>
         )}
       </div>
       <svg
-        className="card-arrow"
+        class="card-arrow"
         viewBox="0 0 24 24"
         fill="none"
         stroke="currentColor"
-        strokeWidth="2"
+        stroke-width="2"
         width="16"
         height="16"
       >
