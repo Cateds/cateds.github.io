@@ -3,7 +3,11 @@ import PageLayout from '../layouts/PageLayout.astro'
 import RepoCard from '../components/RepoCard'
 import { siteConfig } from '../config'
 
-const { profile, repos } = siteConfig
+const { profile, repos, features } = siteConfig
+
+if (!features.repos) {
+  return Astro.redirect('/')
+}
 ---
 
 <PageLayout title={`${profile.name} - Repos`} currentPath="/repos">
@@ -19,7 +23,7 @@ const { profile, repos } = siteConfig
   </section>
 
   <footer class="page-footer">
-    <p>Built with Astro & React</p>
+    <p>Built with Astro & SolidJS</p>
   </footer>
 </PageLayout>
 

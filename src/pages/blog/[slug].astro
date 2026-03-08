@@ -4,6 +4,12 @@ import { siteConfig } from "../../config";
 import { getCollection } from "astro:content";
 
 export async function getStaticPaths() {
+  const { features } = siteConfig;
+  
+  if (!features.blog) {
+    return [];
+  }
+  
   const posts = await getCollection("blog");
   return posts.map((post) => ({
     params: { slug: post.slug },

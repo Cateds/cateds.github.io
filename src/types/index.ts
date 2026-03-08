@@ -68,10 +68,17 @@ export interface ThemeConfig {
   particleColor: string;
 }
 
+export interface Features {
+  blog: boolean;
+  repos: boolean;
+  tools: boolean;
+}
+
 export interface SiteConfig {
   profile: Profile;
   semesters: Semester[];
   repos: Repo[];
   tools: ToolItem[];
   theme: ThemeConfig;
+  features: Features;
 }

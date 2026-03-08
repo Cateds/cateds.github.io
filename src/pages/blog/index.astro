@@ -4,7 +4,12 @@ import BlogCard from '../../components/BlogCard'
 import { siteConfig } from '../../config'
 import { getCollection } from 'astro:content'
 
-const { profile } = siteConfig
+const { profile, features } = siteConfig
+
+if (!features.blog) {
+  return Astro.redirect('/')
+}
+
 const allPosts = await getCollection('blog')
 
 const posts = allPosts
@@ -41,7 +46,7 @@ const allTags = [...new Set(posts.flatMap((p) => p.tags || []))]
   </section>
 
   <footer class="page-footer">
-    <p>Built with Astro & React</p>
+    <p>Built with Astro & SolidJS</p>
   </footer>
 </PageLayout>
 

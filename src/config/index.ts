@@ -5,10 +5,11 @@ import type {
   ThemeConfig,
   Repo,
   ToolItem,
+  Features,
 } from "../types";
 import { siteConfig as defaultConfig } from "./default";
 
-export type { SiteConfig, Profile, Semester, ThemeConfig, Repo, ToolItem };
+export type { SiteConfig, Profile, Semester, ThemeConfig, Repo, ToolItem, Features };
 
 export const siteConfig: SiteConfig = defaultConfig;
 
@@ -19,6 +20,7 @@ export function createConfig(config: Partial<SiteConfig>): SiteConfig {
     repos: config.repos || defaultConfig.repos,
     tools: config.tools || defaultConfig.tools,
     theme: { ...defaultConfig.theme, ...config.theme },
+    features: { ...defaultConfig.features, ...config.features },
   };
 }
 

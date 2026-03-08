@@ -205,4 +205,9 @@ export const siteConfig: SiteConfig = {
     warmAccent: "#e07b53",
     particleColor: "#e07b53",
   },
+  features: {
+    blog: true,
+    repos: true,
+    tools: true,
+  },
 };

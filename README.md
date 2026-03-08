@@ -1,6 +1,6 @@
 # Personal Homepage
 
-基于 Astro + React 的个人主页，采用暖色调配色和清爽扁平风格，包含弹性粒子背景效果。
+基于 Astro + SolidJS 的个人主页，采用暖色调配色和清爽扁平风格，包含弹性粒子背景效果。
 
 ## 功能特性
 
@@ -18,7 +18,7 @@
 
 ```text
 src/
-├── components/           # React 组件
+├── components/           # SolidJS 组件
 │   ├── ParticleBackground.tsx   # 粒子背景（可配置参数）
 │   ├── Sidebar.tsx              # 玻璃态侧边栏
 │   ├── ThemeToggle.tsx          # 主题切换
@@ -494,7 +494,7 @@ pnpm build
 export default defineConfig({
   site: "https://username.github.io",
   base: "/repo-name", // 如果不是根目录
-  integrations: [react()],
+  integrations: [solid()],
 });
 ```
 
@@ -578,14 +578,14 @@ echo '/swapfile none swap sw 0 0' | sudo tee -a /etc/fstab
 ## 技术栈
 
 - [Astro](https://astro.build/) - 静态站点生成
-- [React](https://react.dev/) - 交互组件
+- [SolidJS](https://www.solidjs.com/) - 交互组件
 - [pnpm](https://pnpm.io/) - 包管理
 
 ---
 
 ## 注意事项
 
-1. **不要删除 `client:load`** - React 组件需要此指令才能在客户端交互
+1. **不要删除 `client:load`** - SolidJS 组件需要此指令才能在客户端交互
 2. **图片资源** - 放在 `public/` 目录，直接用 `/filename` 引用
 3. **颜色格式** - CSS 变量中使用的颜色需要是标准十六进制或 rgba 格式
 4. **URL 规范** - 外部链接会自动添加 `target="_blank"` 和安全属性

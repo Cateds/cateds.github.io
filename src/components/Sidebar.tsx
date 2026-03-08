@@ -1,9 +1,10 @@
-import type { Profile } from "../types";
+import type { Profile, Features } from "../types";
 import ThemeToggle from "./ThemeToggle";
 import "./Sidebar.css";
 
 interface SidebarProps {
   profile: Profile;
+  features: Features;
   currentPath?: string;
 }
 
@@ -105,6 +106,15 @@ const externalIconMap: Record<string, JSX.Element> = {
 export default function Sidebar(props: SidebarProps) {
   const currentPath = () => props.currentPath ?? "";
 
+  const visibleNavLinks = () => {
+    return props.profile.navLinks.filter((link) => {
+      if (link.path === "/blog" && !props.features.blog) return false;
+      if (link.path === "/repos" && !props.features.repos) return false;
+      if (link.path === "/tools" && !props.features.tools) return false;
+      return true;
+    });
+  };
+
   return (
     <aside class="sidebar">
       <div class="sidebar-content">
@@ -124,7 +134,7 @@ export default function Sidebar(props: SidebarProps) {
 
         <nav class="nav-section">
           <div class="section-label">Navigation</div>
-          {props.profile.navLinks.map((link) => (
+          {visibleNavLinks().map((link) => (
             <a
               href={link.path}
               classList={{

@@ -3,7 +3,11 @@ import PageLayout from '../layouts/PageLayout.astro'
 import ToolCard from '../components/ToolCard'
 import { siteConfig } from '../config'
 
-const { profile, tools } = siteConfig
+const { profile, tools, features } = siteConfig
+
+if (!features.tools) {
+  return Astro.redirect('/')
+}
 ---
 
 <PageLayout title={`${profile.name} - Tools`} currentPath="/tools">

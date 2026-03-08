@@ -10,7 +10,7 @@ interface Props {
 }
 
 const { title, currentPath } = Astro.props;
-const { profile } = siteConfig;
+const { profile, features } = siteConfig;
 ---
 
 <BaseLayout title={title}>
@@ -22,7 +22,7 @@ const { profile } = siteConfig;
   />
 
   <div class="app-container">
-    <Sidebar profile={profile} currentPath={currentPath} client:load />
+    <Sidebar profile={profile} features={features} currentPath={currentPath} client:load />
 
     <main class="main-content">
       <slot />
