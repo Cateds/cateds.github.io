@@ -22,7 +22,7 @@
 
 ## 粒子背景配置
 
-粒子背景组件支持以下参数（在 `src/layouts/PageLayout.astro` 中修改）：
+粒子背景组件支持以下参数（在 `src/layouts/PageLayout.astro` 中修改）。组件会优先使用 WebGPU，在不支持或初始化失败时自动回退到 Canvas 2D：
 
 ```tsx
 <ParticleBackground
@@ -36,6 +36,7 @@
   flowSpeed={0.008}       // 流场动画速度
   flowScale={0.0012}      // 流场噪声缩放
   flowStrength={25}       // 流场位移强度
+  renderScale={0.75}      // 内部分辨率缩放，越低越省性能
 />
 ```
 

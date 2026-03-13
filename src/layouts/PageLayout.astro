@@ -16,13 +16,19 @@ const { profile, features } = siteConfig;
 <BaseLayout title={title}>
   <ParticleBackground
     client:load
-    mouseRadius={30000}
+    mouseRadius={500}
     mouseStrength={500000}
     damping={0.8}
+    renderScale={0.75}
   />
 
   <div class="app-container">
-    <Sidebar profile={profile} features={features} currentPath={currentPath} client:load />
+    <Sidebar
+      profile={profile}
+      features={features}
+      currentPath={currentPath}
+      client:load
+    />
 
     <main class="main-content">
       <slot />
