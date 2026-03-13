@@ -64,6 +64,7 @@
   font-size: 1.25rem;
   font-weight: 600;
   color: var(--color-text);
+  font-family: var(--font-serif);
 }
 
 .profile-bio {
@@ -105,6 +106,11 @@
 .nav-item.active {
   background: var(--color-accent);
   color: white;
+}
+
+[data-theme="dark"] .nav-item.active {
+  background: #4a5258;
+  color: #d8dcde;
 }
 
 .nav-icon {

@@ -1,24 +1,27 @@
 :root {
-  --color-bg: #faf9f7;
-  --color-bg-secondary: #f5f3f0;
-  --color-text: #2d2a26;
-  --color-text-secondary: #6b6560;
-  --color-border: #e8e4df;
-  --color-accent: #e07b53;
-  --color-accent-light: rgba(224, 123, 83, 0.1);
-  --color-card: rgba(255, 255, 255, 0.7);
-  --color-glass: rgba(255, 255, 255, 0.6);
-  --color-glass-border: rgba(255, 255, 255, 0.3);
-  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
-  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.08);
-  --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.12);
-  --radius-sm: 6px;
-  --radius-md: 12px;
-  --radius-lg: 20px;
-  --transition-fast: 0.15s ease;
-  --transition-normal: 0.25s ease;
+  --color-bg: #f8fafb;
+  --color-bg-secondary: #f0f4f6;
+  --color-text: #2a3840;
+  --color-text-secondary: #5a6a72;
+  --color-border: #d4dce2;
+  --color-accent: #7a9aaa;
+  --color-accent-light: rgba(122, 154, 170, 0.12);
+  --color-card: rgba(255, 255, 255, 0.8);
+  --color-glass: rgba(255, 255, 255, 0.7);
+  --color-glass-border: rgba(255, 255, 255, 0.45);
+  --shadow-sm: 0 1px 3px rgba(122, 154, 170, 0.08);
+  --shadow-md: 0 4px 16px rgba(122, 154, 170, 0.12);
+  --shadow-lg: 0 12px 32px rgba(122, 154, 170, 0.16);
+  --radius-sm: 8px;
+  --radius-md: 14px;
+  --radius-lg: 22px;
+  --transition-fast: 0.18s ease;
+  --transition-normal: 0.28s ease;
   --font-sans:
     "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-serif:
+    "Noto Serif SC", "Source Han Serif SC", "Source Han Serif CN",
+    Georgia, "Times New Roman", serif;
   --font-mono: "JetBrains Mono", "Fira Code", monospace;
   --sidebar-width: 240px;
 }
@@ -30,19 +33,19 @@
 }
 
 [data-theme="dark"] {
-  --color-bg: #1a1918;
-  --color-bg-secondary: #232221;
-  --color-text: #f5f3f0;
-  --color-text-secondary: #a09890;
-  --color-border: #353230;
-  --color-accent: #e89a78;
-  --color-accent-light: rgba(232, 154, 120, 0.15);
-  --color-card: rgba(35, 34, 33, 0.8);
-  --color-glass: rgba(35, 34, 33, 0.7);
-  --color-glass-border: rgba(255, 255, 255, 0.08);
-  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.2);
-  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.3);
-  --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.4);
+  --color-bg: #1c2024;
+  --color-bg-secondary: #24282e;
+  --color-text: #d8dcde;
+  --color-text-secondary: #8a9298;
+  --color-border: #3a3e44;
+  --color-accent: #7a8a90;
+  --color-accent-light: rgba(122, 138, 144, 0.18);
+  --color-card: rgba(42, 48, 54, 0.9);
+  --color-glass: rgba(38, 44, 50, 0.85);
+  --color-glass-border: rgba(255, 255, 255, 0.06);
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.25);
+  --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.35);
+  --shadow-lg: 0 12px 32px rgba(0, 0, 0, 0.45);
 }
 
 * {

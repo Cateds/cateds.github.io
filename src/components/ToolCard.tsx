@@ -1,3 +1,4 @@
+import type { JSX } from "solid-js/jsx-runtime";
 import type { ToolItem } from "../types";
 import "./ToolCard.css";
 

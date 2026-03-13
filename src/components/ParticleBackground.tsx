@@ -148,8 +148,8 @@ export default function ParticleBackground(props: ParticleGridProps) {
 
       const isDark =
         document.documentElement.getAttribute("data-theme") === "dark";
-      const baseColor = isDark ? "220, 215, 210" : "100, 95, 90";
-      const accentColor = isDark ? "232, 154, 120" : "224, 123, 83";
+      const baseColor = isDark ? "90, 120, 140" : "70, 100, 120";
+      const accentColor = isDark ? "122, 154, 170" : "100, 130, 150";
 
       const t = time * flowSpeed();
 

@@ -26,7 +26,7 @@ export default function RepoCard(props: RepoCardProps) {
   const langColor = () =>
     props.repo.color ||
     languageColors[props.repo.language || ""] ||
-    "#6b6560";
+    "#5a6e73";
 
   return (
     <a
