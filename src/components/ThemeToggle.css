@@ -43,23 +43,14 @@
   background: var(--color-text-secondary);
   border-radius: 50%;
   transition: all var(--transition-fast);
-  display: flex;
-  align-items: center;
-  justify-content: center;
 }
 
-.theme-toggle-thumb svg {
-  width: 12px;
-  height: 12px;
-  color: var(--color-bg);
-}
-
-.theme-toggle[data-theme="dark"] .theme-toggle-thumb {
+:root[data-theme="dark"] .theme-toggle-thumb {
   left: 22px;
   background: var(--color-accent);
 }
 
-.theme-toggle[data-theme="dark"] .theme-toggle-switch {
+:root[data-theme="dark"] .theme-toggle-switch {
   background: var(--color-accent-light);
   border-color: var(--color-accent);
 }
@@ -89,7 +80,7 @@
     height: 18px;
   }
 
-  .theme-toggle[data-theme="dark"] .theme-toggle-thumb {
+  :root[data-theme="dark"] .theme-toggle-thumb {
     left: 22px;
   }
 }
