@@ -1,7 +1,6 @@
 .subject-card {
-  flex: 1 1 calc(50% - 0.5rem);
-  min-width: 160px;
-  max-width: 220px;
+  flex: 0 0 auto;
+  width: 220px;
   min-height: 120px;
   display: flex;
   flex-direction: column;
