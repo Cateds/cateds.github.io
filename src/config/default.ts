@@ -18,8 +18,28 @@ export const siteConfig: SiteConfig = {
   },
   semesters: [
     {
+      id: "2026-spring",
+      name: "Year.3 Term.2 - 2026 Spring",
+      subjects: [
+        {
+          id: "dc",
+          name: "Dynamics & Control",
+          description: "动力学与控制",
+          url: "https://cateds.github.io/Dynamics-Control.md/",
+          color: "#9998d3",
+        },
+        {
+          id: "pe",
+          name: "Power Electronics",
+          description: "电力电子",
+          url: "https://cateds.github.io/PowerElectronics.md/",
+          color: "#6a999b",
+        }
+      ]
+    },
+    {
       id: "2025-fall",
-      name: "2025 Fall",
+      name: "Year.3 Term.1 - 2025 Fall",
       subjects: [
         {
           id: "cs",
@@ -39,7 +59,7 @@ export const siteConfig: SiteConfig = {
     },
     {
       id: "2025-spring",
-      name: "2025 Spring",
+      name: "Year.2 Term.2 - 2025 Spring",
       subjects: [
         {
           id: "ep",
@@ -52,7 +72,7 @@ export const siteConfig: SiteConfig = {
     },
     {
       id: "2024-fall",
-      name: "2024 Fall",
+      name: "Year.2 Term.1 - 2024 Fall",
       subjects: [
         {
           id: "cad",
@@ -65,7 +85,7 @@ export const siteConfig: SiteConfig = {
     },
     {
       id: "2024-spring",
-      name: "2024 Spring",
+      name: "Year.1 Term.2 - 2024 Spring",
       subjects: [
         {
           id: "ms",
