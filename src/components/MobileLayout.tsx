@@ -6,7 +6,7 @@ interface MobileLayoutProps {
   profile: Profile;
 }
 
-export default function MobileLayout(props: MobileLayoutProps) {
+export default function MobileLayout(_props: MobileLayoutProps) {
   const [isMenuOpen, setIsMenuOpen] = createSignal(false);
 
   createEffect(() => {

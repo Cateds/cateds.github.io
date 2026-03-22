@@ -24,9 +24,7 @@ const languageColors: Record<string, string> = {
 
 export default function RepoCard(props: RepoCardProps) {
   const langColor = () =>
-    props.repo.color ||
-    languageColors[props.repo.language || ""] ||
-    "#5a6e73";
+    props.repo.color || languageColors[props.repo.language || ""] || "#5a6e73";
 
   return (
     <a

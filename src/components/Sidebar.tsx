@@ -142,9 +142,7 @@ export default function Sidebar(props: SidebarProps) {
                 active: currentPath() === link.path,
               }}
             >
-              <span class="nav-icon">
-                {link.icon && navIconMap[link.icon]}
-              </span>
+              <span class="nav-icon">{link.icon && navIconMap[link.icon]}</span>
               <span class="nav-name">{link.name}</span>
             </a>
           ))}

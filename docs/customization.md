@@ -27,16 +27,16 @@
 ```tsx
 <ParticleBackground
   client:load
-  spacing={25}           // 粒子间距
+  spacing={25} // 粒子间距
   springStiffness={0.018} // 弹簧刚度
-  damping={0.92}          // 阻尼系数
-  mouseRadius={500}       // 鼠标影响半径
-  mouseStrength={12000}   // 鼠标排斥力
-  particleRadius={1.5}    // 粒子半径
-  flowSpeed={0.008}       // 流场动画速度
-  flowScale={0.0012}      // 流场噪声缩放
-  flowStrength={25}       // 流场位移强度
-  renderScale={0.75}      // 内部分辨率缩放，越低越省性能
+  damping={0.92} // 阻尼系数
+  mouseRadius={500} // 鼠标影响半径
+  mouseStrength={12000} // 鼠标排斥力
+  particleRadius={1.5} // 粒子半径
+  flowSpeed={0.008} // 流场动画速度
+  flowScale={0.0012} // 流场噪声缩放
+  flowStrength={25} // 流场位移强度
+  renderScale={0.75} // 内部分辨率缩放，越低越省性能
 />
 ```
 

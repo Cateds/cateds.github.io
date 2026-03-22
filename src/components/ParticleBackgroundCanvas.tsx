@@ -20,8 +20,10 @@ interface Particle {
   restY: number;
 }
 
-export default function ParticleBackgroundCanvas(props: ParticleBackgroundProps) {
-  let canvasRef: HTMLCanvasElement | undefined;
+export default function ParticleBackgroundCanvas(
+  props: ParticleBackgroundProps,
+) {
+  let canvasRef: HTMLCanvasElement | undefined = undefined;
   let particles: Particle[] = [];
   let mouse = { x: -1000, y: -1000 };
   let animationId = 0;
@@ -37,7 +39,8 @@ export default function ParticleBackgroundCanvas(props: ParticleBackgroundProps)
   const springStiffness = () =>
     props.springStiffness ?? DEFAULT_PARTICLE_OPTIONS.springStiffness;
   const damping = () => props.damping ?? DEFAULT_PARTICLE_OPTIONS.damping;
-  const mouseRadius = () => props.mouseRadius ?? DEFAULT_PARTICLE_OPTIONS.mouseRadius;
+  const mouseRadius = () =>
+    props.mouseRadius ?? DEFAULT_PARTICLE_OPTIONS.mouseRadius;
   const mouseStrength = () =>
     props.mouseStrength ?? DEFAULT_PARTICLE_OPTIONS.mouseStrength;
   const particleRadius = () =>
@@ -191,5 +194,7 @@ export default function ParticleBackgroundCanvas(props: ParticleBackgroundProps)
     });
   });
 
-  return <canvas ref={canvasRef} style={PARTICLE_CANVAS_STYLE} />;
+  return (
+    <canvas ref={(el) => (canvasRef = el)} style={PARTICLE_CANVAS_STYLE} />
+  );
 }

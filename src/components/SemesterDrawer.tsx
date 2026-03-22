@@ -19,7 +19,9 @@ export default function SemesterDrawer(props: SemesterDrawerProps) {
         aria-expanded={isOpen()}
       >
         <span class="drawer-title">{props.semester.name}</span>
-        <span class="drawer-meta">{props.semester.subjects.length} subjects</span>
+        <span class="drawer-meta">
+          {props.semester.subjects.length} subjects
+        </span>
         <svg
           class="drawer-chevron"
           viewBox="0 0 24 24"

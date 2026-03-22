@@ -31,7 +31,10 @@ export default function ParticleBackground(props: ParticleBackgroundProps) {
   return (
     <Switch>
       <Match when={renderer() === "webgpu"}>
-        <ParticleBackgroundWebGPU {...props} onFallback={() => setRenderer("canvas")} />
+        <ParticleBackgroundWebGPU
+          {...props}
+          onFallback={() => setRenderer("canvas")}
+        />
       </Match>
       <Match when={renderer() === "canvas"}>
         <ParticleBackgroundCanvas {...props} />

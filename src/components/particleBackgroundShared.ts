@@ -93,7 +93,11 @@ export function perlin(x: number, y: number, permutation: Uint32Array): number {
   const B = permutation[X + 1] + Y;
 
   return lerp(
-    lerp(grad(permutation[A], localX, localY), grad(permutation[B], localX - 1, localY), u),
+    lerp(
+      grad(permutation[A], localX, localY),
+      grad(permutation[B], localX - 1, localY),
+      u,
+    ),
     lerp(
       grad(permutation[A + 1], localX, localY - 1),
       grad(permutation[B + 1], localX - 1, localY - 1),

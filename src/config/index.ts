@@ -9,7 +9,15 @@ import type {
 } from "../types";
 import { siteConfig as defaultConfig } from "./default";
 
-export type { SiteConfig, Profile, Semester, ThemeConfig, Repo, ToolItem, Features };
+export type {
+  SiteConfig,
+  Profile,
+  Semester,
+  ThemeConfig,
+  Repo,
+  ToolItem,
+  Features,
+};
 
 export const siteConfig: SiteConfig = defaultConfig;
 

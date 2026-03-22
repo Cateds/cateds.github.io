@@ -198,8 +198,10 @@ fn fs(input: VertexOutput) -> @location(0) vec4f {
 }
 `;
 
-export default function ParticleBackgroundWebGPU(props: ParticleBackgroundWebGPUProps) {
-  let canvasRef: HTMLCanvasElement | undefined;
+export default function ParticleBackgroundWebGPU(
+  props: ParticleBackgroundWebGPUProps,
+) {
+  let canvasRef: HTMLCanvasElement | undefined = undefined;
   let animationId = 0;
   let mouse = { x: -1000, y: -1000 };
   let time = 0;
@@ -214,7 +216,8 @@ export default function ParticleBackgroundWebGPU(props: ParticleBackgroundWebGPU
   const springStiffness = () =>
     props.springStiffness ?? DEFAULT_PARTICLE_OPTIONS.springStiffness;
   const damping = () => props.damping ?? DEFAULT_PARTICLE_OPTIONS.damping;
-  const mouseRadius = () => props.mouseRadius ?? DEFAULT_PARTICLE_OPTIONS.mouseRadius;
+  const mouseRadius = () =>
+    props.mouseRadius ?? DEFAULT_PARTICLE_OPTIONS.mouseRadius;
   const mouseStrength = () =>
     props.mouseStrength ?? DEFAULT_PARTICLE_OPTIONS.mouseStrength;
   const particleRadius = () =>
@@ -276,9 +279,11 @@ export default function ParticleBackgroundWebGPU(props: ParticleBackgroundWebGPU
         return;
       }
 
-      const gpuBufferUsage = (globalThis as { GPUBufferUsage?: Record<string, number> })
-        .GPUBufferUsage;
-      const preferredFormat = gpuNavigator.gpu.getPreferredCanvasFormat?.() ?? "bgra8unorm";
+      const gpuBufferUsage = (
+        globalThis as { GPUBufferUsage?: Record<string, number> }
+      ).GPUBufferUsage;
+      const preferredFormat =
+        gpuNavigator.gpu.getPreferredCanvasFormat?.() ?? "bgra8unorm";
 
       if (!gpuBufferUsage) {
         fallback();
@@ -295,7 +300,9 @@ export default function ParticleBackgroundWebGPU(props: ParticleBackgroundWebGPU
 
       configureContext();
 
-      reducedMotionQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
+      reducedMotionQuery = window.matchMedia(
+        "(prefers-reduced-motion: reduce)",
+      );
       prefersReducedMotion = reducedMotionQuery.matches;
 
       const permutation = createPermutationTable();
@@ -332,8 +339,16 @@ export default function ParticleBackgroundWebGPU(props: ParticleBackgroundWebGPU
             {
               format: preferredFormat,
               blend: {
-                color: { srcFactor: "src-alpha", dstFactor: "one-minus-src-alpha", operation: "add" },
-                alpha: { srcFactor: "one", dstFactor: "one-minus-src-alpha", operation: "add" },
+                color: {
+                  srcFactor: "src-alpha",
+                  dstFactor: "one-minus-src-alpha",
+                  operation: "add",
+                },
+                alpha: {
+                  srcFactor: "one",
+                  dstFactor: "one-minus-src-alpha",
+                  operation: "add",
+                },
               },
             },
           ],
@@ -501,5 +516,7 @@ export default function ParticleBackgroundWebGPU(props: ParticleBackgroundWebGPU
     }
   };
 
-  return <canvas ref={canvasRef} style={PARTICLE_CANVAS_STYLE} />;
+  return (
+    <canvas ref={(el) => (canvasRef = el)} style={PARTICLE_CANVAS_STYLE} />
+  );
 }
