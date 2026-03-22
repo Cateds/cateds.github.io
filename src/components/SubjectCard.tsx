@@ -5,6 +5,14 @@ interface SubjectCardProps {
   subject: Subject;
 }
 
+function getTitleDensityClass(title: string): string | undefined {
+  const compactLength = title.replace(/\s+/g, "").length;
+
+  if (compactLength >= 28) return "title-compact-strong";
+  if (compactLength >= 20) return "title-compact";
+  return undefined;
+}
+
 function hexToRgba(hex: string, alpha: number): string {
   const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
   if (!result) return `rgba(74, 138, 143, ${alpha})`;
@@ -16,11 +24,16 @@ function hexToRgba(hex: string, alpha: number): string {
 
 export default function SubjectCard(props: SubjectCardProps) {
   const color = () => props.subject.color || "#6a8a9a";
+  const titleDensityClass = () => getTitleDensityClass(props.subject.name);
 
   return (
     <a
       href={props.subject.url}
       class="subject-card"
+      classList={{
+        "title-compact": titleDensityClass() === "title-compact",
+        "title-compact-strong": titleDensityClass() === "title-compact-strong",
+      }}
       style={{
         "--subject-color": color(),
         "--subject-bg": hexToRgba(color(), 0.12),

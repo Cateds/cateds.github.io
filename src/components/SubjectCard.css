@@ -1,10 +1,16 @@
 .subject-card {
+  --card-header-gap: 0.75rem;
+  --card-icon-size: 36px;
+  --card-icon-glyph-size: 18px;
+  --card-title-size: 0.9375rem;
+  --card-title-line-height: 1.35;
+  --card-body-height: 170px;
   flex: 0 0 auto;
   width: 220px;
-  min-height: 120px;
+  height: var(--card-body-height);
   display: flex;
   flex-direction: column;
-  padding: 1.5rem 1.25rem;
+  padding: 1.375rem 1.25rem 1.125rem;
   background: linear-gradient(
     145deg,
     var(--subject-bg, rgba(74, 138, 143, 0.08)) 0%,
@@ -18,6 +24,22 @@
   transition: all var(--transition-normal);
   position: relative;
   overflow: hidden;
+}
+
+.subject-card.title-compact {
+  --card-header-gap: 0.6875rem;
+  --card-icon-size: 34px;
+  --card-icon-glyph-size: 17px;
+  --card-title-size: 0.875rem;
+  --card-title-line-height: 1.3;
+}
+
+.subject-card.title-compact-strong {
+  --card-header-gap: 0.625rem;
+  --card-icon-size: 32px;
+  --card-icon-glyph-size: 16px;
+  --card-title-size: 0.8125rem;
+  --card-title-line-height: 1.25;
 }
 
 .subject-card::before {
@@ -54,20 +76,21 @@
   flex: 1;
   display: flex;
   flex-direction: column;
-  gap: 0.75rem;
+  gap: 0.875rem;
   position: relative;
   z-index: 1;
 }
 
 .card-header {
   display: flex;
-  align-items: flex-start;
-  gap: 0.75rem;
+  align-items: center;
+  gap: var(--card-header-gap);
+  min-width: 0;
 }
 
 .card-icon {
-  width: 36px;
-  height: 36px;
+  width: var(--card-icon-size);
+  height: var(--card-icon-size);
   border-radius: var(--radius-sm);
   background: var(--subject-color);
   display: flex;
@@ -78,8 +101,8 @@
 }
 
 .card-icon svg {
-  width: 18px;
-  height: 18px;
+  width: var(--card-icon-glyph-size);
+  height: var(--card-icon-glyph-size);
   color: white;
 }
 
@@ -88,18 +111,26 @@
 }
 
 .card-title {
-  font-size: 0.9375rem;
+  flex: 1;
+  display: grid;
+  align-content: center;
+  min-width: 0;
+  min-height: calc(var(--card-icon-size) - 2px);
+  margin: 0;
+  font-size: var(--card-title-size);
   font-weight: 600;
-  line-height: 1.35;
+  line-height: var(--card-title-line-height);
   letter-spacing: -0.01em;
   color: var(--color-text);
   font-family: var(--font-serif);
   overflow-wrap: break-word;
   word-break: break-word;
   hyphens: auto;
+  text-wrap: balance;
 }
 
 .card-description {
+  margin: 0;
   font-size: 0.8125rem;
   color: var(--color-text-secondary);
   line-height: 1.5;
@@ -110,7 +141,7 @@
   align-items: center;
   justify-content: space-between;
   margin-top: auto;
-  padding-top: 0.5rem;
+  padding-top: 0.625rem;
 }
 
 .card-badge {
@@ -138,25 +169,32 @@
 
 @media (max-width: 768px) {
   .subject-card {
+    --card-icon-size: 32px;
+    --card-icon-glyph-size: 16px;
+    --card-title-size: 0.8125rem;
+    --card-body-height: 175px;
     flex: 0 0 auto;
     width: 185px;
     max-width: 185px;
-    min-height: 100px;
     padding: 1.125rem 1rem;
   }
 
-  .card-icon {
-    width: 32px;
-    height: 32px;
+  .subject-card.title-compact {
+    --card-icon-size: 30px;
+    --card-icon-glyph-size: 15px;
+    --card-title-size: 0.78125rem;
   }
 
-  .card-icon svg {
-    width: 16px;
-    height: 16px;
+  .subject-card.title-compact-strong {
+    --card-header-gap: 0.5625rem;
+    --card-icon-size: 28px;
+    --card-icon-glyph-size: 14px;
+    --card-title-size: 0.75rem;
+    --card-title-line-height: 1.2;
   }
 
   .card-title {
-    font-size: 0.8125rem;
+    text-wrap: pretty;
   }
 
   .card-description {

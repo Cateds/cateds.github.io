@@ -1,6 +1,7 @@
 import type { Profile, Features } from "../types";
 import ThemeToggle from "./ThemeToggle";
 import "./Sidebar.css";
+import type { JSX } from "astro/jsx-runtime";
 
 interface SidebarProps {
   profile: Profile;
