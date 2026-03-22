@@ -26,7 +26,7 @@ export const siteConfig: SiteConfig = {
           name: "Dynamics & Control",
           description: "动力学与控制",
           url: "https://cateds.github.io/Dynamics-Control.md/",
-          color: "#9998d3",
+          color: "#7b7ba0",
         },
         {
           id: "pe",
@@ -34,8 +34,15 @@ export const siteConfig: SiteConfig = {
           description: "电力电子",
           url: "https://cateds.github.io/PowerElectronics.md/",
           color: "#6a999b",
-        }
-      ]
+        },
+        {
+          id: "epmf",
+          name: "Engineering Project Management & Finance",
+          description: "工程项目管理与财务",
+          url: "https://cateds.github.io/EngProjManagement-Finance.md/",
+          color: "#9a7b7b",
+        },
+      ],
     },
     {
       id: "2025-fall",
