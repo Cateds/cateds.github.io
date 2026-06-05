@@ -7,18 +7,20 @@ const { profile, semesters } = siteConfig
 ---
 
 <PageLayout title={`${profile.name} - Notes`} currentPath="/">
-  <header class="page-header">
+  <header class="page-header fade-in-down-short">
     <h1 class="page-title">Notes</h1>
     <p class="page-subtitle">Study materials organized by semester</p>
   </header>
   
   <section class="semesters-section">
-    {semesters.map((semester) => (
-      <SemesterDrawer 
-        semester={semester} 
-        defaultOpen={true}
-        client:load 
-      />
+    {semesters.map((semester, i) => (
+      <div class="fade-in-down-short" style={`animation-delay: ${i * 0.1}s`}>
+        <SemesterDrawer 
+          semester={semester} 
+          defaultOpen={true}
+          client:load 
+        />
+      </div>
     ))}
   </section>
 

@@ -13,6 +13,24 @@
   flex-direction: column;
 }
 
+@media (min-width: 769px) {
+  .sidebar.animate-init {
+    animation: slideInLeft;
+    animation-duration: 0.55s;
+    animation-fill-mode: both;
+    animation-timing-function: cubic-bezier(0.23, 1, 0.32, 1);
+  }
+}
+
+@media (max-width: 768px) {
+  .sidebar.animate-init {
+    animation: slideInDown;
+    animation-duration: 0.5s;
+    animation-fill-mode: both;
+    animation-timing-function: cubic-bezier(0.23, 1, 0.32, 1);
+  }
+}
+
 .sidebar-content {
   display: flex;
   flex-direction: column;

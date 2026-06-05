@@ -27,12 +27,12 @@ const allTags = [...new Set(posts.flatMap((p) => p.tags || []))]
 ---
 
 <PageLayout title={`${profile.name} - Blog`} currentPath="/blog">
-  <header class="page-header">
+  <header class="page-header fade-in-down-short">
     <h1 class="page-title">Blog</h1>
     <p class="page-subtitle">Thoughts, tutorials, and explorations</p>
   </header>
 
-  <div class="tag-filter" id="tag-filter">
+  <div class="tag-filter fade-in-down-short" id="tag-filter">
     <button class="tag-btn active" data-tag="all">All</button>
     {allTags.map((tag) => (
       <button class="tag-btn" data-tag={tag}>{tag}</button>
@@ -40,8 +40,10 @@ const allTags = [...new Set(posts.flatMap((p) => p.tags || []))]
   </div>
   
   <section class="blog-list" id="blog-list">
-    {posts.map((post) => (
-      <BlogCard post={post} data-tags={(post.tags || []).join(',')} client:load />
+    {posts.map((post, i) => (
+      <div class="fade-in-down-short" style={`animation-delay: ${i * 0.06}s`}>
+        <BlogCard post={post} data-tags={(post.tags || []).join(',')} client:load />
+      </div>
     ))}
   </section>
 

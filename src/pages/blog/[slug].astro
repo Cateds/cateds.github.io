@@ -35,7 +35,7 @@ const formattedDate = post.data.date.toLocaleDateString("en-US", {
 
 <PageLayout title={`${post.data.title} - ${profile.name}`} currentPath="/blog">
   <article class="blog-post">
-    <header class="post-header">
+    <header class="post-header fade-in-down-short">
       <a href="/blog" class="back-link">
         <svg
           viewBox="0 0 24 24"
@@ -82,7 +82,7 @@ const formattedDate = post.data.date.toLocaleDateString("en-US", {
       }
     </header>
 
-    <div class="post-content">
+    <div class="post-content fade-in-up-short">
       <Content />
     </div>
 

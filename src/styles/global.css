@@ -100,3 +100,35 @@ button {
   border: none;
   background: none;
 }
+
+@keyframes fadeInDownShort {
+  from {
+    opacity: 0;
+    transform: translateY(-15px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes fadeInUpShort {
+  from {
+    opacity: 0;
+    transform: translateY(15px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.fade-in-down-short {
+  animation: fadeInDownShort 0.5s cubic-bezier(0.23, 1, 0.32, 1) both;
+  min-width: 0;
+}
+
+.fade-in-up-short {
+  animation: fadeInUpShort 0.5s cubic-bezier(0.23, 1, 0.32, 1) both;
+  min-width: 0;
+}

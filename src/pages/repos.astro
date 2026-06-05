@@ -11,14 +11,16 @@ if (!features.repos) {
 ---
 
 <PageLayout title={`${profile.name} - Repos`} currentPath="/repos">
-  <header class="page-header">
+  <header class="page-header fade-in-down-short">
     <h1 class="page-title">Repositories</h1>
     <p class="page-subtitle">Open source projects and experiments</p>
   </header>
   
   <section class="repos-grid">
-    {repos.map((repo) => (
-      <RepoCard repo={repo} client:load />
+    {repos.map((repo, i) => (
+      <div class="fade-in-down-short" style={`animation-delay: ${i * 0.08}s`}>
+        <RepoCard repo={repo} client:load />
+      </div>
     ))}
   </section>
 

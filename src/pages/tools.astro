@@ -11,14 +11,16 @@ if (!features.tools) {
 ---
 
 <PageLayout title={`${profile.name} - Tools`} currentPath="/tools">
-  <header class="page-header">
+  <header class="page-header fade-in-down-short">
     <h1 class="page-title">Tools</h1>
     <p class="page-subtitle">Useful utilities and resources</p>
   </header>
   
   <section class="tools-grid">
-    {tools.map((tool) => (
-      <ToolCard tool={tool} />
+    {tools.map((tool, i) => (
+      <div class="fade-in-down-short" style={`animation-delay: ${i * 0.08}s`}>
+        <ToolCard tool={tool} />
+      </div>
     ))}
   </section>
 </PageLayout>

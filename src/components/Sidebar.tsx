@@ -1,3 +1,4 @@
+import { onMount } from "solid-js";
 import type { Profile, Features } from "../types";
 import ThemeToggle from "./ThemeToggle";
 import "./Sidebar.css";
@@ -105,6 +106,19 @@ const externalIconMap: Record<string, JSX.Element> = {
 };
 
 export default function Sidebar(props: SidebarProps) {
+  let sidebarRef!: HTMLElement;
+
+  onMount(() => {
+    if (!sessionStorage.getItem("sidebar-animated")) {
+      sidebarRef.classList.add("animate-init");
+      const onEnd = () => {
+        sidebarRef.classList.remove("animate-init");
+        sessionStorage.setItem("sidebar-animated", "true");
+      };
+      sidebarRef.addEventListener("animationend", onEnd, { once: true });
+    }
+  });
+
   const currentPath = () => props.currentPath ?? "";
 
   const visibleNavLinks = () => {
@@ -117,7 +131,7 @@ export default function Sidebar(props: SidebarProps) {
   };
 
   return (
-    <aside class="sidebar">
+    <aside ref={sidebarRef} class="sidebar">
       <div class="sidebar-content">
         <div class="profile-section">
           <div class="avatar">
