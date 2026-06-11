@@ -157,6 +157,24 @@ export const siteConfig: SiteConfig = {
       icon: "cards",
       color: "#7a9a9a",
     },
+    {
+      id: "ayaskt-notes",
+      name: "AyaSKT 工作站",
+      description:
+        "格院通信工程专业的系统化课程笔记站，涵盖电磁场与波、数字信号处理、通信电路设计、通信原理与系统、人工智能与机器学习等核心课程，大一至大三全覆盖。",
+      url: "https://ayaskt.github.io/",
+      icon: "cards",
+      color: "#6a9aba",
+    },
+    {
+      id: "andingdrlin-blog",
+      name: "Latent Note",
+      description:
+        "AI 与 3D 视觉方向的个人科研博客，记录 Agent 工具实践、研究方法判断、课程学习心得与尚未收束的科研感悟，关注 AI 如何真正进入工作流。",
+      url: "https://andingdrlin.github.io/",
+      icon: "link",
+      color: "#9a6aba",
+    },
   ],
   theme: {
     defaultTheme: "system",

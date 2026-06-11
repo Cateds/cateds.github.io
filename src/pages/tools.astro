@@ -16,14 +16,62 @@ if (!features.tools) {
     <p class="page-subtitle">Useful utilities and resources</p>
   </header>
   
-  <section class="tools-grid">
+  <section class="tools-grid" id="tools-grid">
     {tools.map((tool, i) => (
-      <div class="fade-in-down-short" style={`animation-delay: ${i * 0.08}s`}>
+      <div class="tool-item fade-in-down-short" style={`animation-delay: ${i * 0.08}s`}>
         <ToolCard tool={tool} />
       </div>
     ))}
   </section>
 </PageLayout>
+
+<script>
+  function layoutMasonry() {
+    const grid = document.getElementById('tools-grid');
+    if (!grid) return;
+
+    const items = Array.from(grid.querySelectorAll('.tool-item')) as HTMLElement[];
+    if (!items.length) return;
+
+    const isMobile = window.innerWidth <= 768;
+    const colCount = isMobile ? 1 : 2;
+    const gap = isMobile ? 12 : 16;
+
+    const heights = items.map((el) => el.offsetHeight);
+
+    grid.innerHTML = '';
+    grid.style.display = 'flex';
+    grid.style.gap = gap + 'px';
+
+    const cols: HTMLDivElement[] = [];
+    const colHeights: number[] = [];
+
+    for (let i = 0; i < colCount; i++) {
+      const col = document.createElement('div');
+      col.style.flex = '1';
+      col.style.display = 'flex';
+      col.style.flexDirection = 'column';
+      col.style.gap = gap + 'px';
+      grid.appendChild(col);
+      cols.push(col);
+      colHeights.push(0);
+    }
+
+    items.forEach((item, i) => {
+      const shortest = colHeights.indexOf(Math.min(...colHeights));
+      cols[shortest].appendChild(item);
+      colHeights[shortest] += heights[i] + gap;
+    });
+  }
+
+  let resizeTimer: ReturnType<typeof setTimeout>;
+  window.addEventListener('resize', () => {
+    clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(layoutMasonry, 150);
+  });
+
+  document.addEventListener('astro:page-load', layoutMasonry);
+</script>
 
 <style>
   .page-header {
@@ -44,12 +92,6 @@ if (!features.tools) {
     color: var(--color-text-secondary);
   }
 
-  .tools-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-    gap: 1rem;
-  }
-
   @media (max-width: 768px) {
     .page-header {
       margin-bottom: 1.5rem;
@@ -61,11 +103,6 @@ if (!features.tools) {
 
     .page-subtitle {
       font-size: 0.9375rem;
-    }
-
-    .tools-grid {
-      grid-template-columns: 1fr;
-      gap: 0.75rem;
     }
   }
 </style>
