@@ -16,9 +16,9 @@ if (!features.tools) {
     <p class="page-subtitle">Useful utilities and resources</p>
   </header>
   
-  <section class="tools-grid" id="tools-grid">
+  <section class="tools-grid" id="tools-grid" data-masonry-ready="false">
     {tools.map((tool, i) => (
-      <div class="tool-item fade-in-down-short" style={`animation-delay: ${i * 0.08}s`}>
+      <div class="tool-item" data-delay={i * 0.08} data-masonry-index={i}>
         <ToolCard tool={tool} />
       </div>
     ))}
@@ -26,51 +26,131 @@ if (!features.tools) {
 </PageLayout>
 
 <script>
-  function layoutMasonry() {
-    const grid = document.getElementById('tools-grid');
-    if (!grid) return;
+  type LayoutOptions = {
+    force?: boolean;
+  };
 
-    const items = Array.from(grid.querySelectorAll('.tool-item')) as HTMLElement[];
-    if (!items.length) return;
+  const masonryWindow = window as Window & {
+    __toolsMasonryCleanup?: () => void;
+  };
 
+  masonryWindow.__toolsMasonryCleanup?.();
+
+  let resizeTimer: number | undefined;
+
+  function getMasonryConfig(grid: HTMLElement, itemCount: number) {
     const isMobile = window.innerWidth <= 768;
-    const colCount = isMobile ? 1 : 2;
     const gap = isMobile ? 12 : 16;
+    const minColumnWidth = isMobile ? 260 : 280;
+    const availableWidth = grid.clientWidth;
+    const colCount = Math.max(
+      1,
+      Math.min(
+        itemCount,
+        Math.floor((availableWidth + gap) / (minColumnWidth + gap)) || 1,
+      ),
+    );
 
-    const heights = items.map((el) => el.offsetHeight);
+    return { colCount, gap };
+  }
 
-    grid.innerHTML = '';
+  function getItemIndex(item: HTMLElement) {
+    const index = Number(item.dataset.masonryIndex);
+    return Number.isFinite(index) ? index : 0;
+  }
+
+  function unwrapMasonryColumns(grid: HTMLElement) {
+    const items = Array.from(
+      grid.querySelectorAll('.tool-item'),
+    ) as HTMLElement[];
+    const existingCols = Array.from(
+      grid.querySelectorAll(':scope > .masonry-col'),
+    );
+
+    existingCols.forEach((col) => {
+      while (col.firstElementChild) {
+        grid.appendChild(col.firstElementChild);
+      }
+      col.remove();
+    });
+
+    return items.sort((a, b) => getItemIndex(a) - getItemIndex(b));
+  }
+
+  function layoutMasonry({ force = false }: LayoutOptions = {}) {
+    const grid = document.getElementById('tools-grid');
+    if (!(grid instanceof HTMLElement)) return;
+
+    if (!force && grid.dataset.masonryReady === 'true') return;
+
+    grid.dataset.masonryReady = 'false';
+
+    const items = unwrapMasonryColumns(grid);
+    if (!items.length) {
+      grid.dataset.masonryReady = 'true';
+      return;
+    }
+
+    const { colCount, gap } = getMasonryConfig(grid, items.length);
+
     grid.style.display = 'flex';
     grid.style.gap = gap + 'px';
+    grid.style.alignItems = 'flex-start';
 
     const cols: HTMLDivElement[] = [];
-    const colHeights: number[] = [];
+    const colHeights = Array.from({ length: colCount }, () => 0);
 
     for (let i = 0; i < colCount; i++) {
       const col = document.createElement('div');
-      col.style.flex = '1';
+      col.className = 'masonry-col';
+      col.style.flex = '1 1 0';
+      col.style.minWidth = '0';
       col.style.display = 'flex';
       col.style.flexDirection = 'column';
       col.style.gap = gap + 'px';
       grid.appendChild(col);
       cols.push(col);
-      colHeights.push(0);
     }
 
-    items.forEach((item, i) => {
+    const shouldAnimate = grid.dataset.masonryAnimated !== 'true';
+
+    items.forEach((item) => {
       const shortest = colHeights.indexOf(Math.min(...colHeights));
+      if (shouldAnimate) {
+        const delay = item.dataset.delay || '0';
+        item.style.animationDelay = `${delay}s`;
+        item.classList.add('fade-in-down-short');
+      }
       cols[shortest].appendChild(item);
-      colHeights[shortest] += heights[i] + gap;
+      colHeights[shortest] += item.offsetHeight + gap;
     });
+
+    if (shouldAnimate) {
+      grid.dataset.masonryAnimated = 'true';
+    }
+
+    grid.dataset.masonryReady = 'true';
   }
 
-  let resizeTimer: ReturnType<typeof setTimeout>;
-  window.addEventListener('resize', () => {
-    clearTimeout(resizeTimer);
-    resizeTimer = setTimeout(layoutMasonry, 150);
-  });
+  function initToolsMasonry() {
+    layoutMasonry();
+  }
 
-  document.addEventListener('astro:page-load', layoutMasonry);
+  function handleResize() {
+    if (resizeTimer) window.clearTimeout(resizeTimer);
+    resizeTimer = window.setTimeout(() => layoutMasonry({ force: true }), 150);
+  }
+
+  window.addEventListener('resize', handleResize);
+  document.addEventListener('astro:page-load', initToolsMasonry);
+
+  masonryWindow.__toolsMasonryCleanup = () => {
+    if (resizeTimer) window.clearTimeout(resizeTimer);
+    window.removeEventListener('resize', handleResize);
+    document.removeEventListener('astro:page-load', initToolsMasonry);
+  };
+
+  initToolsMasonry();
 </script>
 
 <style>
@@ -90,6 +170,18 @@ if (!features.tools) {
   .page-subtitle {
     font-size: 1rem;
     color: var(--color-text-secondary);
+  }
+
+  .tools-grid {
+    visibility: hidden;
+  }
+
+  .tools-grid[data-masonry-ready="true"] {
+    visibility: visible;
+  }
+
+  .tool-item {
+    min-width: 0;
   }
 
   @media (max-width: 768px) {
