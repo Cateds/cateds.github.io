@@ -18,7 +18,7 @@ if (!features.links) {
   
   <section class="links-grid" id="links-grid" data-masonry-ready="false">
     {links.map((link, i) => (
-      <div class="link-item" data-delay={i * 0.08} data-masonry-index={i}>
+      <div class="links-grid-item" data-delay={i * 0.08} data-masonry-index={i}>
         <LinkCard link={link} />
       </div>
     ))}
@@ -61,7 +61,7 @@ if (!features.links) {
 
   function unwrapMasonryColumns(grid: HTMLElement) {
     const items = Array.from(
-      grid.querySelectorAll('.link-item'),
+      grid.querySelectorAll('.links-grid-item'),
     ) as HTMLElement[];
     const existingCols = Array.from(
       grid.querySelectorAll(':scope > .masonry-col'),
@@ -180,7 +180,7 @@ if (!features.links) {
     visibility: visible;
   }
 
-  .link-item {
+  .links-grid-item {
     min-width: 0;
   }
 

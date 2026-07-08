@@ -105,17 +105,19 @@ export default function LinkCard(props: LinkCardProps) {
       target="_blank"
       rel="noopener noreferrer"
     >
-      <div class="link-icon">{props.link.icon && iconMap[props.link.icon]}</div>
+      <div class="link-card-icon">
+        {props.link.icon && iconMap[props.link.icon]}
+      </div>
 
-      <div class="link-content">
-        <h3 class="link-name">{props.link.name}</h3>
+      <div class="link-card-content">
+        <h3 class="link-card-name">{props.link.name}</h3>
         {props.link.description && (
-          <p class="link-description">{props.link.description}</p>
+          <p class="link-card-description">{props.link.description}</p>
         )}
       </div>
 
       <svg
-        class="link-arrow"
+        class="link-card-arrow"
         viewBox="0 0 24 24"
         fill="none"
         stroke="currentColor"
