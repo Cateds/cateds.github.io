@@ -14,7 +14,7 @@ const allPosts = await getCollection('blog')
 
 const posts = allPosts
   .map((post) => ({
-    id: post.slug,
+    id: post.id,
     title: post.data.title,
     description: post.data.description,
     date: post.data.date,
