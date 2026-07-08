@@ -68,7 +68,7 @@ body {
   transition:
     background-color var(--transition-normal),
     color var(--transition-normal);
-  overflow-x: hidden;
+  overflow-x: clip;
 }
 
 ::-webkit-scrollbar {
