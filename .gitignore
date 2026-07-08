@@ -1,5 +1,7 @@
 # build output
 dist/
+# generated remote assets (fetched at build/dev time)
+public/avatar.png
 # generated types
 .astro/
 

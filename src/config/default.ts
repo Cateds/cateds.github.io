@@ -3,7 +3,7 @@ import type { SiteConfig } from "../types";
 export const siteConfig: SiteConfig = {
   profile: {
     name: "Cateds",
-    avatar: "https://github.com/Cateds.png",
+    avatar: "/avatar.png",
     bio: "Glasgow College, UESTC",
     navLinks: [
       { name: "Notes", path: "/", icon: "notes" },
