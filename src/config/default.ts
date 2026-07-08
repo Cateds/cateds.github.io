@@ -9,7 +9,7 @@ export const siteConfig: SiteConfig = {
       { name: "Notes", path: "/", icon: "notes" },
       { name: "Repos", path: "/repos", icon: "repo" },
       { name: "Blog", path: "/blog", icon: "blog" },
-      { name: "Tools", path: "/tools", icon: "tools" },
+      { name: "Links", path: "/links", icon: "links" },
     ],
     externalLinks: [
       { name: "GitHub", url: "https://github.com/Cateds", icon: "github" },
@@ -147,7 +147,7 @@ export const siteConfig: SiteConfig = {
       color: "#8a7a9a",
     },
   ],
-  tools: [
+  links: [
     {
       id: "study-hub",
       name: "学汇 : Study Hub",
@@ -184,6 +184,6 @@ export const siteConfig: SiteConfig = {
   features: {
     blog: false,
     repos: false,
-    tools: true,
+    links: true,
   },
 };

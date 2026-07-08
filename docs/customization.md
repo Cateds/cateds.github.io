@@ -72,7 +72,7 @@ interface Repo {
   color?: string;
 }
 
-interface ToolItem {
+interface LinkItem {
   id: string;
   name: string;
   description?: string;
@@ -99,8 +99,8 @@ addSemester(semester: Semester): Semester[]
 // 添加仓库
 addRepo(repo: Repo): Repo[]
 
-// 添加工具
-addTool(tool: ToolItem): ToolItem[]
+// 添加链接
+addLink(link: LinkItem): LinkItem[]
 ```
 
 ## 扩展图标
@@ -117,9 +117,9 @@ const navIconMap: Record<string, JSX.Element> = {
 }
 ```
 
-### 工具图标
+### 链接图标
 
-在 `src/components/ToolCard.tsx` 中扩展 `iconMap`：
+在 `src/components/LinkCard.tsx` 中扩展 `iconMap`：
 
 ```typescript
 const iconMap: Record<string, JSX.Element> = {

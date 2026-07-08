@@ -53,7 +53,7 @@ export interface BlogPost {
   readingTime?: number;
 }
 
-export interface ToolItem {
+export interface LinkItem {
   id: string;
   name: string;
   description?: string;
@@ -71,14 +71,14 @@ export interface ThemeConfig {
 export interface Features {
   blog: boolean;
   repos: boolean;
-  tools: boolean;
+  links: boolean;
 }
 
 export interface SiteConfig {
   profile: Profile;
   semesters: Semester[];
   repos: Repo[];
-  tools: ToolItem[];
+  links: LinkItem[];
   theme: ThemeConfig;
   features: Features;
 }

@@ -4,7 +4,7 @@ import type {
   Semester,
   ThemeConfig,
   Repo,
-  ToolItem,
+  LinkItem,
   Features,
 } from "../types";
 import { siteConfig as defaultConfig } from "./default";
@@ -15,7 +15,7 @@ export type {
   Semester,
   ThemeConfig,
   Repo,
-  ToolItem,
+  LinkItem,
   Features,
 };
 
@@ -26,7 +26,7 @@ export function createConfig(config: Partial<SiteConfig>): SiteConfig {
     profile: { ...defaultConfig.profile, ...config.profile },
     semesters: config.semesters || defaultConfig.semesters,
     repos: config.repos || defaultConfig.repos,
-    tools: config.tools || defaultConfig.tools,
+    links: config.links || defaultConfig.links,
     theme: { ...defaultConfig.theme, ...config.theme },
     features: { ...defaultConfig.features, ...config.features },
   };
@@ -44,8 +44,8 @@ export function addRepo(repo: Repo): Repo[] {
   return [...defaultConfig.repos, repo];
 }
 
-export function addTool(tool: ToolItem): ToolItem[] {
-  return [...defaultConfig.tools, tool];
+export function addLink(link: LinkItem): LinkItem[] {
+  return [...defaultConfig.links, link];
 }
 
 export function updateTheme(theme: Partial<ThemeConfig>): ThemeConfig {

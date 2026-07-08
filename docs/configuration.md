@@ -6,7 +6,7 @@
 | --------- | --------------- | ----------------------- | ---------------- |
 | **Notes** | TypeScript 配置 | `src/config/default.ts` | 否，需手动添加   |
 | **Repos** | TypeScript 配置 | `src/config/default.ts` | 否，需手动添加   |
-| **Tools** | TypeScript 配置 | `src/config/default.ts` | 否，需手动添加   |
+| **Links** | TypeScript 配置 | `src/config/default.ts` | 否，需手动添加   |
 | **Blog**  | Markdown 文件   | `src/content/blog/*.md` | **是**，自动发现 |
 
 > **为什么使用 TypeScript 而非 JSON？**
@@ -143,14 +143,14 @@ tags: [技术, 教程]
 | `tags`        | ❌   | 标签数组，如 `[技术, 教程]` |
 | `image`       | ❌   | 封面图片路径                |
 
-## Tools（工具）配置
+## Links（链接）配置
 
-### 新增工具链接
+### 新增链接
 
-编辑 `src/config/default.ts`，在 `tools` 数组添加：
+编辑 `src/config/default.ts`，在 `links` 数组添加：
 
 ```typescript
-tools: [
+links: [
   {
     id: 'flashcards',
     name: '闪卡工具',
@@ -175,7 +175,7 @@ tools: [
 
 ### 添加自定义图标
 
-编辑 `src/components/ToolCard.tsx`，在 `iconMap` 中添加：
+编辑 `src/components/LinkCard.tsx`，在 `iconMap` 中添加：
 
 ```typescript
 const iconMap: Record<string, JSX.Element> = {

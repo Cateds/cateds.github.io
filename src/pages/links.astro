@@ -1,25 +1,25 @@
 ---
 import PageLayout from '../layouts/PageLayout.astro'
-import ToolCard from '../components/ToolCard'
+import LinkCard from '../components/LinkCard'
 import { siteConfig } from '../config'
 
-const { profile, tools, features } = siteConfig
+const { profile, links, features } = siteConfig
 
-if (!features.tools) {
+if (!features.links) {
   return Astro.redirect('/')
 }
 ---
 
-<PageLayout title={`${profile.name} - Tools`} currentPath="/tools">
+<PageLayout title={`${profile.name} - Links`} currentPath="/links">
   <header class="page-header fade-in-down-short">
-    <h1 class="page-title">Tools</h1>
-    <p class="page-subtitle">Useful utilities and resources</p>
+    <h1 class="page-title">Links</h1>
+    <p class="page-subtitle">Useful links and resources</p>
   </header>
   
-  <section class="tools-grid" id="tools-grid" data-masonry-ready="false">
-    {tools.map((tool, i) => (
-      <div class="tool-item" data-delay={i * 0.08} data-masonry-index={i}>
-        <ToolCard tool={tool} />
+  <section class="links-grid" id="links-grid" data-masonry-ready="false">
+    {links.map((link, i) => (
+      <div class="link-item" data-delay={i * 0.08} data-masonry-index={i}>
+        <LinkCard link={link} />
       </div>
     ))}
   </section>
@@ -31,10 +31,10 @@ if (!features.tools) {
   };
 
   const masonryWindow = window as Window & {
-    __toolsMasonryCleanup?: () => void;
+    __linksMasonryCleanup?: () => void;
   };
 
-  masonryWindow.__toolsMasonryCleanup?.();
+  masonryWindow.__linksMasonryCleanup?.();
 
   let resizeTimer: number | undefined;
 
@@ -61,7 +61,7 @@ if (!features.tools) {
 
   function unwrapMasonryColumns(grid: HTMLElement) {
     const items = Array.from(
-      grid.querySelectorAll('.tool-item'),
+      grid.querySelectorAll('.link-item'),
     ) as HTMLElement[];
     const existingCols = Array.from(
       grid.querySelectorAll(':scope > .masonry-col'),
@@ -78,7 +78,7 @@ if (!features.tools) {
   }
 
   function layoutMasonry({ force = false }: LayoutOptions = {}) {
-    const grid = document.getElementById('tools-grid');
+    const grid = document.getElementById('links-grid');
     if (!(grid instanceof HTMLElement)) return;
 
     if (!force && grid.dataset.masonryReady === 'true') return;
@@ -132,7 +132,7 @@ if (!features.tools) {
     grid.dataset.masonryReady = 'true';
   }
 
-  function initToolsMasonry() {
+  function initLinksMasonry() {
     layoutMasonry();
   }
 
@@ -142,15 +142,15 @@ if (!features.tools) {
   }
 
   window.addEventListener('resize', handleResize);
-  document.addEventListener('astro:page-load', initToolsMasonry);
+  document.addEventListener('astro:page-load', initLinksMasonry);
 
-  masonryWindow.__toolsMasonryCleanup = () => {
+  masonryWindow.__linksMasonryCleanup = () => {
     if (resizeTimer) window.clearTimeout(resizeTimer);
     window.removeEventListener('resize', handleResize);
-    document.removeEventListener('astro:page-load', initToolsMasonry);
+    document.removeEventListener('astro:page-load', initLinksMasonry);
   };
 
-  initToolsMasonry();
+  initLinksMasonry();
 </script>
 
 <style>
@@ -172,15 +172,15 @@ if (!features.tools) {
     color: var(--color-text-secondary);
   }
 
-  .tools-grid {
+  .links-grid {
     visibility: hidden;
   }
 
-  .tools-grid[data-masonry-ready="true"] {
+  .links-grid[data-masonry-ready="true"] {
     visibility: visible;
   }
 
-  .tool-item {
+  .link-item {
     min-width: 0;
   }
 

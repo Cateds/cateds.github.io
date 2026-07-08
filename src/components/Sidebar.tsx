@@ -52,7 +52,7 @@ const navIconMap: Record<string, JSX.Element> = {
       <circle cx="11" cy="11" r="2" />
     </svg>
   ),
-  tools: (
+  links: (
     <svg
       viewBox="0 0 24 24"
       fill="none"
@@ -125,7 +125,7 @@ export default function Sidebar(props: SidebarProps) {
     return props.profile.navLinks.filter((link) => {
       if (link.path === "/blog" && !props.features.blog) return false;
       if (link.path === "/repos" && !props.features.repos) return false;
-      if (link.path === "/tools" && !props.features.tools) return false;
+      if (link.path === "/links" && !props.features.links) return false;
       return true;
     });
   };

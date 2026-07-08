@@ -1,4 +1,4 @@
-.tool-card {
+.link-card {
   display: flex;
   align-items: center;
   gap: 1.125rem;
@@ -10,7 +10,7 @@
     var(--color-bg) 100%
   );
   border: 1px solid var(--color-border);
-  border-left: 3px solid var(--tool-color);
+  border-left: 3px solid var(--link-color);
   border-radius: var(--radius-md);
   text-decoration: none;
   color: var(--color-text);
@@ -19,7 +19,7 @@
   overflow: hidden;
 }
 
-.tool-card::before {
+.link-card::before {
   content: "";
   position: absolute;
   top: -50%;
@@ -28,46 +28,46 @@
   height: 100%;
   background: radial-gradient(
     circle at center,
-    var(--tool-color, var(--color-accent)) 0%,
+    var(--link-color, var(--color-accent)) 0%,
     transparent 70%
   );
   opacity: 0.06;
   transition: opacity var(--transition-fast);
 }
 
-.tool-card:hover {
+.link-card:hover {
   transform: translateY(-3px);
   box-shadow: var(--shadow-md);
-  border-color: var(--tool-color);
+  border-color: var(--link-color);
 }
 
-.tool-card:hover::before {
+.link-card:hover::before {
   opacity: 0.12;
 }
 
-.tool-icon {
+.link-icon {
   display: flex;
   align-items: center;
   justify-content: center;
   width: 36px;
   height: 36px;
   border-radius: var(--radius-sm);
-  background: var(--tool-color);
+  background: var(--link-color);
   flex-shrink: 0;
   transition: transform var(--transition-fast);
 }
 
-.tool-card:hover .tool-icon {
+.link-card:hover .link-icon {
   transform: scale(1.08);
 }
 
-.tool-icon svg {
+.link-icon svg {
   width: 18px;
   height: 18px;
   color: white;
 }
 
-.tool-content {
+.link-content {
   flex: 1;
   min-width: 0;
   display: flex;
@@ -75,7 +75,7 @@
   gap: 0.375rem;
 }
 
-.tool-name {
+.link-name {
   font-size: 0.9375rem;
   font-weight: 600;
   color: var(--color-text);
@@ -86,14 +86,14 @@
   hyphens: auto;
 }
 
-.tool-description {
+.link-description {
   font-size: 0.8125rem;
   color: var(--color-text-secondary);
   line-height: 1.5;
 }
 
-.tool-arrow {
-  color: var(--tool-color);
+.link-arrow {
+  color: var(--link-color);
   opacity: 0.5;
   transform: translateX(0);
   transition: all var(--transition-fast);
@@ -101,33 +101,33 @@
   align-self: center;
 }
 
-.tool-card:hover .tool-arrow {
+.link-card:hover .link-arrow {
   opacity: 1;
   transform: translateX(3px);
 }
 
 @media (max-width: 768px) {
-  .tool-card {
+  .link-card {
     min-height: 100px;
     padding: 1.125rem 1rem;
     gap: 1rem;
   }
 
-  .tool-icon {
+  .link-icon {
     width: 32px;
     height: 32px;
   }
 
-  .tool-icon svg {
+  .link-icon svg {
     width: 16px;
     height: 16px;
   }
 
-  .tool-name {
+  .link-name {
     font-size: 0.8125rem;
   }
 
-  .tool-description {
+  .link-description {
     font-size: 0.75rem;
   }
 }

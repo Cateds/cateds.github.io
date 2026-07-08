@@ -1,9 +1,9 @@
 import type { JSX } from "solid-js/jsx-runtime";
-import type { ToolItem } from "../types";
-import "./ToolCard.css";
+import type { LinkItem } from "../types";
+import "./LinkCard.css";
 
-interface ToolCardProps {
-  tool: ToolItem;
+interface LinkCardProps {
+  link: LinkItem;
 }
 
 const iconMap: Record<string, JSX.Element> = {
@@ -94,28 +94,28 @@ const iconMap: Record<string, JSX.Element> = {
   ),
 };
 
-export default function ToolCard(props: ToolCardProps) {
+export default function LinkCard(props: LinkCardProps) {
   return (
     <a
-      href={props.tool.url}
-      class="tool-card"
+      href={props.link.url}
+      class="link-card"
       style={{
-        "--tool-color": props.tool.color || "var(--color-accent)",
+        "--link-color": props.link.color || "var(--color-accent)",
       }}
       target="_blank"
       rel="noopener noreferrer"
     >
-      <div class="tool-icon">{props.tool.icon && iconMap[props.tool.icon]}</div>
+      <div class="link-icon">{props.link.icon && iconMap[props.link.icon]}</div>
 
-      <div class="tool-content">
-        <h3 class="tool-name">{props.tool.name}</h3>
-        {props.tool.description && (
-          <p class="tool-description">{props.tool.description}</p>
+      <div class="link-content">
+        <h3 class="link-name">{props.link.name}</h3>
+        {props.link.description && (
+          <p class="link-description">{props.link.description}</p>
         )}
       </div>
 
       <svg
-        class="tool-arrow"
+        class="link-arrow"
         viewBox="0 0 24 24"
         fill="none"
         stroke="currentColor"
