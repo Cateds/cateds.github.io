@@ -25,6 +25,8 @@ function hexToRgba(hex: string, alpha: number): string {
 export default function SubjectCard(props: SubjectCardProps) {
   const color = () => props.subject.color || "#6a8a9a";
   const titleDensityClass = () => getTitleDensityClass(props.subject.name);
+  const hasCompactDescription = () =>
+    (props.subject.description?.replace(/\s+/g, "").length ?? 0) >= 12;
 
   return (
     <a
@@ -33,6 +35,7 @@ export default function SubjectCard(props: SubjectCardProps) {
       classList={{
         "title-compact": titleDensityClass() === "title-compact",
         "title-compact-strong": titleDensityClass() === "title-compact-strong",
+        "description-compact": hasCompactDescription(),
       }}
       style={{
         "--subject-color": color(),

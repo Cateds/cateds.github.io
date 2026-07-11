@@ -18,6 +18,26 @@ export const siteConfig: SiteConfig = {
   },
   semesters: [
     {
+      id: "2026-fall",
+      name: "Year.4 Term.1 - 2026 Fall",
+      subjects: [
+        {
+          id: "is",
+          name: "Information Security",
+          description: "信息安全",
+          url: "",
+          color: "#607080",
+        },
+        {
+          id: "rtcs",
+          name: "Real-Time Compute System with Computer Arch",
+          description: "实时计算系统与计算机体系结构",
+          url: "",
+          color: "#527b6d",
+        },
+      ],
+    },
+    {
       id: "2026-spring",
       name: "Year.3 Term.2 - 2026 Spring",
       subjects: [

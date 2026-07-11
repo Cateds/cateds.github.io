@@ -136,6 +136,10 @@
   line-height: 1.5;
 }
 
+.description-compact .card-description {
+  font-size: 0.75rem;
+}
+
 .card-footer {
   display: flex;
   align-items: center;
@@ -174,8 +178,8 @@
     --card-title-size: 0.8125rem;
     --card-body-height: 175px;
     flex: 0 0 auto;
-    width: 185px;
-    max-width: 185px;
+    width: 205px;
+    max-width: 205px;
     padding: 1.125rem 1rem;
   }
 
