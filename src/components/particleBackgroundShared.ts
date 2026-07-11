@@ -39,6 +39,7 @@ export const PARTICLE_CANVAS_STYLE = {
   left: 0,
   width: "100%",
   height: "100%",
+  "background-image": "linear-gradient(transparent, transparent)",
   "pointer-events": "none",
   "z-index": 0,
 } as const;
