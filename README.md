@@ -1,6 +1,6 @@
 # Personal Homepage
 
-基于 Astro + SolidJS 的个人主页，采用暖色调配色和清爽扁平风格，包含弹性粒子背景效果。
+基于 Astro + Svelte 5 的个人主页，日间“阳光色散”、夜间“星辰”双主题，带弹簧粒子背景。
 
 ## 功能特性
 
@@ -34,5 +34,5 @@ bun run build
 ## 技术栈
 
 - [Astro](https://astro.build/) - 静态站点生成
-- [SolidJS](https://www.solidjs.com/) - 交互组件
+- [Svelte 5](https://svelte.dev/) + [shadcn-svelte](https://shadcn-svelte.com/) - 交互组件
 - [Bun](https://bun.sh/) - 包管理
