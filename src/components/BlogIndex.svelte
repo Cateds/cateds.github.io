@@ -117,6 +117,7 @@
   .post-title {
     font-family: var(--font-display);
     font-size: clamp(1.375rem, 2.4vw, 1.875rem);
+    font-weight: 600;
     line-height: 1.15;
     letter-spacing: -0.01em;
   }

@@ -121,10 +121,9 @@
 
   .term-season {
     grid-area: season;
-    font-size: clamp(1.625rem, 2.3vw, 2.125rem);
+    font-size: clamp(1.75rem, 2.4vw, 2.25rem);
     line-height: 1;
     white-space: nowrap;
-    font-style: italic;
   }
 
   .term-count {
@@ -230,7 +229,7 @@
 
   .subject-name {
     font-size: 1.0625rem;
-    font-weight: 560;
+    font-weight: 600;
     line-height: 1.3;
     letter-spacing: -0.01em;
     color: var(--ink);
@@ -239,7 +238,8 @@
 
   .subject-cn {
     font-family: var(--font-cjk-serif);
-    font-size: 0.875rem;
+    font-size: 0.9375rem;
+    font-weight: 500;
     color: var(--tone-ink);
   }
 

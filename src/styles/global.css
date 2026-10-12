@@ -1,12 +1,14 @@
 @import "tailwindcss";
 @import "tw-animate-css";
 @import "shadcn-svelte/tailwind.css";
-@import "@fontsource-variable/bodoni-moda/opsz.css";
+@import "@fontsource-variable/libre-bodoni/wght.css";
+@import "@fontsource-variable/libre-bodoni/wght-italic.css";
 @import "@fontsource-variable/bodoni-moda/opsz-italic.css";
 @import "@fontsource-variable/hanken-grotesk";
-@import "@fontsource/noto-serif-sc/400.css";
+@import "@fontsource/noto-serif-sc/500.css";
 @import "@fontsource/noto-serif-sc/600.css";
 @import "@fontsource/maple-mono/400.css";
+@import "@fontsource/maple-mono/500.css";
 
 @custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
 
@@ -30,8 +32,8 @@
   --glass-edge: rgb(255 255 255 / 0.9);
   --glass-shade: 0 1px 2px rgb(0 0 0 / 0.03), 0 8px 24px -12px rgb(0 0 0 / 0.08);
   --ink: #17181a;
-  --ink-2: #4a4c50;
-  --ink-3: #85878c;
+  --ink-2: #3f4145;
+  --ink-3: #6b6e74;
   --line: rgb(0 0 0 / 0.08);
   --line-strong: rgb(0 0 0 / 0.18);
   --accent: #5e81ac;
@@ -86,7 +88,7 @@
   --glass-shade: 0 1px 2px rgb(0 0 0 / 0.25), 0 12px 32px -16px rgb(0 0 0 / 0.55);
   --ink: #c0caf5;
   --ink-2: #a9b1d6;
-  --ink-3: #565f89;
+  --ink-3: #7c84ad;
   --line: rgb(169 177 214 / 0.1);
   --line-strong: rgb(169 177 214 / 0.22);
   --accent: #d9bf86;
@@ -106,7 +108,9 @@
   --font-sans:
     "Hanken Grotesk Variable", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", system-ui,
     sans-serif;
-  --font-display: "Bodoni Moda Variable", "Noto Serif SC", "Songti SC", serif;
+  --font-display: "Libre Bodoni Variable", "Noto Serif SC", "Songti SC", serif;
+  /* High-contrast Bodoni, reserved for the sidebar name where it renders large. */
+  --font-signature: "Bodoni Moda Variable", "Noto Serif SC", "Songti SC", serif;
   --font-cjk-serif: "Noto Serif SC", "Songti SC", serif;
   --font-mono: "Maple Mono", ui-monospace, "SF Mono", monospace;
 
@@ -149,6 +153,7 @@
 
   html {
     font-family: var(--font-sans);
+    font-weight: 430;
     background: var(--bg);
     color: var(--ink);
     -webkit-font-smoothing: antialiased;
@@ -218,20 +223,21 @@
     padding-inline: clamp(1.25rem, 4vw, 3rem);
   }
 
+  /* Small labels: mono caps, kept at 12px+ with medium weight so they hold up on phones. */
   .eyebrow {
     font-family: var(--font-mono);
-    font-size: 0.6875rem;
-    letter-spacing: 0.14em;
+    font-size: 0.75rem;
+    font-weight: 500;
+    letter-spacing: 0.08em;
     text-transform: uppercase;
     color: var(--ink-3);
   }
 
   .display {
     font-family: var(--font-display);
-    font-optical-sizing: auto;
-    font-weight: 500;
-    letter-spacing: -0.02em;
-    line-height: 0.95;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    line-height: 1;
   }
 
   /* Daylight dispersion on large type; quiet gold at night */

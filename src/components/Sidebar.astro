@@ -141,8 +141,12 @@ const handle = github ? new URL(github.url).pathname.replace(/^\//, "@") : undef
   }
 
   .name {
-    font-size: 2rem;
+    font-family: var(--font-signature);
+    font-optical-sizing: auto;
+    font-size: 2.125rem;
+    font-weight: 500;
     font-style: italic;
+    letter-spacing: -0.02em;
     line-height: 1;
   }
 
@@ -245,7 +249,7 @@ const handle = github ? new URL(github.url).pathname.replace(/^\//, "@") : undef
 
   .ext-meta {
     font-family: var(--font-mono);
-    font-size: 0.6875rem;
+    font-size: 0.75rem;
     color: var(--ink-3);
   }
 
