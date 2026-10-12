@@ -1,134 +1,402 @@
-:root {
-  --color-bg: #f8fafb;
-  --color-bg-secondary: #f0f4f6;
-  --color-text: #2a3840;
-  --color-text-secondary: #5a6a72;
-  --color-border: #d4dce2;
-  --color-accent: #7a9aaa;
-  --color-accent-light: rgba(122, 154, 170, 0.12);
-  --color-card: rgba(255, 255, 255, 0.8);
-  --color-glass: rgba(255, 255, 255, 0.7);
-  --color-glass-border: rgba(255, 255, 255, 0.45);
-  --shadow-sm: 0 1px 3px rgba(122, 154, 170, 0.08);
-  --shadow-md: 0 4px 16px rgba(122, 154, 170, 0.12);
-  --shadow-lg: 0 12px 32px rgba(122, 154, 170, 0.16);
-  --radius-sm: 8px;
-  --radius-md: 14px;
-  --radius-lg: 22px;
-  --transition-fast: 0.18s ease;
-  --transition-normal: 0.28s ease;
-  --font-sans:
-    "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-  --font-serif:
-    "Noto Serif SC", "Source Han Serif SC", "Source Han Serif CN", Georgia,
-    "Times New Roman", serif;
-  --font-mono: "Maple Mono", "JetBrains Mono", "Fira Code", monospace;
-  --sidebar-width: 240px;
-}
+@import "tailwindcss";
+@import "tw-animate-css";
+@import "shadcn-svelte/tailwind.css";
+@import "@fontsource-variable/bodoni-moda/opsz.css";
+@import "@fontsource-variable/bodoni-moda/opsz-italic.css";
+@import "@fontsource-variable/hanken-grotesk";
+@import "@fontsource/noto-serif-sc/400.css";
+@import "@fontsource/noto-serif-sc/600.css";
+@import "@fontsource/maple-mono/400.css";
 
-@media (max-width: 768px) {
-  :root {
-    --sidebar-width: 0px;
+@custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
+
+/*
+ * Design tokens.
+ * Day  — "dazzling sunlight": neutral white, clear surfaces, Nord frost accents,
+ *        chromatic dispersion as the recurring detail.
+ * Night — "starlight": desaturated night blue, silver lines, pale gold accents.
+ */
+:root {
+  /* Day: near-white, neutral greys. Nord appears only in accents and the sky. */
+  --bg: #fdfdfd;
+  --surface: rgb(255 255 255 / 0.66);
+  --surface-strong: rgb(255 255 255 / 0.84);
+  /* Cards: frosted, a touch more opaque than the sidebar. */
+  --card-glass: rgb(255 255 255 / 0.58);
+  --card-glass-hover: rgb(255 255 255 / 0.78);
+  --card-blur: 20px;
+  --rail: rgb(255 255 255 / 0.62);
+  --reading-glass: rgb(255 255 255 / 0.86);
+  --glass-edge: rgb(255 255 255 / 0.9);
+  --glass-shade: 0 1px 2px rgb(0 0 0 / 0.03), 0 8px 24px -12px rgb(0 0 0 / 0.08);
+  --ink: #17181a;
+  --ink-2: #4a4c50;
+  --ink-3: #85878c;
+  --line: rgb(0 0 0 / 0.08);
+  --line-strong: rgb(0 0 0 / 0.18);
+  --accent: #5e81ac;
+  --accent-2: #88c0d0;
+  --glint-a: rgb(94 129 172 / 0.55);
+  --glint-b: rgb(191 97 106 / 0.4);
+  --focus: #5e81ac;
+
+  --ease-focus: cubic-bezier(0.2, 0.7, 0.1, 1);
+  --radius-ui: 6px;
+  --radius-sm-ui: 4px;
+  --sidebar-w: 248px;
+  --header-h: 0px;
+  @media (max-width: 860px) {
+    --header-h: 6.5rem;
   }
+
+  /* shadcn-svelte tokens, mapped onto the system above */
+  --background: var(--bg);
+  --foreground: var(--ink);
+  --card: var(--surface-strong);
+  --card-foreground: var(--ink);
+  --popover: var(--surface-strong);
+  --popover-foreground: var(--ink);
+  --primary: var(--ink);
+  --primary-foreground: var(--bg);
+  --secondary: rgb(0 0 0 / 0.04);
+  --secondary-foreground: var(--ink);
+  --muted: rgb(0 0 0 / 0.045);
+  --muted-foreground: var(--ink-3);
+  --accent-shadcn: rgb(0 0 0 / 0.045);
+  --destructive: #bf616a;
+  --border: var(--line);
+  --input: var(--line-strong);
+  --ring: var(--focus);
+  --radius: var(--radius-ui);
+
+  color-scheme: light;
 }
 
 [data-theme="dark"] {
-  --color-bg: #1c2024;
-  --color-bg-secondary: #24282e;
-  --color-text: #d8dcde;
-  --color-text-secondary: #8a9298;
-  --color-border: #3a3e44;
-  --color-accent: #7a8a90;
-  --color-accent-light: rgba(122, 138, 144, 0.18);
-  --color-card: rgba(42, 48, 54, 0.9);
-  --color-glass: rgba(38, 44, 50, 0.85);
-  --color-glass-border: rgba(255, 255, 255, 0.06);
-  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.25);
-  --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.35);
-  --shadow-lg: 0 12px 32px rgba(0, 0, 0, 0.45);
+  /* Night: Tokyo Night base (desaturated indigo-grey), pale gold accent. */
+  --bg: #16161e;
+  --surface: rgb(26 27 38 / 0.5);
+  --surface-strong: rgb(26 27 38 / 0.8);
+  /* Cards and the sidebar share the Tokyo Night surface (#1a1b26); only opacity differs. */
+  --rail: rgb(26 27 38 / 0.8);
+  --card-glass: rgb(26 27 38 / 0.62);
+  --card-glass-hover: rgb(36 40 59 / 0.78);
+  --reading-glass: rgb(26 27 38 / 0.9);
+  --glass-edge: rgb(192 202 245 / 0.08);
+  --glass-shade: 0 1px 2px rgb(0 0 0 / 0.25), 0 12px 32px -16px rgb(0 0 0 / 0.55);
+  --ink: #c0caf5;
+  --ink-2: #a9b1d6;
+  --ink-3: #565f89;
+  --line: rgb(169 177 214 / 0.1);
+  --line-strong: rgb(169 177 214 / 0.22);
+  --accent: #d9bf86;
+  --accent-2: #c9d4ea;
+  --glint-a: rgb(217 191 134 / 0.38);
+  --glint-b: rgb(217 191 134 / 0.14);
+  --focus: #d9bf86;
+
+  --secondary: rgb(169 177 214 / 0.06);
+  --muted: rgb(169 177 214 / 0.07);
+  --accent-shadcn: rgb(169 177 214 / 0.07);
+
+  color-scheme: dark;
 }
 
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
+@theme inline {
+  --font-sans:
+    "Hanken Grotesk Variable", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", system-ui,
+    sans-serif;
+  --font-display: "Bodoni Moda Variable", "Noto Serif SC", "Songti SC", serif;
+  --font-cjk-serif: "Noto Serif SC", "Songti SC", serif;
+  --font-mono: "Maple Mono", ui-monospace, "SF Mono", monospace;
+
+  --color-ink: var(--ink);
+  --color-ink-2: var(--ink-2);
+  --color-ink-3: var(--ink-3);
+  --color-line: var(--line);
+  --color-line-strong: var(--line-strong);
+  --color-sun: var(--accent);
+  --color-surface: var(--surface);
+
+  --color-ring: var(--ring);
+  --color-input: var(--input);
+  --color-border: var(--border);
+  --color-destructive: var(--destructive);
+  --color-accent-foreground: var(--ink);
+  --color-accent: var(--accent-shadcn);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-muted: var(--muted);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-secondary: var(--secondary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-primary: var(--primary);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-popover: var(--popover);
+  --color-card-foreground: var(--card-foreground);
+  --color-card: var(--card);
+  --color-foreground: var(--foreground);
+  --color-background: var(--background);
+  --radius-sm: 3px;
+  --radius-md: 4px;
+  --radius-lg: 6px;
+  --radius-xl: 8px;
 }
 
-html {
-  font-size: 16px;
-  scroll-behavior: smooth;
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+
+  html {
+    font-family: var(--font-sans);
+    background: var(--bg);
+    color: var(--ink);
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+    scrollbar-gutter: stable;
+  }
+
+  body {
+    min-height: 100dvh;
+    overflow-x: clip;
+    background-color: var(--bg);
+    line-height: 1.6;
+  }
+
+  /* Day and night skies are separate fixed layers so a theme switch can crossfade them. */
+  body::before,
+  body::after {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+    transition: opacity 0.6s ease;
+  }
+
+  body::before {
+    background: radial-gradient(1100px 760px at 90% -18%, rgb(136 192 208 / 0.1), transparent 60%);
+  }
+
+  body::after {
+    opacity: 0;
+    background:
+      radial-gradient(1000px 720px at 70% -8%, rgb(65 72 104 / 0.3), transparent 66%),
+      radial-gradient(900px 600px at 0% 110%, rgb(41 46 66 / 0.4), transparent 70%),
+      linear-gradient(180deg, #13131a, #1a1b26 70%, #16161e);
+  }
+
+  [data-theme="dark"] body::before {
+    opacity: 0;
+  }
+
+  [data-theme="dark"] body::after {
+    opacity: 1;
+  }
+
+  ::selection {
+    background: color-mix(in oklab, var(--accent) 28%, transparent);
+  }
+
+  :focus-visible {
+    outline: 1.5px solid var(--focus);
+    outline-offset: 3px;
+  }
+
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
 }
 
-body {
-  font-family: var(--font-sans);
-  background-color: var(--color-bg);
-  color: var(--color-text);
-  line-height: 1.6;
-  min-height: 100vh;
+@layer components {
+  /* Shared page frame */
+  .frame {
+    width: 100%;
+    max-width: 1240px;
+    margin-inline: auto;
+    padding-inline: clamp(1.25rem, 4vw, 3rem);
+  }
+
+  .eyebrow {
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--ink-3);
+  }
+
+  .display {
+    font-family: var(--font-display);
+    font-optical-sizing: auto;
+    font-weight: 500;
+    letter-spacing: -0.02em;
+    line-height: 0.95;
+  }
+
+  /* Daylight dispersion on large type; quiet gold at night */
+  .dispersed {
+    text-shadow:
+      -0.03em 0 0 var(--glint-a),
+      0.03em 0 0 var(--glint-b);
+  }
+
+  [data-theme="dark"] .dispersed {
+    text-shadow: 0 0 0.6em rgb(217 191 134 / 0.12);
+  }
+
+  .italic-accent {
+    font-style: italic;
+    color: var(--accent);
+  }
+
+  /* Low-haze glass: thin outline, small radius, light blur, a top highlight edge. */
+  .pane {
+    position: relative;
+    border: 1px solid var(--line);
+    border-radius: var(--radius-ui);
+    background-color: var(--card-glass);
+    box-shadow:
+      inset 0 1px 0 var(--glass-edge),
+      var(--glass-shade);
+    -webkit-backdrop-filter: blur(var(--card-blur, 20px)) saturate(1.35);
+    backdrop-filter: blur(var(--card-blur, 20px)) saturate(1.35);
+    transition:
+      border-color 0.3s ease,
+      box-shadow 0.35s ease,
+      background-color 0.3s ease,
+      transform 0.45s var(--ease-focus);
+  }
+
+  .pane-link:hover,
+  .pane-link:focus-visible {
+    border-color: var(--line-strong);
+    background-color: var(--card-glass-hover);
+    box-shadow:
+      inset 0 1px 0 var(--glass-edge),
+      -1.5px 0 0 -0.5px var(--glint-a),
+      1.5px 0 0 -0.5px var(--glint-b),
+      var(--glass-shade);
+    transform: translateY(-1px);
+  }
+
+  [data-theme="dark"] .pane-link:hover,
+  [data-theme="dark"] .pane-link:focus-visible {
+    border-color: rgb(217 191 134 / 0.32);
+    box-shadow:
+      inset 0 1px 0 var(--glass-edge),
+      0 0 0 1px rgb(217 191 134 / 0.06),
+      0 0 32px -8px rgb(217 191 134 / 0.18),
+      var(--glass-shade);
+  }
+
+  /* Per-item tones generated in src/lib/tone.ts */
+  [style*="--tone-ink-day"] {
+    --tone-ink: var(--tone-ink-day);
+    --tone-line: var(--tone-line-day);
+    --tone-wash: var(--tone-wash-day);
+  }
+
+  [data-theme="dark"] [style*="--tone-ink-day"] {
+    --tone-ink: var(--tone-ink-night);
+    --tone-line: var(--tone-line-night);
+    --tone-wash: var(--tone-wash-night);
+  }
+
+  .rule {
+    height: 1px;
+    border: 0;
+    background: var(--line);
+  }
+
+  /* Rack-focus entrance: content resolves from out-of-focus into sharpness. */
+  /* fill-mode backwards: nothing lingers afterwards. A leftover `filter` would make
+     the element a backdrop root and break backdrop-filter on the glass inside it. */
+  .focus-in {
+    animation: focus-in 1.05s var(--ease-focus) backwards;
+    animation-delay: calc(var(--d, 0) * 75ms + 60ms);
+  }
+}
+
+@keyframes focus-in {
+  0% {
+    opacity: 0;
+    filter: blur(16px);
+    transform: scale(1.025) translateY(6px);
+  }
+  45% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 1;
+    filter: none;
+    transform: none;
+  }
+}
+
+@keyframes defocus-out {
+  to {
+    opacity: 0;
+    filter: blur(14px);
+    transform: scale(0.99);
+  }
+}
+
+@keyframes vt-hold {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/*
+ * Page swaps: no View Transition snapshots. A snapshot is a flat bitmap, so frosted
+ * glass inside it stops seeing the moving sky and looks broken. Instead the old page
+ * defocuses live (BaseLayout toggles data-leaving), the DOM swaps, and the new page's
+ * .focus-in children rack-focus in.
+ */
+html[data-leaving] main {
+  animation: defocus-out 0.26s cubic-bezier(0.4, 0, 1, 1) both;
+}
+
+/* Astro still wraps the swap in a View Transition; make it instant so the snapshot
+   only exists for one frame and the live page (with working glass) shows immediately. */
+::view-transition-group(*),
+::view-transition-old(*),
+::view-transition-new(*) {
+  animation: none !important;
+}
+
+::view-transition-old(*) {
+  display: none;
+}
+
+/* Theme switch: everything eases together for a moment, glass included. */
+html[data-theme-switching],
+html[data-theme-switching] *,
+html[data-theme-switching] *::before,
+html[data-theme-switching] *::after {
   transition:
-    background-color var(--transition-normal),
-    color var(--transition-normal);
-  overflow-x: clip;
+    background-color 0.6s ease,
+    background 0.6s ease,
+    color 0.5s ease,
+    border-color 0.6s ease,
+    box-shadow 0.6s ease,
+    opacity 0.6s ease,
+    fill 0.5s ease !important;
 }
 
-::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
-}
-
-::-webkit-scrollbar-track {
-  background: transparent;
-}
-
-::-webkit-scrollbar-thumb {
-  background: var(--color-border);
-  border-radius: 4px;
-}
-
-::-webkit-scrollbar-thumb:hover {
-  background: var(--color-text-secondary);
-}
-
-a {
-  color: inherit;
-  text-decoration: none;
-}
-
-button {
-  font-family: inherit;
-  cursor: pointer;
-  border: none;
-  background: none;
-}
-
-@keyframes fadeInDownShort {
-  from {
-    opacity: 0;
-    transform: translateY(-15px);
+@media (prefers-reduced-motion: reduce) {
+  .focus-in,
+  html[data-leaving] main {
+    animation: none;
   }
-  to {
-    opacity: 1;
-    transform: none;
-  }
-}
 
-@keyframes fadeInUpShort {
-  from {
-    opacity: 0;
-    transform: translateY(15px);
+  ::view-transition-group(*),
+  ::view-transition-old(*),
+  ::view-transition-new(*) {
+    animation: none !important;
   }
-  to {
-    opacity: 1;
-    transform: none;
-  }
-}
-
-.fade-in-down-short {
-  animation: fadeInDownShort 0.5s cubic-bezier(0.23, 1, 0.32, 1) both;
-  min-width: 0;
-}
-
-.fade-in-up-short {
-  animation: fadeInUpShort 0.5s cubic-bezier(0.23, 1, 0.32, 1) both;
-  min-width: 0;
 }
