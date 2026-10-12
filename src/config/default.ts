@@ -128,8 +128,7 @@ export const siteConfig: SiteConfig = {
     {
       id: "repo1",
       name: "awesome-project",
-      description:
-        "A collection of awesome things built with modern technologies",
+      description: "A collection of awesome things built with modern technologies",
       url: "https://github.com/username/awesome-project",
       language: "TypeScript",
       stars: 128,
@@ -171,8 +170,7 @@ export const siteConfig: SiteConfig = {
     {
       id: "study-hub",
       name: "学汇 : Study Hub",
-      description:
-        "一个整合格院各类学习资源的平台，提供课程笔记、习题解答、复习资料等。",
+      description: "一个整合格院各类学习资源的平台，提供课程笔记、习题解答、复习资料等。",
       url: "https://www.study-hub.store/",
       icon: "cards",
       color: "#7a9a9a",

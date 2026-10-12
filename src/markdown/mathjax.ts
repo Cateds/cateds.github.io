@@ -11,9 +11,7 @@ export const mathjaxPlugin = defineHastPlugin({
   element: {
     filter: ["code"],
     async visit(node, ctx) {
-      const classNames = Array.isArray(node.properties?.className)
-        ? node.properties.className
-        : [];
+      const classNames = Array.isArray(node.properties?.className) ? node.properties.className : [];
       const display = classNames.includes("math-display");
 
       if (!display && !classNames.includes("math-inline")) return;

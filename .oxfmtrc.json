@@ -1,0 +1,10 @@
+{
+  "$schema": "./node_modules/oxfmt/configuration_schema.json",
+  "printWidth": 100,
+  "svelte": true,
+  "sortTailwindcss": {
+    "stylesheet": "./src/styles/global.css",
+    "functions": ["cn", "tv"]
+  },
+  "ignorePatterns": ["dist/**", ".astro/**", "bun.lock", "**/*.astro"]
+}
