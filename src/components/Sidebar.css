@@ -5,8 +5,8 @@
   bottom: 0;
   width: var(--sidebar-width);
   background: var(--color-glass);
-  backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
+  backdrop-filter: blur(20px);
   border-right: 1px solid var(--color-glass-border);
   z-index: 100;
   display: flex;
