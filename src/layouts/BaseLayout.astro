@@ -1,56 +1,76 @@
 ---
-import { ClientRouter } from 'astro:transitions'
-import '@fontsource/maple-mono/400.css'
-import '@fontsource/maple-mono/500.css'
-import 'animate.css'
-import '../styles/global.css'
+import { ClientRouter } from "astro:transitions";
+import "../styles/global.css";
 
 interface Props {
-  title?: string
+  title?: string;
+  description?: string;
+  /** Dim the background sky, for long-form reading pages. */
+  sky?: "full" | "quiet";
 }
 
-const { title = 'Personal Notes' } = Astro.props
+const {
+  title = "Personal Notes",
+  description = "Course notes and study materials",
+  sky = "full",
+} = Astro.props;
 ---
 
-<!DOCTYPE html>
-<html lang="en">
+<!doctype html>
+<html lang="en" data-sky={sky}>
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="description" content="Personal notes and study materials" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <meta name="description" content={description} />
     <meta name="color-scheme" content="light dark" />
+    <meta name="theme-color" content="#fdfdfd" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#16161e" media="(prefers-color-scheme: dark)" />
     <script is:inline>
-      const getPreferredTheme = () => {
-        const savedTheme = localStorage.getItem('theme')
-        if (savedTheme === 'light' || savedTheme === 'dark') return savedTheme
-        return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'
-      }
-
-      const applyTheme = root => {
-        const theme = getPreferredTheme()
-        root.setAttribute('data-theme', theme)
-        root.style.colorScheme = theme
-      }
-
-      applyTheme(document.documentElement)
-
-      if (!window.__themeSyncInitialized) {
-        document.addEventListener('astro:before-swap', event => {
-          applyTheme(event.newDocument.documentElement)
-        })
-        document.addEventListener('astro:after-swap', () => {
-          applyTheme(document.documentElement)
-        })
-        window.__themeSyncInitialized = true
-      }
+      (() => {
+        const pick = () => {
+          const saved = localStorage.getItem("theme");
+          if (saved === "light" || saved === "dark") return saved;
+          return matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+        };
+        const apply = (root) => {
+          const theme = pick();
+          root.dataset.theme = theme;
+          root.style.colorScheme = theme;
+        };
+        apply(document.documentElement);
+        if (!window.__themeSync) {
+          // Page exit runs live, before the DOM swap, so frosted glass keeps sampling the
+          // sky. Loading and the defocus run in parallel; the swap waits for both.
+          const reduce = matchMedia("(prefers-reduced-motion: reduce)");
+          document.addEventListener("astro:before-preparation", (e) => {
+            if (reduce.matches) return;
+            const load = e.loader;
+            e.loader = async () => {
+              const root = document.documentElement;
+              root.dataset.leaving = "";
+              const main = document.querySelector("main");
+              const out = main
+                ? new Promise((done) => {
+                    main.addEventListener("animationend", done, { once: true });
+                    setTimeout(done, 320);
+                  })
+                : Promise.resolve();
+              await Promise.all([load(), out]);
+            };
+          });
+          document.addEventListener("astro:before-swap", (e) => {
+            apply(e.newDocument.documentElement);
+          });
+          document.addEventListener("astro:after-swap", () => {
+            delete document.documentElement.dataset.leaving;
+          });
+          window.__themeSync = true;
+        }
+      })();
     </script>
     <link rel="icon" href="https://github.com/Cateds.png" type="image/png" />
-    <!-- <link rel="icon" type="image/svg+xml" href="/favicon.svg" /> -->
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Serif+SC:wght@400;600;700&display=swap" rel="stylesheet" />
     <title>{title}</title>
-    <ClientRouter />
+    <ClientRouter fallback="swap" />
   </head>
   <body>
     <slot />
