@@ -1,70 +1,57 @@
 ---
 import BaseLayout from "./BaseLayout.astro";
-import ParticleBackground from "../components/ParticleBackground";
-import Sidebar from "../components/Sidebar";
+import Sidebar from "../components/Sidebar.astro";
+import Sky from "../components/Sky.svelte";
 import { siteConfig } from "../config";
 
 interface Props {
   title: string;
   currentPath: string;
+  description?: string;
+  sky?: "full" | "quiet";
 }
 
-const { title, currentPath } = Astro.props;
+const { title, currentPath, description, sky } = Astro.props;
 const { profile, features } = siteConfig;
 ---
 
-<BaseLayout title={title}>
-  <ParticleBackground
-    client:load
-    transition:persist
-    mouseRadius={500}
-    mouseStrength={500000}
-    damping={0.8}
-    renderScale={0.75}
-  />
+<BaseLayout title={title} description={description} sky={sky}>
+  <Sky client:only="svelte" transition:persist="sky" />
 
-  <div class="app-container">
-    <Sidebar
-      profile={profile}
-      features={features}
-      currentPath={currentPath}
-      client:load
-    />
+  <div class="shell">
+    <Sidebar profile={profile} features={features} currentPath={currentPath} />
 
-    <main class="main-content">
-      <slot />
+    <main class="main">
+      <div class="column">
+        <slot />
+      </div>
     </main>
   </div>
 </BaseLayout>
 
 <style>
-  .app-container {
-    display: flex;
-    flex-direction: column;
-    min-height: 100vh;
+  .shell {
     position: relative;
     z-index: 1;
-    overflow-x: clip;
+    min-height: 100dvh;
   }
 
-  @media (min-width: 769px) {
-    .app-container {
-      flex-direction: row;
-    }
+  /* Fills everything right of the sidebar; on very wide screens the column caps and centres. */
+  .main {
+    position: relative;
+    margin-left: var(--sidebar-w);
+    padding: clamp(2.5rem, 5vw, 4rem) clamp(1.5rem, 4vw, 3.5rem) clamp(3rem, 6vw, 5rem);
   }
 
-  .main-content {
-    flex: 1;
-    margin-left: var(--sidebar-width);
-    padding: 2.5rem 2rem;
-    box-sizing: border-box;
-    min-width: 0;
+  .column {
+    max-width: 1440px;
+    margin-inline: auto;
   }
 
-  @media (max-width: 768px) {
-    .main-content {
+  @media (max-width: 860px) {
+    .main {
       margin-left: 0;
-      padding: 1.5rem 1rem;
+      padding: 1.75rem 1.25rem calc(3rem + env(safe-area-inset-bottom));
     }
   }
 </style>

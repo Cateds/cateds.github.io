@@ -5,9 +5,7 @@ import { fileURLToPath } from "node:url";
 const root = fileURLToPath(new URL("..", import.meta.url));
 const publicDir = join(root, "public");
 
-const assets = [
-  { from: "https://github.com/Cateds.png", to: "avatar.png" },
-];
+const assets = [{ from: "https://github.com/Cateds.png", to: "avatar.png" }];
 
 await Promise.all(
   assets.map(async (asset) => {

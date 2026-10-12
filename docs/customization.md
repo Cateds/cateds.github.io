@@ -131,7 +131,7 @@ const iconMap: Record<string, JSX.Element> = {
 
 ## 注意事项
 
-1. **不要删除 `client:load`** - SolidJS 组件需要此指令才能在客户端交互
+1. **不要删除 `client:load`** - Svelte 组件需要此指令才能在客户端交互
 2. **图片资源** - 放在 `public/` 目录，直接用 `/filename` 引用
 3. **颜色格式** - CSS 变量中使用的颜色需要是标准十六进制或 rgba 格式
 4. **URL 规范** - 外部链接会自动添加 `target="_blank"` 和安全属性

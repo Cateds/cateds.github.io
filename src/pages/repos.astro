@@ -1,87 +1,125 @@
 ---
-import PageLayout from '../layouts/PageLayout.astro'
-import RepoCard from '../components/RepoCard'
-import { siteConfig } from '../config'
+import PageLayout from "../layouts/PageLayout.astro";
+import { siteConfig } from "../config";
+import { toneStyle } from "../lib/tone";
 
-const { profile, repos, features } = siteConfig
+const { profile, repos, features } = siteConfig;
 
 if (!features.repos) {
-  return Astro.redirect('/')
+  return Astro.redirect("/");
 }
+
+const languageColors: Record<string, string> = {
+  TypeScript: "#3178c6",
+  JavaScript: "#f1e05a",
+  Python: "#3572a5",
+  Rust: "#dea584",
+  Go: "#00add8",
+  Java: "#b07219",
+  C: "#555555",
+  "C++": "#f34b7d",
+  Shell: "#89e051",
+};
 ---
 
-<PageLayout title={`${profile.name} - Repos`} currentPath="/repos">
-  <header class="page-header fade-in-down-short">
-    <h1 class="page-title">Repositories</h1>
-    <p class="page-subtitle">Open source projects and experiments</p>
+<PageLayout title={`${profile.name} · Repos`} currentPath="/repos">
+  <header class="head focus-in" style="--d:0">
+    <h1 class="display dispersed title">Repositories</h1>
+    <p class="lede">Open source projects and experiments.</p>
   </header>
-  
-  <section class="repos-grid">
-    {repos.map((repo, i) => (
-      <div class="fade-in-down-short" style={`animation-delay: ${i * 0.08}s`}>
-        <RepoCard repo={repo} client:load />
-      </div>
-    ))}
-  </section>
 
-  <footer class="page-footer">
-    <p>Built with Astro & SolidJS</p>
-  </footer>
+  <ul class="repos">
+    {repos.map((repo, i) => (
+      <li class="focus-in" style={`--d:${i + 1}`}>
+        <a
+          href={repo.url}
+          class="repo pane pane-link"
+          style={toneStyle(repo.color ?? languageColors[repo.language ?? ""])}
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <span class="repo-name">{repo.name}</span>
+          {repo.description && <span class="repo-desc">{repo.description}</span>}
+          <span class="repo-meta eyebrow">
+            {repo.language && (
+              <span class="lang">
+                <i aria-hidden="true" />
+                {repo.language}
+              </span>
+            )}
+            {repo.stars !== undefined && <span>★ {repo.stars}</span>}
+            {repo.forks !== undefined && <span>⑂ {repo.forks}</span>}
+          </span>
+        </a>
+      </li>
+    ))}
+  </ul>
 </PageLayout>
 
 <style>
-  .page-header {
-    margin-bottom: 2.5rem;
-  }
-
-  .page-title {
-    font-size: 2rem;
-    font-weight: 700;
-    color: var(--color-text);
-    margin-bottom: 0.375rem;
-    font-family: var(--font-serif);
-    letter-spacing: -0.02em;
-  }
-
-  .page-subtitle {
-    font-size: 1rem;
-    color: var(--color-text-secondary);
-  }
-
-  .repos-grid {
+  .head {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 0.625rem;
+    margin-bottom: clamp(2rem, 4vw, 3rem);
+  }
+
+  .title {
+    font-size: clamp(2.75rem, 5vw, 3.75rem);
+  }
+
+  .lede {
+    color: var(--ink-2);
+  }
+
+  .repos {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(17rem, 1fr));
+    gap: 0.75rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .repos li {
+    display: flex;
+  }
+
+  .repo {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    gap: 0.5rem;
+    padding: 1.25rem 1.375rem;
+  }
+
+  .repo-name {
+    font-family: var(--font-mono);
+    font-size: 0.9375rem;
+    color: var(--tone-ink);
+  }
+
+  .repo-desc {
+    font-size: 0.875rem;
+    color: var(--ink-2);
+  }
+
+  .repo-meta {
+    display: flex;
     gap: 1rem;
+    margin-top: auto;
+    padding-top: 1rem;
   }
 
-  .page-footer {
-    margin-top: 3rem;
-    padding-top: 1.5rem;
-    border-top: 1px solid var(--color-border);
-    text-align: center;
+  .lang {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.375rem;
   }
 
-  .page-footer p {
-    font-size: 0.8125rem;
-    color: var(--color-text-secondary);
-  }
-
-  @media (max-width: 768px) {
-    .page-header {
-      margin-bottom: 1.5rem;
-    }
-
-    .page-title {
-      font-size: 1.5rem;
-    }
-
-    .page-subtitle {
-      font-size: 0.9375rem;
-    }
-
-    .repos-grid {
-      grid-template-columns: 1fr;
-      gap: 0.75rem;
-    }
+  .lang i {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--tone-line);
   }
 </style>

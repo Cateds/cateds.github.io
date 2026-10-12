@@ -21,7 +21,7 @@
 export default defineConfig({
   site: "https://username.github.io",
   base: "/repo-name", // 如果不是根目录
-  integrations: [solid()],
+  integrations: [svelte()],
 });
 ```
 

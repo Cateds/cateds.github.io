@@ -1,0 +1,327 @@
+---
+import ThemeToggle from "./ThemeToggle.svelte";
+import type { Features, Profile } from "../types";
+
+interface Props {
+  profile: Profile;
+  features: Features;
+  currentPath: string;
+}
+
+const { profile, features, currentPath } = Astro.props;
+
+const gated: Record<string, keyof Features> = {
+  "/blog": "blog",
+  "/repos": "repos",
+  "/links": "links",
+};
+const nav = profile.navLinks.filter((link) => {
+  const flag = gated[link.path];
+  return !flag || features[flag];
+});
+const isActive = (path: string) =>
+  path === "/" ? currentPath === "/" : currentPath.startsWith(path);
+const github = profile.externalLinks.find((link) => link.icon === "github");
+const otherLinks = profile.externalLinks.filter((link) => link !== github);
+const handle = github ? new URL(github.url).pathname.replace(/^\//, "@") : undefined;
+---
+
+<aside class="sidebar">
+  <div class="identity">
+    <a href="/" class="avatar" aria-label={`${profile.name}, home`}>
+      {profile.avatar ? (
+        <img src={profile.avatar} alt="" width="72" height="72" />
+      ) : (
+        <span>{profile.name.charAt(0)}</span>
+      )}
+    </a>
+    <div class="who">
+      <span class="name display">{profile.name}</span>
+      {profile.bio && <span class="bio">{profile.bio}</span>}
+    </div>
+    <div class="quick">
+      {github && (
+        <a
+          href={github.url}
+          class="icon-btn"
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="GitHub profile"
+          title="GitHub"
+        >
+          <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor" aria-hidden="true">
+            <path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z" />
+          </svg>
+        </a>
+      )}
+      <ThemeToggle client:load />
+    </div>
+  </div>
+
+  <nav class="nav" aria-label="Primary">
+    <span class="eyebrow label">Index</span>
+    {nav.map((link) => (
+      <a
+        href={link.path}
+        class:list={["nav-link", { active: isActive(link.path) }]}
+        aria-current={isActive(link.path) ? "page" : undefined}
+      >
+        <span class="nav-tick" aria-hidden="true" />
+        {link.name}
+      </a>
+    ))}
+  </nav>
+
+  <div class="elsewhere">
+    <span class="eyebrow label">Elsewhere</span>
+    {github && (
+      <a href={github.url} class="ext" target="_blank" rel="noopener noreferrer">
+        <span>GitHub</span>
+        <span class="ext-meta">{handle} ↗</span>
+      </a>
+    )}
+    {otherLinks.map((link) => (
+      <a href={link.url} class="ext" target="_blank" rel="noopener noreferrer">
+        <span>{link.name}</span>
+        <span class="ext-meta">↗</span>
+      </a>
+    ))}
+  </div>
+</aside>
+
+<style>
+  .sidebar {
+    position: fixed;
+    inset: 0 auto 0 0;
+    z-index: 20;
+    display: flex;
+    flex-direction: column;
+    gap: 2.25rem;
+    width: var(--sidebar-w);
+    padding: 2.25rem 1.5rem 1.75rem;
+    border-right: 1px solid var(--line);
+    background-color: var(--rail);
+    -webkit-backdrop-filter: blur(18px) saturate(1.2);
+    backdrop-filter: blur(18px) saturate(1.2);
+    overflow-y: auto;
+    scrollbar-width: none;
+  }
+
+  .identity {
+    display: grid;
+    gap: 1rem;
+  }
+
+  .avatar {
+    display: grid;
+    place-items: center;
+    width: 72px;
+    height: 72px;
+    border-radius: 50%;
+    border: 1px solid var(--line-strong);
+    overflow: hidden;
+    transition: box-shadow 0.4s ease;
+  }
+
+  .avatar:hover {
+    box-shadow:
+      -2px 0 0 0 var(--glint-a),
+      2px 0 0 0 var(--glint-b);
+  }
+
+  .avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .who {
+    display: grid;
+    gap: 0.25rem;
+  }
+
+  .name {
+    font-size: 2rem;
+    font-style: italic;
+    line-height: 1;
+  }
+
+  .bio {
+    font-size: 0.8125rem;
+    color: var(--ink-2);
+  }
+
+  .quick {
+    display: flex;
+    gap: 0.25rem;
+    margin-left: -0.375rem;
+  }
+
+  .icon-btn {
+    display: grid;
+    place-items: center;
+    width: 2rem;
+    height: 2rem;
+    color: var(--ink-2);
+    border-radius: var(--radius-ui);
+    transition:
+      color 0.2s ease,
+      background-color 0.2s ease;
+  }
+
+  .icon-btn:hover {
+    color: var(--ink);
+    background: var(--muted);
+  }
+
+  .label {
+    display: block;
+    margin-bottom: 0.625rem;
+  }
+
+  .nav {
+    display: grid;
+  }
+
+  .nav-link {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.5rem 0;
+    font-size: 0.9375rem;
+    color: var(--ink-2);
+    border-top: 1px solid var(--line);
+    transition: color 0.2s ease;
+  }
+
+  .nav-link:last-child {
+    border-bottom: 1px solid var(--line);
+  }
+
+  .nav-link:hover {
+    color: var(--ink);
+  }
+
+  .nav-tick {
+    width: 0.75rem;
+    height: 1px;
+    background: var(--line-strong);
+    transition:
+      width 0.45s var(--ease-focus),
+      background-color 0.3s ease;
+  }
+
+  .nav-link:hover .nav-tick {
+    width: 1.25rem;
+  }
+
+  .nav-link.active {
+    color: var(--ink);
+  }
+
+  .nav-link.active .nav-tick {
+    width: 1.5rem;
+    background: linear-gradient(90deg, var(--accent), var(--accent-2));
+  }
+
+  .elsewhere {
+    display: grid;
+    margin-top: auto;
+  }
+
+  .ext {
+    display: flex;
+    justify-content: space-between;
+    gap: 0.5rem;
+    padding: 0.375rem 0;
+    font-size: 0.8125rem;
+    color: var(--ink-2);
+    transition: color 0.2s ease;
+  }
+
+  .ext:hover {
+    color: var(--accent);
+  }
+
+  .ext-meta {
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
+    color: var(--ink-3);
+  }
+
+  /* Mobile: identity row + horizontal tabs, sticky at the top. */
+  @media (max-width: 860px) {
+    .sidebar {
+      position: sticky;
+      inset: 0 0 auto;
+      width: auto;
+      gap: 0;
+      padding: calc(0.75rem + env(safe-area-inset-top)) 1.25rem 0;
+      border-right: 0;
+      border-bottom: 1px solid var(--line);
+      background-color: var(--rail);
+      -webkit-backdrop-filter: blur(18px) saturate(1.2);
+      backdrop-filter: blur(18px) saturate(1.2);
+      overflow: visible;
+    }
+
+    .identity {
+      grid-template-columns: auto 1fr auto;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .avatar {
+      width: 36px;
+      height: 36px;
+    }
+
+    .name {
+      font-size: 1.375rem;
+    }
+
+    .bio {
+      font-size: 0.75rem;
+    }
+
+    .quick {
+      margin: 0;
+    }
+
+    .label,
+    .elsewhere {
+      display: none;
+    }
+
+    .nav {
+      display: flex;
+      gap: 1.25rem;
+      margin-top: 0.5rem;
+      overflow-x: auto;
+      scrollbar-width: none;
+    }
+
+    .nav-link,
+    .nav-link:last-child {
+      position: relative;
+      padding: 0.5rem 0 0.625rem;
+      border: 0;
+    }
+
+    .nav-tick {
+      position: absolute;
+      left: 0;
+      bottom: -1px;
+      width: 0;
+    }
+
+    .nav-link:hover .nav-tick {
+      width: 0;
+    }
+
+    .nav-link.active .nav-tick {
+      width: 100%;
+      height: 1.5px;
+    }
+  }
+</style>
