@@ -10,6 +10,9 @@ interface Props {
 
 const { profile, features, currentPath } = Astro.props;
 
+// The fetch step also emits a resized WebP next to the source avatar.
+const avatarWebp = profile.avatar?.replace(/\.(png|jpe?g)$/i, ".webp");
+
 const gated: Record<string, keyof Features> = {
   "/blog": "blog",
   "/repos": "repos",
@@ -28,9 +31,12 @@ const handle = github ? new URL(github.url).pathname.replace(/^\//, "@") : undef
 
 <aside class="sidebar">
   <div class="identity">
-    <a href="/" class="avatar" aria-label={`${profile.name}, home`}>
+    <a href="/" class="avatar" aria-label={`${profile.name}, home`} transition:persist="avatar">
       {profile.avatar ? (
-        <img src={profile.avatar} alt="" width="72" height="72" />
+        <picture>
+          {avatarWebp && <source srcset={avatarWebp} type="image/webp" />}
+          <img src={profile.avatar} alt="" width="72" height="72" />
+        </picture>
       ) : (
         <span>{profile.name.charAt(0)}</span>
       )}
@@ -127,6 +133,10 @@ const handle = github ? new URL(github.url).pathname.replace(/^\//, "@") : undef
     box-shadow:
       -2px 0 0 0 var(--glint-a),
       2px 0 0 0 var(--glint-b);
+  }
+
+  .avatar picture {
+    display: contents;
   }
 
   .avatar img {

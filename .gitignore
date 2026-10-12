@@ -2,6 +2,7 @@
 dist/
 # generated remote assets (fetched at build/dev time)
 public/avatar.png
+public/avatar.webp
 # generated types
 .astro/
 
