@@ -12,6 +12,115 @@
 
 @custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
 
+/* Animate the palette once at the root, rather than installing transitions on
+   every element and pseudo-element. Registered colours interpolate and inherit,
+   so text, SVG currentColor and gradient stops all retain the live theme fade. */
+@property --bg {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: #fdfdfd;
+}
+@property --surface {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: transparent;
+}
+@property --surface-strong {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: transparent;
+}
+@property --card-glass {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: transparent;
+}
+@property --card-glass-hover {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: transparent;
+}
+@property --rail {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: transparent;
+}
+@property --reading-glass {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: transparent;
+}
+@property --glass-edge {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: transparent;
+}
+@property --ink {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: #17181a;
+}
+@property --ink-2 {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: #3f4145;
+}
+@property --ink-3 {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: #6b6e74;
+}
+@property --line {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: transparent;
+}
+@property --line-strong {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: transparent;
+}
+@property --accent {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: #5e81ac;
+}
+@property --accent-2 {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: #88c0d0;
+}
+@property --glint-a {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: transparent;
+}
+@property --glint-b {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: transparent;
+}
+@property --focus {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: #5e81ac;
+}
+@property --secondary {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: transparent;
+}
+@property --muted {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: transparent;
+}
+@property --accent-shadcn {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: transparent;
+}
+
 /*
  * Design tokens.
  * Day  — "dazzling sunlight": neutral white, clear surfaces, Nord frost accents,
@@ -379,22 +488,25 @@ html[data-leaving] main {
   display: none;
 }
 
-/* Theme switch: everything eases together for a moment, glass included. */
-html[data-theme-switching],
-html[data-theme-switching] *,
-html[data-theme-switching] *::before,
-html[data-theme-switching] *::after {
-  transition:
-    background-color 0.6s ease,
-    background 0.6s ease,
-    color 0.5s ease,
-    border-color 0.6s ease,
-    box-shadow 0.6s ease,
-    opacity 0.6s ease,
-    fill 0.5s ease !important;
+html[data-theme-switching] {
+  transition-property:
+    --bg, --surface, --surface-strong, --card-glass, --card-glass-hover, --rail, --reading-glass,
+    --glass-edge, --ink, --ink-2, --ink-3, --line, --line-strong, --accent, --accent-2, --glint-a,
+    --glint-b, --focus, --secondary, --muted, --accent-shadcn;
+  transition-duration: 0.6s;
+  transition-timing-function: ease;
 }
 
 @media (prefers-reduced-motion: reduce) {
+  html[data-theme-switching] {
+    transition: none;
+  }
+  body::before,
+  body::after,
+  .pane {
+    transition: none !important;
+  }
+
   .focus-in,
   html[data-leaving] main {
     animation: none;
