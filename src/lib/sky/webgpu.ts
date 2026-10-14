@@ -8,6 +8,7 @@ import {
   NIGHT_GOLD,
   NIGHT_SILVER,
   PHYSICS,
+  STATE_STRIDE,
   type Rgb,
   type SkyFrame,
 } from "./shared";
@@ -296,6 +297,8 @@ export async function createWebGPURenderer(canvas: HTMLCanvasElement): Promise<S
   let computeGroup: GPUBindGroup | null = null;
   let renderGroup: GPUBindGroup | null = null;
   let count = 0;
+  let cols = 0;
+  let rows = 0;
   let lost = false;
 
   void device.lost.then(() => {
@@ -305,7 +308,7 @@ export async function createWebGPURenderer(canvas: HTMLCanvasElement): Promise<S
   const storage = (data: Float32Array) => {
     const buffer = device.createBuffer({
       size: Math.max(16, data.byteLength),
-      usage: GPUBufferUsage.STORAGE | GPUBufferUsage.COPY_DST,
+      usage: GPUBufferUsage.STORAGE | GPUBufferUsage.COPY_DST | GPUBufferUsage.COPY_SRC,
     });
     device.queue.writeBuffer(buffer, 0, data as Float32Array<ArrayBuffer>);
     return buffer;
@@ -316,12 +319,34 @@ export async function createWebGPURenderer(canvas: HTMLCanvasElement): Promise<S
     get lost() {
       return lost;
     },
-    setParticles(rest, state) {
-      restBuffer?.destroy();
-      stateBuffer?.destroy();
+    setParticles(field) {
+      const { rest, state } = field;
+      const oldRest = restBuffer;
+      const oldState = stateBuffer;
       count = rest.length / 4;
       restBuffer = storage(rest);
       stateBuffer = storage(state);
+      // The compute shader owns the live state; the JS array is only an initial
+      // upload. Copy on the GPU, row by row because the grid stride can change.
+      if (oldState) {
+        const encoder = device.createCommandEncoder();
+        const stride = STATE_STRIDE * Float32Array.BYTES_PER_ELEMENT;
+        const bytes = Math.min(cols, field.cols) * stride;
+        for (let row = 0; row < Math.min(rows, field.rows); row++) {
+          encoder.copyBufferToBuffer(
+            oldState,
+            row * cols * stride,
+            stateBuffer,
+            row * field.cols * stride,
+            bytes,
+          );
+        }
+        device.queue.submit([encoder.finish()]);
+      }
+      oldRest?.destroy();
+      oldState?.destroy();
+      cols = field.cols;
+      rows = field.rows;
       const entries = [
         { binding: 0, resource: { buffer: uniformBuffer } },
         { binding: 1, resource: { buffer: restBuffer } },
@@ -337,8 +362,8 @@ export async function createWebGPURenderer(canvas: HTMLCanvasElement): Promise<S
       });
     },
     resize(width, height) {
-      canvas.width = width;
-      canvas.height = height;
+      if (canvas.width !== width) canvas.width = width;
+      if (canvas.height !== height) canvas.height = height;
     },
     render(f: SkyFrame) {
       if (!computeGroup || !renderGroup || lost) return;

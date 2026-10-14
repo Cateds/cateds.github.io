@@ -76,33 +76,69 @@ export const DAY_GHOST_OUT = hex("#e2707a");
 export const NIGHT_SILVER = hex("#c0caf5");
 export const NIGHT_GOLD = hex("#ead29c");
 
-/** Rest layout: [restX, restY, seedA, seedB] per particle, CSS px. */
-export function createParticles(width: number, height: number, spacing: number): Float32Array {
-  const cols = Math.ceil(width / spacing) + 2;
-  const rows = Math.ceil(height / spacing) + 2;
-  const data = new Float32Array(cols * rows * REST_STRIDE);
-  let i = 0;
-  for (let row = 0; row < rows; row += 1) {
-    for (let col = 0; col < cols; col += 1) {
-      data[i] = (col - 0.5 + (Math.random() - 0.5) * 0.8) * spacing;
-      data[i + 1] = (row - 0.5 + (Math.random() - 0.5) * 0.8) * spacing;
-      data[i + 2] = Math.random();
-      data[i + 3] = Math.random();
-      i += REST_STRIDE;
-    }
-  }
-  return data;
+/** Stable per-cell randomness in [0, 1): a cell always gets the same jitter, seeds
+ *  included, so growing the grid never moves particles that were already placed. */
+const cellRandom = (col: number, row: number, salt: number) => {
+  let h = Math.imul(col + salt * 1013, 0x9e3779b1) ^ Math.imul(row + salt * 7919, 0x85ebca6b);
+  h = Math.imul(h ^ (h >>> 15), 0x2c1b3c6d);
+  h = Math.imul(h ^ (h >>> 12), 0x297a2d39);
+  return ((h ^ (h >>> 15)) >>> 0) / 4294967296;
+};
+
+/** Grid cells needed to cover a viewport, plus a margin cell on each side. */
+export function gridShape(width: number, height: number, spacing: number) {
+  return { cols: Math.ceil(width / spacing) + 2, rows: Math.ceil(height / spacing) + 2 };
 }
 
-/** Dynamic state: [x, y, vx, vy, scale, 0, 0, 0] per particle. */
-export function createState(rest: Float32Array): Float32Array {
-  const count = rest.length / REST_STRIDE;
-  const state = new Float32Array(count * STATE_STRIDE);
-  for (let p = 0; p < count; p += 1) {
-    state[p * STATE_STRIDE] = rest[p * REST_STRIDE];
-    state[p * STATE_STRIDE + 1] = rest[p * REST_STRIDE + 1];
+/**
+ * Particle field: rest layout [restX, restY, seedA, seedB] and dynamic state
+ * [x, y, vx, vy, scale, 0, 0, 0] per particle, CSS px, row-major over the grid.
+ */
+export interface ParticleField {
+  rest: Float32Array;
+  state: Float32Array;
+  cols: number;
+  rows: number;
+}
+
+/**
+ * Build the field for a viewport, optionally carrying over a previous one. Layout comes
+ * from the grid cell, and per-particle state is copied cell by cell, so a resize that
+ * only grows the viewport keeps every existing particle at its rest spot, seeds and
+ * live state. It adds (or drops) edge cells instead of rebuilding — and visually
+ * resetting — the whole field.
+ */
+export function createParticles(
+  width: number,
+  height: number,
+  spacing: number,
+  previous?: ParticleField,
+): ParticleField {
+  const shape = gridShape(width, height, spacing);
+  const cols = Math.max(shape.cols, previous?.cols ?? 0);
+  const rows = Math.max(shape.rows, previous?.rows ?? 0);
+  const rest = new Float32Array(cols * rows * REST_STRIDE);
+  const state = new Float32Array(cols * rows * STATE_STRIDE);
+  for (let row = 0; row < rows; row += 1) {
+    for (let col = 0; col < cols; col += 1) {
+      const i = (row * cols + col) * REST_STRIDE;
+      rest[i] = (col - 0.5 + (cellRandom(col, row, 1) - 0.5) * 0.8) * spacing;
+      rest[i + 1] = (row - 0.5 + (cellRandom(col, row, 2) - 0.5) * 0.8) * spacing;
+      rest[i + 2] = cellRandom(col, row, 3);
+      rest[i + 3] = cellRandom(col, row, 4);
+
+      const si = (row * cols + col) * STATE_STRIDE;
+      if (previous && row < previous.rows && col < previous.cols) {
+        const pi = (row * previous.cols + col) * STATE_STRIDE;
+        state.set(previous.state.subarray(pi, pi + STATE_STRIDE), si);
+      } else {
+        // New edge cells start invisible and ease in like everything else.
+        state[si] = rest[i];
+        state[si + 1] = rest[i + 1];
+      }
+    }
   }
-  return state;
+  return { rest, state, cols, rows };
 }
 
 export function getSkySize(width: number, height: number) {

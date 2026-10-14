@@ -155,13 +155,13 @@ export function createCanvasRenderer(canvas: HTMLCanvasElement): SkyRenderer | n
   return {
     kind: "canvas",
     lost: false,
-    setParticles(nextRest, nextState) {
-      rest = nextRest;
-      state = nextState;
+    setParticles(field) {
+      rest = field.rest;
+      state = field.state;
     },
     resize(width, height) {
-      canvas.width = width;
-      canvas.height = height;
+      if (canvas.width !== width) canvas.width = width;
+      if (canvas.height !== height) canvas.height = height;
     },
     render(f: SkyFrame) {
       step(f);
