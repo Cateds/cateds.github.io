@@ -461,7 +461,7 @@
 
   [data-theme="dark"] .pane-link:hover,
   [data-theme="dark"] .pane-link:focus-visible {
-    border-color: var(--gold);
+    border-color: color-mix(in oklab, var(--ink) 58%, transparent);
   }
 
   /* Per-item tones generated in src/lib/tone.ts */
