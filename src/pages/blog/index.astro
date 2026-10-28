@@ -3,9 +3,11 @@ import { getCollection } from "astro:content";
 import BlogIndex from "../../components/BlogIndex.svelte";
 import PageLayout from "../../layouts/PageLayout.astro";
 import { siteConfig } from "../../config";
+import { navNumber } from "../../lib/nav";
 import { readingMinutes } from "../../lib/reading";
 
 const { profile, features } = siteConfig;
+const sectionNo = navNumber(profile, features, "/blog");
 
 if (!features.blog) {
   return Astro.redirect("/");
@@ -33,7 +35,7 @@ const tags = [...new Set(posts.flatMap((post) => post.tags))];
 <PageLayout title={`${profile.name} · Blog`} currentPath="/blog">
   <header class="head focus-in" style="--d:0">
     <div class="kicker">
-      <span class="kicker-no">04</span>
+      <span class="kicker-no">{sectionNo}</span>
       <span class="signal-bar" aria-hidden="true" />
       <span class="eyebrow">Working notes</span>
     </div>

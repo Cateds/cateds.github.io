@@ -1,9 +1,11 @@
 ---
 import PageLayout from "../layouts/PageLayout.astro";
 import { siteConfig } from "../config";
+import { navNumber } from "../lib/nav";
 import { toneStyle } from "../lib/tone";
 
 const { profile, links, features } = siteConfig;
+const sectionNo = navNumber(profile, features, "/links");
 
 if (!features.links) {
   return Astro.redirect("/");
@@ -21,7 +23,7 @@ const host = (url: string) => {
 <PageLayout title={`${profile.name} · Links`} currentPath="/links">
   <header class="head focus-in" style="--d:0">
     <div class="kicker">
-      <span class="kicker-no">03</span>
+      <span class="kicker-no">{sectionNo}</span>
       <span class="signal-bar" aria-hidden="true" />
       <span class="eyebrow">External index</span>
     </div>

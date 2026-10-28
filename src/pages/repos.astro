@@ -1,9 +1,11 @@
 ---
 import PageLayout from "../layouts/PageLayout.astro";
 import { siteConfig } from "../config";
+import { navNumber } from "../lib/nav";
 import { toneStyle } from "../lib/tone";
 
 const { profile, repos, features } = siteConfig;
+const sectionNo = navNumber(profile, features, "/repos");
 
 if (!features.repos) {
   return Astro.redirect("/");
@@ -25,7 +27,7 @@ const languageColors: Record<string, string> = {
 <PageLayout title={`${profile.name} · Repos`} currentPath="/repos">
   <header class="head focus-in" style="--d:0">
     <div class="kicker">
-      <span class="kicker-no">02</span>
+      <span class="kicker-no">{sectionNo}</span>
       <span class="signal-bar" aria-hidden="true" />
       <span class="eyebrow">Code index</span>
     </div>

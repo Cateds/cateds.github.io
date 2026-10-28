@@ -2,10 +2,12 @@
 import SemesterSection from "../components/SemesterSection.svelte";
 import PageLayout from "../layouts/PageLayout.astro";
 import { siteConfig } from "../config";
+import { navNumber } from "../lib/nav";
 import { parseSemesterName } from "../lib/semester";
 import { toneStyle } from "../lib/tone";
 
-const { profile, semesters } = siteConfig;
+const { profile, semesters, features } = siteConfig;
+const sectionNo = navNumber(profile, features, "/");
 
 const terms = semesters.map((semester) => ({
   id: semester.id,
@@ -30,7 +32,7 @@ const published = terms.reduce(
   <header class="page-head">
     <div class="head-main focus-in" style="--d:0">
       <div class="kicker">
-        <span class="kicker-no">01</span>
+        <span class="kicker-no">{sectionNo}</span>
         <span class="signal-bar" aria-hidden="true" />
         <span class="eyebrow">Course archive</span>
       </div>
