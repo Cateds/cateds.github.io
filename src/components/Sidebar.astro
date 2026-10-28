@@ -397,9 +397,11 @@ const handle = github ? new URL(github.url).pathname.replace(/^\//, "@") : undef
     background: var(--block-ink);
   }
 
-  :global([data-theme="dark"]) .nav-link.active .nav-index {
-    color: var(--block-ink);
-    opacity: 0.55;
+  @media (min-width: 861px) {
+    :global([data-theme="dark"]) .nav-link.active .nav-index {
+      color: var(--block-ink);
+      opacity: 0.55;
+    }
   }
 
   .elsewhere {
@@ -569,12 +571,16 @@ const handle = github ? new URL(github.url).pathname.replace(/^\//, "@") : undef
       color: var(--ink-3);
     }
 
-    .nav-link.active {
+    .sidebar .nav-link.active,
+    .sidebar .nav-link.active:hover,
+    .sidebar .nav-link.active:focus-visible {
       color: var(--accent);
+      background: transparent;
     }
 
-    .nav-link.active .nav-index {
+    .sidebar .nav-link.active .nav-index {
       color: var(--gold);
+      opacity: 1;
     }
 
     .nav-tick {
