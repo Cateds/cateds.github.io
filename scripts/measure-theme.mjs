@@ -9,7 +9,7 @@ try {
       hasTouch: true,
     });
     await page.goto(process.argv[2] ?? "http://localhost:4322/", { waitUntil: "networkidle" });
-    await page.waitForSelector(".sky.ready");
+    await page.waitForSelector("main");
     await page.evaluate(() => document.fonts.ready);
     await page.waitForTimeout(2000);
     const session = await page.context().newCDPSession(page);

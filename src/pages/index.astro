@@ -28,7 +28,12 @@ const published = terms.reduce(
 
 <PageLayout title={`${profile.name} · Notes`} currentPath="/">
   <header class="page-head">
-    <div class="focus-in" style="--d:0">
+    <div class="head-main focus-in" style="--d:0">
+      <div class="kicker">
+        <span class="kicker-no">01</span>
+        <span class="signal-bar" aria-hidden="true" />
+        <span class="eyebrow">Course archive</span>
+      </div>
       <h1 class="display dispersed page-title">Notes</h1>
       <p class="page-sub">Course notes and study material, grouped by semester.</p>
     </div>
@@ -56,6 +61,7 @@ const published = terms.reduce(
         stage={term.stage}
         season={term.season}
         subjects={term.subjects}
+        index={i + 1}
         delay={Math.min(i * 2 + 2, 10)}
       />
     ))}
@@ -68,40 +74,107 @@ const published = terms.reduce(
     flex-wrap: wrap;
     align-items: flex-end;
     justify-content: space-between;
-    gap: 1.5rem 3rem;
+    gap: 2rem 3rem;
     margin-bottom: clamp(2rem, 4vw, 3rem);
   }
 
+  .head-main {
+    display: grid;
+    gap: 1rem;
+  }
+
+  .kicker {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  .kicker-no {
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    color: var(--gold);
+  }
+
+  .signal-bar {
+    width: 2rem;
+    height: 0.3125rem;
+  }
+
   .page-title {
-    font-size: clamp(2.75rem, 5vw, 3.75rem);
+    font-size: clamp(3.5rem, 8.5vw, 6.75rem);
+    line-height: 0.8;
+    text-transform: uppercase;
+    margin-left: -0.055em;
   }
 
   .page-sub {
-    margin-top: 0.625rem;
+    max-width: 34rem;
+    padding-top: 0.875rem;
+    border-top: 1px solid var(--line-strong);
     color: var(--ink-2);
   }
 
   .stats {
-    display: flex;
-    gap: 2rem;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(5.25rem, 1fr));
+    border: 1px solid var(--line-strong);
+    background: var(--surface-strong);
+    box-shadow: 4px 4px 0 -1px var(--line);
   }
 
   .stats div {
     display: grid;
-    gap: 0.125rem;
-    padding-left: 0.75rem;
-    border-left: 1px solid var(--line-strong);
+    gap: 0.25rem;
+    padding: 0.75rem 1rem 0.875rem;
+    border-left: 1px solid var(--line);
+  }
+
+  .stats div:first-child {
+    border-left: 0;
+    color: var(--block-ink);
+    background: var(--block);
+  }
+
+  .stats div:first-child .eyebrow {
+    color: var(--gold);
+    opacity: 0.9;
+  }
+
+  :global([data-theme="dark"]) .stats div:first-child .eyebrow {
+    color: var(--block-ink);
+    opacity: 0.6;
   }
 
   .stats dd {
     font-family: var(--font-display);
-    font-size: 1.625rem;
-    font-weight: 600;
-    line-height: 1.1;
-    font-variant-numeric: lining-nums;
+    font-size: 2.25rem;
+    font-weight: 800;
+    line-height: 0.9;
+    letter-spacing: -0.05em;
+    font-variant-numeric: lining-nums tabular-nums;
   }
 
   .terms {
     border-bottom: 1px solid var(--line);
+  }
+
+  @media (max-width: 860px) {
+    .page-head {
+      gap: 1.75rem;
+    }
+
+    .stats {
+      width: 100%;
+    }
+
+    .stats div {
+      padding: 0.625rem 0.75rem 0.75rem;
+    }
+
+    .stats dd {
+      font-size: 1.875rem;
+    }
   }
 </style>

@@ -67,3 +67,32 @@
     <MoonStar strokeWidth={1.5} />
   {/if}
 </Button>
+
+<style>
+  :global(.theme-toggle) {
+    border: 1px solid transparent;
+    border-radius: 0;
+    transition:
+      color 0.2s ease,
+      background-color 0.2s ease,
+      border-color 0.2s ease,
+      transform 0.35s var(--ease-focus);
+  }
+
+  :global(.theme-toggle:hover) {
+    color: var(--block-ink);
+    background: var(--block);
+    border-color: var(--block);
+    transform: rotate(-4deg);
+  }
+
+  :global(.theme-toggle:active) {
+    transform: rotate(0deg) scale(0.94);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    :global(.theme-toggle:hover) {
+      transform: none;
+    }
+  }
+</style>

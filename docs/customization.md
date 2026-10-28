@@ -6,39 +6,40 @@
 
 ```css
 :root {
-  --color-bg: #f7f9fa;
-  --color-text: #1e2a2d;
-  --color-accent: #4a8a8f;
-  --sidebar-width: 240px;
+  --bg: #fdfdfd; /* 日间纸白 */
+  --ink: #131c2c; /* 深蓝黑油墨 */
+  --accent: #31577f; /* 钢蓝 */
+  --gold: #a8894f; /* 低饱和金 */
+  --block: #16233a; /* 实色块 */
+  --disp-cool: rgb(47 104 166 / 0.55); /* 套印冷色鬼影 */
+  --disp-warm: rgb(176 92 66 / 0.42); /* 套印暖色鬼影 */
+  --sidebar-w: 272px;
   /* ... */
 }
 
 [data-theme="dark"] {
-  --color-bg: #131a1c;
-  --color-text: #e8f0f2;
+  --bg: #0c131e;
+  --ink: #dce4f2;
+  --accent: #d9bf86;
+  --block: #d9bf86;
   /* ... */
 }
 ```
 
-## 粒子背景配置
+## 背景层
 
-粒子背景组件支持以下参数（在 `src/layouts/PageLayout.astro` 中修改）。组件会优先使用 WebGPU，在不支持或初始化失败时自动回退到 Canvas 2D：
+页面背景由 `src/layouts/PageLayout.astro` 里的 `.poster` 静态图层构成，不使用动画或粒子：
 
-```tsx
-<ParticleBackground
-  client:load
-  spacing={25} // 粒子间距
-  springStiffness={0.018} // 弹簧刚度
-  damping={0.92} // 阻尼系数
-  mouseRadius={500} // 鼠标影响半径
-  mouseStrength={12000} // 鼠标排斥力
-  particleRadius={1.5} // 粒子半径
-  flowSpeed={0.008} // 流场动画速度
-  flowScale={0.0012} // 流场噪声缩放
-  flowStrength={25} // 流场位移强度
-  renderScale={0.75} // 内部分辨率缩放，越低越省性能
-/>
-```
+- `.poster-field` — 右上角实色蓝块
+- `.poster-disc` — 细线圆环
+- `.poster-rule` — 斜向结构线
+- `.poster-bar` — 金色竖条
+- `.poster-square` / `.poster-strip` — 实色方形与印刷色条
+- `.poster-cross` — 套准十字
+
+所有形状的颜色来自 `global.css` 的 `--gold`、`--accent-2`、`--poster-line` 等变量，可整体替换。
+
+> 旧版弹簧粒子背景的渲染代码保留在 `src/lib/sky` 与 `src/components/Sky.svelte`，当前页面不再挂载；如需恢复，在 `PageLayout.astro` 中重新引入即可。
 
 ## 类型定义
 

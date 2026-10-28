@@ -3,8 +3,8 @@ import { Hct } from "$mcu/hct/hct.js";
 import { TonalPalette } from "$mcu/palettes/tonal_palette.js";
 import { argbFromHex, hexFromArgb } from "$mcu/utils/string_utils.js";
 
-/** Theme sources colors are harmonized toward: Nord frost by day, starlight gold by night. */
-const DAY_SOURCE = argbFromHex("#5e81ac");
+/** Theme sources colors are harmonized toward: steel blue by day, starlight gold by night. */
+const DAY_SOURCE = argbFromHex("#31577f");
 const NIGHT_SOURCE = argbFromHex("#d9bf86");
 
 function palette(seed: number, source: number, chroma: [number, number]) {
@@ -20,8 +20,8 @@ function palette(seed: number, source: number, chroma: [number, number]) {
  */
 export function toneStyle(hex: string | undefined, fallback = "#5e81ac"): string {
   const seed = argbFromHex(hex && /^#[0-9a-f]{6}$/i.test(hex) ? hex : fallback);
-  const day = palette(seed, DAY_SOURCE, [28, 52]);
-  const night = palette(seed, NIGHT_SOURCE, [14, 30]);
+  const day = palette(seed, DAY_SOURCE, [22, 44]);
+  const night = palette(seed, NIGHT_SOURCE, [12, 26]);
   const t = (p: TonalPalette, tone: number) => hexFromArgb(p.tone(tone));
 
   return [

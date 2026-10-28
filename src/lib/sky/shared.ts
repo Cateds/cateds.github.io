@@ -64,14 +64,14 @@ const hex = (value: string): Rgb => {
   return [((n >> 16) & 255) / 255, ((n >> 8) & 255) / 255, (n & 255) / 255];
 };
 
-/** Daylight: Nord frost/aurora stops, spread across the field by noise. */
-export const DAY_A = hex("#4f74b0");
-export const DAY_B = hex("#a77fb0");
-export const DAY_C = hex("#d0606a");
-export const DAY_D = hex("#e0965f");
+/** Daylight: steel blue and muted gold, with cyan and rust ghosts for dispersion. */
+export const DAY_A = hex("#3c5f8e");
+export const DAY_B = hex("#7c9bb5");
+export const DAY_C = hex("#a3895b");
+export const DAY_D = hex("#c3ab7c");
 /** Chromatic ghosts either side of each dash. */
-export const DAY_GHOST_IN = hex("#5fb4d0");
-export const DAY_GHOST_OUT = hex("#e2707a");
+export const DAY_GHOST_IN = hex("#5f9fc4");
+export const DAY_GHOST_OUT = hex("#b56a58");
 /** Starlight. */
 export const NIGHT_SILVER = hex("#c0caf5");
 export const NIGHT_GOLD = hex("#ead29c");
@@ -156,7 +156,7 @@ export function readNightTarget(): number {
 /** Where the focus rests before the pointer has moved: centred on the content area. */
 export function idleFocus(width: number, height: number, time: number) {
   const narrow = width < 860;
-  const cx = narrow ? width * 0.5 : 248 + (width - 248) * 0.5;
+  const cx = narrow ? width * 0.5 : 272 + (width - 272) * 0.5;
   const cy = height * (narrow ? 0.38 : 0.44);
   return {
     x: cx + Math.cos(time * 0.13) * width * 0.03,

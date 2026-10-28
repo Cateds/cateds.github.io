@@ -1,29 +1,49 @@
 ---
 import BaseLayout from "./BaseLayout.astro";
 import Sidebar from "../components/Sidebar.astro";
-import Sky from "../components/Sky.svelte";
 import { siteConfig } from "../config";
 
 interface Props {
   title: string;
   currentPath: string;
   description?: string;
-  sky?: "full" | "quiet";
 }
 
-const { title, currentPath, description, sky } = Astro.props;
+const { title, currentPath, description } = Astro.props;
 const { profile, features } = siteConfig;
 ---
 
-<BaseLayout title={title} description={description} sky={sky}>
-  <Sky client:only="svelte" transition:persist="sky" />
-
+<BaseLayout title={title} description={description}>
   <div class="shell">
+    <div class="poster" aria-hidden="true">
+      <span class="poster-field" />
+      <span class="poster-disc" />
+      <span class="poster-rule" />
+      <span class="poster-bar" />
+      <span class="poster-square" />
+      <span class="poster-strip">
+        <i />
+        <i />
+        <i />
+      </span>
+      <span class="poster-cross poster-cross-a" />
+      <span class="poster-cross poster-cross-b" />
+    </div>
+
     <Sidebar profile={profile} features={features} currentPath={currentPath} />
 
     <main class="main">
       <div class="column">
         <slot />
+
+        <footer class="colophon" aria-label="Colophon">
+          <span class="colophon-brand">
+            <span class="reg-mark" aria-hidden="true" />
+            {profile.name} / Personal archive
+          </span>
+          <span class="colophon-meta">Hanken Grotesk · Maple Mono</span>
+          <span class="colophon-meta">MMXXVI</span>
+        </footer>
       </div>
     </main>
   </div>
@@ -36,11 +56,139 @@ const { profile, features } = siteConfig;
     min-height: 100dvh;
   }
 
+  /* Constructivist plate: a few large geometric facts held behind the page. */
+  .poster {
+    position: fixed;
+    inset: 0 0 0 var(--sidebar-w);
+    z-index: -1;
+    overflow: hidden;
+    pointer-events: none;
+  }
+
+  /* Flat colour field: a plain wedge of blue stock behind the masthead. */
+  .poster-field {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: min(34rem, 38vw);
+    height: clamp(15rem, 33vh, 25rem);
+    background: color-mix(in oklab, var(--accent-2) 13%, transparent);
+    clip-path: polygon(22% 0, 100% 0, 100% 100%, 0 100%);
+  }
+
+  .poster-disc {
+    position: absolute;
+    top: clamp(1rem, 7vh, 6rem);
+    right: clamp(-15rem, -11vw, -5rem);
+    width: clamp(28rem, 44vw, 48rem);
+    aspect-ratio: 1;
+    border: 1px solid var(--poster-line);
+    border-radius: 50%;
+    opacity: 0.5;
+  }
+
+  .poster-rule {
+    position: absolute;
+    top: 19%;
+    left: -12%;
+    width: 132%;
+    height: 1px;
+    background: var(--poster-line);
+    transform: rotate(-13deg);
+    transform-origin: left center;
+    opacity: 0.55;
+  }
+
+  .poster-bar {
+    position: absolute;
+    top: 0;
+    right: 9%;
+    width: 9px;
+    height: 24%;
+    background: var(--gold);
+    opacity: 0.55;
+  }
+
+  .poster-square {
+    position: absolute;
+    right: 16%;
+    top: 47%;
+    width: 1.125rem;
+    height: 1.125rem;
+    background: var(--gold);
+    opacity: 0.55;
+  }
+
+  /* Printer's colour bar: three flat inks, no gradient. */
+  .poster-strip {
+    position: absolute;
+    right: 5.5%;
+    bottom: 13%;
+    display: grid;
+    gap: 3px;
+  }
+
+  .poster-strip i {
+    display: block;
+    width: 0.5rem;
+    height: 0.5rem;
+  }
+
+  .poster-strip i:nth-child(1) {
+    background: var(--accent-2);
+  }
+
+  .poster-strip i:nth-child(2) {
+    background: var(--gold);
+  }
+
+  .poster-strip i:nth-child(3) {
+    background: var(--disp-warm);
+  }
+
+  .poster-cross {
+    position: absolute;
+    width: 1.5rem;
+    height: 1.5rem;
+    opacity: 0.5;
+  }
+
+  .poster-cross::before,
+  .poster-cross::after {
+    content: "";
+    position: absolute;
+    background: var(--poster-line);
+  }
+
+  .poster-cross::before {
+    left: 0;
+    right: 0;
+    top: 50%;
+    height: 1px;
+  }
+
+  .poster-cross::after {
+    top: 0;
+    bottom: 0;
+    left: 50%;
+    width: 1px;
+  }
+
+  .poster-cross-a {
+    left: 4%;
+    top: 62%;
+  }
+
+  .poster-cross-b {
+    right: 6%;
+    bottom: 9%;
+  }
+
   /* Fills everything right of the sidebar; on very wide screens the column caps and centres. */
   .main {
     position: relative;
     margin-left: var(--sidebar-w);
-    padding: clamp(2.5rem, 5vw, 4rem) clamp(1.5rem, 4vw, 3.5rem) clamp(3rem, 6vw, 5rem);
+    padding: clamp(2.5rem, 5vw, 4rem) clamp(1.5rem, 4vw, 3.5rem) clamp(2rem, 4vw, 3rem);
   }
 
   .column {
@@ -48,10 +196,55 @@ const { profile, features } = siteConfig;
     margin-inline: auto;
   }
 
+  .colophon {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem 2rem;
+    margin-top: clamp(3.5rem, 7vw, 6rem);
+    padding-top: 0.875rem;
+    border-top: 1px solid var(--line-strong);
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--ink-3);
+  }
+
+  .colophon-brand {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.625rem;
+    color: var(--ink-2);
+  }
+
+  .colophon-brand .reg-mark {
+    color: var(--gold);
+    width: 0.75rem;
+    height: 0.75rem;
+  }
+
+  .colophon-meta {
+    font-variant-numeric: tabular-nums;
+  }
+
   @media (max-width: 860px) {
+    .poster {
+      display: none;
+    }
+
     .main {
       margin-left: 0;
-      padding: 1.75rem 1.25rem calc(3rem + env(safe-area-inset-bottom));
+      padding: 1.75rem 1.25rem calc(2rem + env(safe-area-inset-bottom));
+    }
+
+    .colophon {
+      margin-top: 3rem;
+    }
+
+    .colophon-meta {
+      display: none;
     }
   }
 </style>

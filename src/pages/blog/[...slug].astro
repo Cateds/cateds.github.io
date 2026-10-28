@@ -27,14 +27,17 @@ const formattedDate = post.data.date.toLocaleDateString("en-US", {
   title={`${post.data.title} · ${profile.name}`}
   description={post.data.description}
   currentPath="/blog"
-  sky="quiet"
 >
   <article class="post">
     <header class="post-header">
-      <a href="/blog" class="back eyebrow focus-in" style="--d:0">
-        ← All posts
-      </a>
-      <h1 class="display post-title focus-in" style="--d:1">
+      <div class="post-kicker focus-in" style="--d:0">
+        <a href="/blog" class="back eyebrow">
+          ← All posts
+        </a>
+        <span class="signal-bar" aria-hidden="true" />
+        <span class="eyebrow">Field note</span>
+      </div>
+      <h1 class="display dispersed post-title focus-in" style="--d:1">
         {post.data.title}
       </h1>
       {post.data.description && (
@@ -101,8 +104,14 @@ const formattedDate = post.data.date.toLocaleDateString("en-US", {
   .post-header {
     display: grid;
     gap: 1.125rem;
-    max-width: 52rem;
+    max-width: 54rem;
     margin-bottom: clamp(2rem, 5vw, 3.5rem);
+  }
+
+  .post-kicker {
+    display: flex;
+    align-items: center;
+    gap: 0.875rem;
   }
 
   .back {
@@ -115,23 +124,34 @@ const formattedDate = post.data.date.toLocaleDateString("en-US", {
   }
 
   .post-title {
-    font-size: clamp(2.25rem, 4.5vw, 3.5rem);
-    line-height: 1;
+    max-width: 22ch;
+    font-size: clamp(2.375rem, 5vw, 4.25rem);
+    font-weight: 800;
+    line-height: 0.94;
+    letter-spacing: -0.055em;
     text-wrap: balance;
   }
 
   .post-lede {
-    max-width: 38rem;
-    font-size: 1.125rem;
+    max-width: 40rem;
+    padding-top: 0.75rem;
+    border-top: 1px solid var(--line-strong);
+    font-size: 1.0625rem;
     color: var(--ink-2);
   }
 
   .post-meta {
     display: flex;
     flex-wrap: wrap;
+    align-items: center;
     gap: 0.5rem 1.25rem;
-    padding-top: 1rem;
-    border-top: 1px solid var(--line);
+    padding-top: 0.875rem;
+    border-top: 1px solid var(--line-strong);
+  }
+
+  .post-meta > span + span {
+    padding-left: 1.25rem;
+    border-left: 1px solid var(--line);
   }
 
   .post-tag {
@@ -140,7 +160,7 @@ const formattedDate = post.data.date.toLocaleDateString("en-US", {
 
   .post-layout {
     display: grid;
-    grid-template-columns: minmax(0, 1fr) 12.5rem;
+    grid-template-columns: minmax(0, 1fr) 13rem;
     gap: clamp(1.5rem, 3vw, 3rem);
     align-items: start;
   }
@@ -148,8 +168,10 @@ const formattedDate = post.data.date.toLocaleDateString("en-US", {
   .post-content {
     min-width: 0;
     padding: clamp(1.5rem, 4vw, 3.25rem);
-    --card-blur: 28px;
+    border-top: 4px solid var(--ink);
+    --card-blur: 16px;
     background-color: var(--reading-glass);
+    box-shadow: 5px 5px 0 -1px var(--line);
     line-height: 1.85;
     font-size: 1.0625rem;
   }
@@ -170,16 +192,32 @@ const formattedDate = post.data.date.toLocaleDateString("en-US", {
   }
 
   .post-content :global(h2) {
+    display: flex;
+    align-items: baseline;
+    gap: 0.75rem;
     font-family: var(--font-display);
-    font-size: 2rem;
-    font-weight: 600;
-    line-height: 1.15;
+    font-size: 1.875rem;
+    font-weight: 800;
+    line-height: 1.1;
+    letter-spacing: -0.04em;
     margin: 3rem 0 1rem;
   }
 
+  .post-content :global(h2)::before {
+    content: "";
+    flex: none;
+    width: 0.5rem;
+    height: 0.5rem;
+    background: var(--gold);
+  }
+
   .post-content :global(h3) {
-    font-size: 1.1875rem;
-    font-weight: 600;
+    font-family: var(--font-mono);
+    font-size: 0.8125rem;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--ink-3);
     margin: 2rem 0 0.75rem;
   }
 
@@ -212,11 +250,11 @@ const formattedDate = post.data.date.toLocaleDateString("en-US", {
   }
 
   .post-content :global(li::marker) {
-    color: var(--accent);
+    color: var(--gold);
   }
 
   .post-content :global(strong) {
-    font-weight: 620;
+    font-weight: 680;
   }
 
   .post-content :global(a) {
@@ -231,19 +269,21 @@ const formattedDate = post.data.date.toLocaleDateString("en-US", {
     font-size: 0.85em;
     padding: 0.1rem 0.35rem;
     border: 1px solid var(--line);
-    border-radius: 2px;
+    border-radius: 0;
     background: var(--muted);
   }
 
   .post-content :global(pre) {
     margin: 1.5rem 0;
-    padding: 1rem 0;
+    padding: 0.75rem 0;
     font-family: var(--font-mono);
     font-size: 0.875rem;
     line-height: 1;
     overflow-x: auto;
-    border: 1px solid var(--line);
-    border-radius: var(--radius-ui);
+    border: 1px solid var(--line-strong);
+    border-left: 3px solid var(--accent);
+    border-radius: 0;
+    background: var(--muted);
   }
 
   .post-content :global(pre code) {
@@ -293,12 +333,13 @@ const formattedDate = post.data.date.toLocaleDateString("en-US", {
 
   .post-content :global(blockquote) {
     margin: 1.75rem 0;
-    padding: 0.25rem 0 0.25rem 1.25rem;
-    border-left: 1px solid var(--accent);
+    padding: 0.5rem 0 0.5rem 1.25rem;
+    border-left: 4px solid var(--gold);
     font-family: var(--font-display);
-    font-size: 1.3125rem;
-    font-weight: 500;
-    font-style: italic;
+    font-size: 1.25rem;
+    font-weight: 600;
+    line-height: 1.5;
+    letter-spacing: -0.02em;
     color: var(--ink-2);
   }
 
@@ -307,9 +348,10 @@ const formattedDate = post.data.date.toLocaleDateString("en-US", {
   }
 
   .post-content :global(hr) {
-    height: 1px;
+    height: 3px;
     margin: 2.5rem 0;
     border: 0;
+    border-left: 4rem solid var(--ink);
     background: var(--line);
   }
 
@@ -317,8 +359,8 @@ const formattedDate = post.data.date.toLocaleDateString("en-US", {
     max-width: 100%;
     height: auto;
     margin: 1.5rem 0;
-    border: 1px solid var(--line);
-    border-radius: var(--radius-ui);
+    border: 1px solid var(--line-strong);
+    border-radius: 0;
   }
 
   .post-content :global(table) {
@@ -337,11 +379,12 @@ const formattedDate = post.data.date.toLocaleDateString("en-US", {
 
   .post-content :global(th) {
     font-family: var(--font-mono);
-    font-size: 0.75rem;
-    font-weight: 400;
-    letter-spacing: 0.08em;
+    font-size: 0.6875rem;
+    font-weight: 500;
+    letter-spacing: 0.1em;
     text-transform: uppercase;
     color: var(--ink-3);
+    border-bottom-color: var(--line-strong);
   }
 
   .post-content :global(mjx-container) {
@@ -365,7 +408,10 @@ const formattedDate = post.data.date.toLocaleDateString("en-US", {
   .toc-header {
     display: flex;
     justify-content: space-between;
-    margin-bottom: 1rem;
+    gap: 0.75rem;
+    padding-bottom: 0.625rem;
+    margin-bottom: 0.875rem;
+    border-bottom: 1px solid var(--line-strong);
   }
 
   .toc-nav {
@@ -377,15 +423,15 @@ const formattedDate = post.data.date.toLocaleDateString("en-US", {
     top: 0.25rem;
     bottom: 0.25rem;
     left: 0;
-    width: 1px;
+    width: 2px;
     background: var(--line);
   }
 
   .toc-progress {
     display: block;
-    width: 1px;
+    width: 2px;
     height: var(--reading-progress, 0%);
-    background: linear-gradient(180deg, var(--accent-2), var(--accent));
+    background: var(--gold);
     transition: height 0.12s linear;
   }
 
@@ -393,6 +439,11 @@ const formattedDate = post.data.date.toLocaleDateString("en-US", {
     margin: 0;
     padding: 0;
     list-style: none;
+    counter-reset: toc;
+  }
+
+  .toc-list li {
+    counter-increment: toc;
   }
 
   .toc-link {
@@ -404,6 +455,15 @@ const formattedDate = post.data.date.toLocaleDateString("en-US", {
     transition:
       color 0.2s ease,
       transform 0.3s var(--ease-focus);
+  }
+
+  .toc-link::before {
+    content: counter(toc, decimal-leading-zero);
+    margin-right: 0.5rem;
+    font-family: var(--font-mono);
+    font-size: 0.5625rem;
+    color: var(--gold);
+    opacity: 0.8;
   }
 
   .toc-link:hover {
@@ -439,6 +499,7 @@ const formattedDate = post.data.date.toLocaleDateString("en-US", {
       margin-inline: calc(-1 * clamp(1.25rem, 4vw, 3rem));
       border-inline: 0;
       border-radius: 0;
+      box-shadow: none;
       font-size: 1rem;
     }
 

@@ -22,6 +22,7 @@
 {#if tags.length > 0}
   <div class="focus-in filter" style:--d={2}>
     <span class="eyebrow">Filter</span>
+    <span class="filter-rule" aria-hidden="true" />
     <ToggleGroup.Root
       type="single"
       bind:value={active}
@@ -42,6 +43,7 @@
   {#each visible as post, i (post.id)}
     <li class="focus-in" style:--d={Math.min(i + 3, 10)}>
       <a href={`/blog/${post.id}`} class="post">
+        <span class="post-no eyebrow" aria-hidden="true">{String(i + 1).padStart(2, "0")}</span>
         <time class="eyebrow" datetime={post.date}>{post.dateLabel}</time>
         <span class="post-body">
           <span class="post-title">{post.title}</span>
@@ -64,29 +66,44 @@
   .filter {
     display: flex;
     align-items: center;
-    gap: 1rem;
+    gap: 0.875rem;
     margin-bottom: 2rem;
   }
 
+  .filter-rule {
+    width: 2rem;
+    height: 1px;
+    background: var(--gold);
+  }
+
   .filter :global(.tag) {
-    font-size: 0.75rem;
-    letter-spacing: 0.02em;
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
     color: var(--ink-2);
-    border: 1px solid var(--line);
-    border-radius: var(--radius-ui);
+    background: transparent;
+    border: 1px solid var(--line-strong);
+    border-radius: 0;
+    padding-inline: 0.45rem;
+  }
+
+  .filter :global(.tag:hover) {
+    border-color: var(--ink);
+    color: var(--ink);
   }
 
   .filter :global(.tag[data-state="on"]) {
-    color: var(--ink);
-    background: var(--surface-strong);
-    border-color: var(--accent);
+    color: var(--block-ink);
+    background: var(--block);
+    border-color: var(--block);
   }
 
   .posts {
     margin: 0;
     padding: 0;
     list-style: none;
-    border-top: 1px solid var(--line);
+    border-top: 1px solid var(--line-strong);
   }
 
   .posts li {
@@ -94,19 +111,40 @@
   }
 
   .post {
+    position: relative;
     display: grid;
-    grid-template-columns: 8rem 1fr auto;
+    grid-template-columns: 2.25rem 7.5rem 1fr auto;
     gap: 1.5rem;
     align-items: baseline;
     padding: 1.5rem 0.5rem;
     transition:
       background-color 0.3s ease,
-      padding 0.45s var(--ease-focus);
+      padding 0.4s var(--ease-focus);
+  }
+
+  .post::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 3px;
+    height: 0;
+    background: var(--gold);
+    transition: height 0.4s var(--ease-focus);
   }
 
   .post:hover {
     padding-left: 1rem;
-    background: linear-gradient(90deg, var(--surface), transparent);
+    background-color: var(--surface);
+  }
+
+  .post:hover::before {
+    height: 100%;
+  }
+
+  .post-no {
+    font-size: 0.5625rem;
+    color: var(--gold);
   }
 
   .post-body {
@@ -117,13 +155,20 @@
   .post-title {
     font-family: var(--font-display);
     font-size: clamp(1.375rem, 2.4vw, 1.875rem);
-    font-weight: 600;
-    line-height: 1.15;
-    letter-spacing: -0.01em;
+    font-weight: 750;
+    line-height: 1.1;
+    letter-spacing: -0.04em;
+    text-wrap: balance;
+    transition:
+      color 0.2s ease,
+      text-shadow 0.3s ease;
   }
 
   .post:hover .post-title {
     color: var(--accent);
+    text-shadow:
+      -0.02em -0.014em 0 var(--disp-cool),
+      0.02em 0.014em 0 var(--disp-warm);
   }
 
   .post-desc {
@@ -143,17 +188,37 @@
     color: var(--ink-2);
   }
 
-  @media (max-width: 640px) {
+  @media (max-width: 760px) {
     .post {
-      grid-template-columns: 1fr;
-      gap: 0.5rem;
+      grid-template-columns: 2rem 1fr;
+      gap: 0.35rem 0.75rem;
+    }
+
+    .post time {
+      grid-column: 2;
+      grid-row: 1;
+    }
+
+    .post-no {
+      grid-row: 1;
+    }
+
+    .post-body {
+      grid-column: 2;
     }
 
     .post-meta {
-      justify-items: start;
+      grid-column: 2;
       grid-auto-flow: column;
       justify-content: start;
+      justify-items: start;
       gap: 1rem;
+    }
+  }
+
+  @media (max-width: 640px) {
+    .filter {
+      flex-wrap: wrap;
     }
   }
 </style>

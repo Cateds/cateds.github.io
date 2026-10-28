@@ -1,4 +1,8 @@
 <script lang="ts">
+  /**
+   * Optional particle layer. The current constructivist background no longer mounts it;
+   * the renderer and its tests are kept for anyone who wants to bring the field back.
+   */
   import { onMount } from "svelte";
   import { createCanvasRenderer } from "$lib/sky/canvas";
   import {
@@ -275,7 +279,7 @@
   }
 
   .sky.ready {
-    opacity: var(--sky-opacity, 1);
+    opacity: var(--sky-opacity, 0.85);
     filter: none;
   }
 
@@ -291,11 +295,11 @@
     .sky {
       mask-image: linear-gradient(
         90deg,
-        rgb(0 0 0 / 0.35) 0,
-        rgb(0 0 0 / 0.35) 248px,
-        rgb(0 0 0 / 0.42) 420px,
-        rgb(0 0 0 / 0.7) 900px,
-        #000 1200px
+        rgb(0 0 0 / 0.3) 0,
+        rgb(0 0 0 / 0.3) 272px,
+        rgb(0 0 0 / 0.4) 440px,
+        rgb(0 0 0 / 0.68) 920px,
+        #000 1220px
       );
     }
   }
@@ -307,6 +311,6 @@
   }
 
   :global([data-sky="quiet"]) .sky.ready {
-    --sky-opacity: 0.4;
+    --sky-opacity: 0.32;
   }
 </style>

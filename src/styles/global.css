@@ -1,8 +1,6 @@
 @import "tailwindcss";
 @import "tw-animate-css";
 @import "shadcn-svelte/tailwind.css";
-@import "@fontsource-variable/libre-bodoni/wght.css";
-@import "@fontsource-variable/libre-bodoni/wght-italic.css";
 @import "@fontsource-variable/bodoni-moda/opsz-italic.css";
 @import "@fontsource-variable/hanken-grotesk";
 @import "@fontsource/noto-serif-sc/500.css";
@@ -90,6 +88,31 @@
   inherits: true;
   initial-value: #88c0d0;
 }
+@property --gold {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: #a8894f;
+}
+@property --block {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: #16233a;
+}
+@property --block-ink {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: #fdfdfd;
+}
+@property --disp-cool {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: rgb(56 108 168 / 0.6);
+}
+@property --disp-warm {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: rgb(176 96 72 / 0.5);
+}
 @property --glint-a {
   syntax: "<color>";
   inherits: true;
@@ -123,38 +146,48 @@
 
 /*
  * Design tokens.
- * Day  — "dazzling sunlight": neutral white, clear surfaces, Nord frost accents,
- *        chromatic dispersion as the recurring detail.
- * Night — "starlight": desaturated night blue, silver lines, pale gold accents.
+ * Day  — "off-register press": paper white, blue-black ink, steel blue and
+ *        muted gold, chromatic misregistration as the recurring detail.
+ * Night — "blueprint at night": deep navy stock, pale blue linework, gold signal.
  */
 :root {
-  /* Day: near-white, neutral greys. Nord appears only in accents and the sky. */
+  /* Day: warm-neutral paper, blue-black ink. Colour lives in blocks, rules and ghosts. */
   --bg: #fdfdfd;
-  --surface: rgb(255 255 255 / 0.66);
-  --surface-strong: rgb(255 255 255 / 0.84);
-  /* Cards: frosted, a touch more opaque than the sidebar. */
-  --card-glass: rgb(255 255 255 / 0.58);
-  --card-glass-hover: rgb(255 255 255 / 0.78);
-  --card-blur: 20px;
-  --rail: rgb(255 255 255 / 0.62);
-  --reading-glass: rgb(255 255 255 / 0.86);
-  --glass-edge: rgb(255 255 255 / 0.9);
-  --glass-shade: 0 1px 2px rgb(0 0 0 / 0.03), 0 8px 24px -12px rgb(0 0 0 / 0.08);
-  --ink: #17181a;
-  --ink-2: #3f4145;
-  --ink-3: #6b6e74;
-  --line: rgb(0 0 0 / 0.08);
-  --line-strong: rgb(0 0 0 / 0.18);
-  --accent: #5e81ac;
-  --accent-2: #88c0d0;
-  --glint-a: rgb(94 129 172 / 0.55);
-  --glint-b: rgb(191 97 106 / 0.4);
-  --focus: #5e81ac;
+  --surface: rgb(255 255 255 / 0.62);
+  --surface-strong: rgb(255 255 255 / 0.96);
+  /* Cards: flat printed sheets, a little translucent so the grid still breathes through. */
+  --card-glass: rgb(255 255 255 / 0.9);
+  --card-glass-hover: rgb(255 255 255 / 0.99);
+  --card-blur: 12px;
+  --rail: rgb(253 253 253 / 0.9);
+  --reading-glass: rgb(255 255 255 / 0.94);
+  --glass-edge: rgb(255 255 255 / 0.92);
+  --glass-shade: 0 1px 0 rgb(255 255 255 / 0.6), 0 14px 30px -24px rgb(18 27 43 / 0.3);
+  --ink: #131c2c;
+  --ink-2: #3a465b;
+  --ink-3: #6e7a8e;
+  --line: rgb(19 28 44 / 0.12);
+  --line-strong: rgb(19 28 44 / 0.28);
+  --accent: #31577f;
+  --accent-2: #7fa6c4;
+  --gold: #a8894f;
+  --gold-strong: #c0a064;
+  --disp-cool: rgb(47 104 166 / 0.55);
+  --disp-warm: rgb(176 92 66 / 0.42);
+  --glint-a: rgb(49 87 127 / 0.6);
+  --glint-b: rgb(168 137 79 / 0.55);
+  --focus: #31577f;
+  /* Solid poster shapes: deep ink by day. */
+  --block: #16233a;
+  --block-ink: #fdfdfd;
+  --grid: rgb(19 28 44 / 0.045);
+  --poster-line: rgb(19 28 44 / 0.2);
+  --hatch: rgb(19 28 44 / 0.05);
 
   --ease-focus: cubic-bezier(0.2, 0.7, 0.1, 1);
-  --radius-ui: 6px;
-  --radius-sm-ui: 4px;
-  --sidebar-w: 248px;
+  --radius-ui: 2px;
+  --radius-sm-ui: 2px;
+  --sidebar-w: 272px;
   --header-h: 0px;
   @media (max-width: 860px) {
     --header-h: 6.5rem;
@@ -169,12 +202,12 @@
   --popover-foreground: var(--ink);
   --primary: var(--ink);
   --primary-foreground: var(--bg);
-  --secondary: rgb(0 0 0 / 0.04);
+  --secondary: rgb(19 28 44 / 0.05);
   --secondary-foreground: var(--ink);
-  --muted: rgb(0 0 0 / 0.045);
+  --muted: rgb(19 28 44 / 0.055);
   --muted-foreground: var(--ink-3);
-  --accent-shadcn: rgb(0 0 0 / 0.045);
-  --destructive: #bf616a;
+  --accent-shadcn: rgb(19 28 44 / 0.055);
+  --destructive: #b0615c;
   --border: var(--line);
   --input: var(--line-strong);
   --ring: var(--focus);
@@ -184,31 +217,41 @@
 }
 
 [data-theme="dark"] {
-  /* Night: Tokyo Night base (desaturated indigo-grey), pale gold accent. */
-  --bg: #16161e;
-  --surface: rgb(26 27 38 / 0.5);
-  --surface-strong: rgb(26 27 38 / 0.8);
-  /* Cards and the sidebar share the Tokyo Night surface (#1a1b26); only opacity differs. */
-  --rail: rgb(26 27 38 / 0.8);
-  --card-glass: rgb(26 27 38 / 0.62);
-  --card-glass-hover: rgb(36 40 59 / 0.78);
-  --reading-glass: rgb(26 27 38 / 0.9);
-  --glass-edge: rgb(192 202 245 / 0.08);
-  --glass-shade: 0 1px 2px rgb(0 0 0 / 0.25), 0 12px 32px -16px rgb(0 0 0 / 0.55);
-  --ink: #c0caf5;
-  --ink-2: #a9b1d6;
-  --ink-3: #7c84ad;
-  --line: rgb(169 177 214 / 0.1);
-  --line-strong: rgb(169 177 214 / 0.22);
+  /* Night: desaturated navy stock, cold linework, pale gold signal. */
+  --bg: #0c131e;
+  --surface: rgb(18 28 44 / 0.5);
+  --surface-strong: rgb(22 33 51 / 0.86);
+  /* Cards and the rail share one navy; only opacity and edge light differ. */
+  --rail: rgb(11 18 29 / 0.9);
+  --card-glass: rgb(18 28 44 / 0.82);
+  --card-glass-hover: rgb(28 42 64 / 0.94);
+  --reading-glass: rgb(16 25 39 / 0.92);
+  --glass-edge: rgb(203 216 238 / 0.07);
+  --glass-shade: 0 1px 0 rgb(255 255 255 / 0.03), 0 18px 38px -26px rgb(0 0 0 / 0.9);
+  --ink: #dce4f2;
+  --ink-2: #aebbd1;
+  --ink-3: #7a89a5;
+  --line: rgb(196 210 233 / 0.11);
+  --line-strong: rgb(196 210 233 / 0.26);
   --accent: #d9bf86;
-  --accent-2: #c9d4ea;
-  --glint-a: rgb(217 191 134 / 0.38);
-  --glint-b: rgb(217 191 134 / 0.14);
+  --accent-2: #8ea9cc;
+  --gold: #d9bf86;
+  --gold-strong: #e8d2a2;
+  --disp-cool: rgb(126 160 208 / 0.6);
+  --disp-warm: rgb(217 191 134 / 0.5);
+  --glint-a: rgb(217 191 134 / 0.4);
+  --glint-b: rgb(142 169 204 / 0.42);
   --focus: #d9bf86;
+  /* Night: the night white carries big blocks; gold is reserved for small signals. */
+  --block: #dce4f2;
+  --block-ink: #0c131e;
+  --grid: rgb(196 210 233 / 0.04);
+  --poster-line: rgb(196 210 233 / 0.17);
+  --hatch: rgb(196 210 233 / 0.055);
 
-  --secondary: rgb(169 177 214 / 0.06);
-  --muted: rgb(169 177 214 / 0.07);
-  --accent-shadcn: rgb(169 177 214 / 0.07);
+  --secondary: rgb(196 210 233 / 0.06);
+  --muted: rgb(196 210 233 / 0.07);
+  --accent-shadcn: rgb(196 210 233 / 0.07);
 
   color-scheme: dark;
 }
@@ -217,7 +260,10 @@
   --font-sans:
     "Hanken Grotesk Variable", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", system-ui,
     sans-serif;
-  --font-display: "Libre Bodoni Variable", "Noto Serif SC", "Songti SC", serif;
+  /* Poster grotesk: heavy weights, tight tracking, used for every structural heading. */
+  --font-display:
+    "Hanken Grotesk Variable", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", system-ui,
+    sans-serif;
   /* High-contrast Bodoni, reserved for the sidebar name where it renders large. */
   --font-signature: "Bodoni Moda Variable", "Noto Serif SC", "Songti SC", serif;
   --font-cjk-serif: "Noto Serif SC", "Songti SC", serif;
@@ -249,10 +295,10 @@
   --color-card: var(--card);
   --color-foreground: var(--foreground);
   --color-background: var(--background);
-  --radius-sm: 3px;
-  --radius-md: 4px;
-  --radius-lg: 6px;
-  --radius-xl: 8px;
+  --radius-sm: 1px;
+  --radius-md: 2px;
+  --radius-lg: 3px;
+  --radius-xl: 4px;
 }
 
 @layer base {
@@ -277,7 +323,8 @@
     line-height: 1.6;
   }
 
-  /* Day and night skies are separate fixed layers so a theme switch can crossfade them. */
+  /* Day and night stocks are separate fixed layers so a theme switch can crossfade them.
+     Both carry a coarse press grid: structure, not decoration. */
   body::before,
   body::after {
     content: "";
@@ -289,15 +336,24 @@
   }
 
   body::before {
-    background: radial-gradient(1100px 760px at 90% -18%, rgb(136 192 208 / 0.1), transparent 60%);
+    background-color: var(--bg);
+    background-image:
+      linear-gradient(var(--grid) 1px, transparent 1px),
+      linear-gradient(90deg, var(--grid) 1px, transparent 1px);
+    background-size:
+      100% 96px,
+      96px 100%;
   }
 
   body::after {
     opacity: 0;
-    background:
-      radial-gradient(1000px 720px at 70% -8%, rgb(65 72 104 / 0.3), transparent 66%),
-      radial-gradient(900px 600px at 0% 110%, rgb(41 46 66 / 0.4), transparent 70%),
-      linear-gradient(180deg, #13131a, #1a1b26 70%, #16161e);
+    background-color: #0c131e;
+    background-image:
+      linear-gradient(var(--grid) 1px, transparent 1px),
+      linear-gradient(90deg, var(--grid) 1px, transparent 1px);
+    background-size:
+      100% 96px,
+      96px 100%;
   }
 
   [data-theme="dark"] body::before {
@@ -309,11 +365,11 @@
   }
 
   ::selection {
-    background: color-mix(in oklab, var(--accent) 28%, transparent);
+    background: color-mix(in oklab, var(--gold) 36%, transparent);
   }
 
   :focus-visible {
-    outline: 1.5px solid var(--focus);
+    outline: 2px solid var(--focus);
     outline-offset: 3px;
   }
 
@@ -332,32 +388,38 @@
     padding-inline: clamp(1.25rem, 4vw, 3rem);
   }
 
-  /* Small labels: mono caps, kept at 12px+ with medium weight so they hold up on phones. */
+  /* Small labels: mono caps, wide tracking, printed folio feel. */
   .eyebrow {
     font-family: var(--font-mono);
-    font-size: 0.75rem;
+    font-size: 0.6875rem;
     font-weight: 500;
-    letter-spacing: 0.08em;
+    letter-spacing: 0.16em;
     text-transform: uppercase;
     color: var(--ink-3);
+    font-variant-numeric: tabular-nums;
   }
 
   .display {
     font-family: var(--font-display);
-    font-weight: 400;
-    letter-spacing: -0.01em;
-    line-height: 1;
+    font-weight: 800;
+    letter-spacing: -0.045em;
+    line-height: 0.92;
+    font-variant-numeric: tabular-nums;
   }
 
-  /* Daylight dispersion on large type; quiet gold at night */
+  /* Chromatic misregistration: the plates slip down the same diagonal as the shadows. */
   .dispersed {
     text-shadow:
-      -0.03em 0 0 var(--glint-a),
-      0.03em 0 0 var(--glint-b);
+      -0.034em -0.024em 0 var(--disp-cool),
+      0.032em 0.022em 0 var(--disp-warm),
+      0 0 0.5px currentColor;
   }
 
   [data-theme="dark"] .dispersed {
-    text-shadow: 0 0 0.6em rgb(217 191 134 / 0.12);
+    text-shadow:
+      -0.034em -0.024em 0 var(--disp-cool),
+      0.032em 0.022em 0 var(--disp-warm),
+      0 0 18px rgb(217 191 134 / 0.14);
   }
 
   .italic-accent {
@@ -365,44 +427,41 @@
     color: var(--accent);
   }
 
-  /* Low-haze glass: thin outline, small radius, light blur, a top highlight edge. */
+  /* Printed sheet: hard edge, a quiet accent offset, light haze. */
   .pane {
     position: relative;
-    border: 1px solid var(--line);
+    border: 1px solid var(--line-strong);
     border-radius: var(--radius-ui);
     background-color: var(--card-glass);
     box-shadow:
       inset 0 1px 0 var(--glass-edge),
+      2px 2px 0 -1px color-mix(in oklab, var(--tone-line, var(--line-strong)) 20%, transparent),
+      0 0 0 -1px transparent,
       var(--glass-shade);
-    -webkit-backdrop-filter: blur(var(--card-blur, 20px)) saturate(1.35);
-    backdrop-filter: blur(var(--card-blur, 20px)) saturate(1.35);
+    -webkit-backdrop-filter: blur(var(--card-blur, 12px)) saturate(1.2);
+    backdrop-filter: blur(var(--card-blur, 12px)) saturate(1.2);
     transition:
-      border-color 0.3s ease,
-      box-shadow 0.35s ease,
-      background-color 0.3s ease,
-      transform 0.45s var(--ease-focus);
+      border-color 0.25s ease,
+      box-shadow 0.35s var(--ease-focus),
+      background-color 0.25s ease,
+      transform 0.3s var(--ease-focus);
   }
 
   .pane-link:hover,
   .pane-link:focus-visible {
-    border-color: var(--line-strong);
+    border-color: var(--ink);
     background-color: var(--card-glass-hover);
     box-shadow:
       inset 0 1px 0 var(--glass-edge),
-      -1.5px 0 0 -0.5px var(--glint-a),
-      1.5px 0 0 -0.5px var(--glint-b),
+      4px 4px 0 -1px color-mix(in oklab, var(--tone-line, var(--line-strong)) 58%, transparent),
+      8px 8px 0 -1px color-mix(in oklab, var(--line-strong) 38%, transparent),
       var(--glass-shade);
-    transform: translateY(-1px);
+    transform: translate(-1px, -1px);
   }
 
   [data-theme="dark"] .pane-link:hover,
   [data-theme="dark"] .pane-link:focus-visible {
-    border-color: rgb(217 191 134 / 0.32);
-    box-shadow:
-      inset 0 1px 0 var(--glass-edge),
-      0 0 0 1px rgb(217 191 134 / 0.06),
-      0 0 32px -8px rgb(217 191 134 / 0.18),
-      var(--glass-shade);
+    border-color: var(--gold);
   }
 
   /* Per-item tones generated in src/lib/tone.ts */
@@ -422,6 +481,51 @@
     height: 1px;
     border: 0;
     background: var(--line);
+  }
+
+  /* Registration mark: the printer's crosshair, doubled as a geometric ornament. */
+  .reg-mark {
+    position: relative;
+    display: inline-block;
+    width: 0.875rem;
+    height: 0.875rem;
+    flex: none;
+  }
+
+  .reg-mark::before,
+  .reg-mark::after {
+    content: "";
+    position: absolute;
+    background: currentColor;
+  }
+
+  .reg-mark::before {
+    left: 0;
+    right: 0;
+    top: 50%;
+    height: 1px;
+  }
+
+  .reg-mark::after {
+    top: 0;
+    bottom: 0;
+    left: 50%;
+    width: 1px;
+  }
+
+  /* A short solid bar used to open sections, like a printer's colour strip. */
+  .signal-bar {
+    display: inline-block;
+    width: 2.25rem;
+    height: 0.375rem;
+    background: var(--gold);
+  }
+
+  /* Offset plate: the same content printed twice, slightly out of register. */
+  .plate {
+    box-shadow:
+      -3px -2px 0 -1px var(--glint-a),
+      3px 2px 0 -1px var(--glint-b);
   }
 
   /* Rack-focus entrance: content resolves from out-of-focus into sharpness. */
@@ -491,8 +595,9 @@ html[data-leaving] main {
 html[data-theme-switching] {
   transition-property:
     --bg, --surface, --surface-strong, --card-glass, --card-glass-hover, --rail, --reading-glass,
-    --glass-edge, --ink, --ink-2, --ink-3, --line, --line-strong, --accent, --accent-2, --glint-a,
-    --glint-b, --focus, --secondary, --muted, --accent-shadcn;
+    --glass-edge, --ink, --ink-2, --ink-3, --line, --line-strong, --accent, --accent-2, --gold,
+    --block, --block-ink, --disp-cool, --disp-warm, --glint-a, --glint-b, --focus, --secondary,
+    --muted, --accent-shadcn;
   transition-duration: 0.6s;
   transition-timing-function: ease;
 }

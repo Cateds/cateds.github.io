@@ -5,26 +5,20 @@ import "../styles/global.css";
 interface Props {
   title?: string;
   description?: string;
-  /** Dim the background sky, for long-form reading pages. */
-  sky?: "full" | "quiet";
 }
 
-const {
-  title = "Personal Notes",
-  description = "Course notes and study materials",
-  sky = "full",
-} = Astro.props;
+const { title = "Personal Notes", description = "Course notes and study materials" } = Astro.props;
 ---
 
 <!doctype html>
-<html lang="en" data-sky={sky}>
+<html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
     <meta name="description" content={description} />
     <meta name="color-scheme" content="light dark" />
     <meta name="theme-color" content="#fdfdfd" media="(prefers-color-scheme: light)" />
-    <meta name="theme-color" content="#16161e" media="(prefers-color-scheme: dark)" />
+    <meta name="theme-color" content="#0c131e" media="(prefers-color-scheme: dark)" />
     <script is:inline>
       (() => {
         const pick = () => {
@@ -40,7 +34,7 @@ const {
         apply(document.documentElement);
         if (!window.__themeSync) {
           // Page exit runs live, before the DOM swap, so frosted glass keeps sampling the
-          // sky. Loading and the defocus run in parallel; the swap waits for both.
+          // live page. Loading and the defocus run in parallel; the swap waits for both.
           const reduce = matchMedia("(prefers-reduced-motion: reduce)");
           document.addEventListener("astro:before-preparation", (e) => {
             if (reduce.matches) return;

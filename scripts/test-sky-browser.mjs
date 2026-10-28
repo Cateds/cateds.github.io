@@ -1,3 +1,5 @@
+// Legacy sky regression suite. The particle layer is not mounted by default; re-enable
+// <Sky /> in PageLayout.astro before running this script.
 // Run against an existing dev server: bun scripts/test-sky-browser.mjs [URL]
 import { chromium, firefox } from "playwright";
 import assert from "node:assert/strict";
