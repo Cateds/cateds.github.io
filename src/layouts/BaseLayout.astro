@@ -34,7 +34,7 @@ const { title = "Personal Notes", description = "Course notes and study material
         apply(document.documentElement);
         if (!window.__themeSync) {
           // Page exit runs live, before the DOM swap, so frosted glass keeps sampling the
-          // live page. Loading and the defocus run in parallel; the swap waits for both.
+          // live page. Loading and the plate wipe run in parallel; the swap waits for both.
           const reduce = matchMedia("(prefers-reduced-motion: reduce)");
           document.addEventListener("astro:before-preparation", (e) => {
             if (reduce.matches) return;
@@ -45,8 +45,15 @@ const { title = "Personal Notes", description = "Course notes and study material
               const main = document.querySelector("main");
               const out = main
                 ? new Promise((done) => {
-                    main.addEventListener("animationend", done, { once: true });
-                    setTimeout(done, 320);
+                    function finish() {
+                      main.removeEventListener("animationend", onEnd);
+                      done();
+                    }
+                    function onEnd(event) {
+                      if (event.target === main) finish();
+                    }
+                    main.addEventListener("animationend", onEnd);
+                    setTimeout(finish, 320);
                   })
                 : Promise.resolve();
               await Promise.all([load(), out]);

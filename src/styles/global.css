@@ -113,6 +113,21 @@
   inherits: true;
   initial-value: rgb(176 96 72 / 0.5);
 }
+@property --grid {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: transparent;
+}
+@property --poster-line {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: transparent;
+}
+@property --hatch {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: transparent;
+}
 @property --glint-a {
   syntax: "<color>";
   inherits: true;
@@ -332,7 +347,7 @@
     inset: 0;
     z-index: -1;
     pointer-events: none;
-    transition: opacity 0.6s ease;
+    transition: opacity 0.24s ease-out;
   }
 
   body::before {
@@ -523,36 +538,38 @@
       3px 2px 0 -1px var(--glint-b);
   }
 
-  /* Rack-focus entrance: content resolves from out-of-focus into sharpness. */
+  /* Plate reveal: a hard-edged type wipe, not a rack focus. */
   /* fill-mode backwards: nothing lingers afterwards. A leftover `filter` would make
      the element a backdrop root and break backdrop-filter on the glass inside it. */
   .focus-in {
-    animation: focus-in 1.05s var(--ease-focus) backwards;
-    animation-delay: calc(var(--d, 0) * 75ms + 60ms);
+    animation: plate-in 0.62s var(--ease-focus) backwards;
+    animation-delay: calc(var(--d, 0) * 45ms + 40ms);
   }
 }
 
-@keyframes focus-in {
+@keyframes plate-in {
   0% {
     opacity: 0;
-    filter: blur(16px);
-    transform: scale(1.025) translateY(6px);
+    clip-path: inset(0 100% 0 0);
+    transform: translateX(-6px);
   }
-  45% {
+  30% {
     opacity: 1;
   }
   100% {
     opacity: 1;
-    filter: none;
+    /* Expand past the border box so text shadows and card offsets do not pop in. */
+    clip-path: inset(-2rem);
     transform: none;
   }
 }
 
-@keyframes defocus-out {
+@keyframes plate-out {
+  from {
+    clip-path: inset(0);
+  }
   to {
-    opacity: 0;
-    filter: blur(14px);
-    transform: scale(0.99);
+    clip-path: inset(0 0 0 100%);
   }
 }
 
@@ -567,12 +584,12 @@
 
 /*
  * Page swaps: no View Transition snapshots. A snapshot is a flat bitmap, so frosted
- * glass inside it stops seeing the moving sky and looks broken. Instead the old page
- * defocuses live (BaseLayout toggles data-leaving), the DOM swaps, and the new page's
- * .focus-in children rack-focus in.
+ * glass inside it stops seeing the live page and looks broken. Instead the old page
+ * is clipped away live (BaseLayout toggles data-leaving), the DOM swaps, and the new
+ * page's .focus-in elements wipe in from the left like fresh ink plates.
  */
 html[data-leaving] main {
-  animation: defocus-out 0.26s cubic-bezier(0.4, 0, 1, 1) both;
+  animation: plate-out 0.22s linear both;
 }
 
 /* Astro still wraps the swap in a View Transition; make it instant so the snapshot
@@ -591,10 +608,10 @@ html[data-theme-switching] {
   transition-property:
     --bg, --surface, --surface-strong, --card-glass, --card-glass-hover, --rail, --reading-glass,
     --glass-edge, --ink, --ink-2, --ink-3, --line, --line-strong, --accent, --accent-2, --gold,
-    --block, --block-ink, --disp-cool, --disp-warm, --glint-a, --glint-b, --focus, --secondary,
-    --muted, --accent-shadcn;
-  transition-duration: 0.6s;
-  transition-timing-function: ease;
+    --block, --block-ink, --disp-cool, --disp-warm, --grid, --poster-line, --hatch, --glint-a,
+    --glint-b, --focus, --secondary, --muted, --accent-shadcn;
+  transition-duration: 0.24s;
+  transition-timing-function: cubic-bezier(0.2, 0.7, 0.1, 1);
 }
 
 @media (prefers-reduced-motion: reduce) {

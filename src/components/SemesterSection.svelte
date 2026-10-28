@@ -217,15 +217,13 @@
     display: grid;
     grid-template-rows: 1fr;
     transition:
-      grid-template-rows 0.6s var(--ease-focus),
-      opacity 0.5s ease,
-      filter 0.6s var(--ease-focus);
+      grid-template-rows 0.5s var(--ease-focus),
+      opacity 0.3s ease;
   }
 
   :global(.term-body[data-state="closed"]) {
     grid-template-rows: 0fr;
     opacity: 0;
-    filter: blur(8px);
   }
 
   .term-clip {

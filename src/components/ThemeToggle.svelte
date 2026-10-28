@@ -33,9 +33,9 @@
     theme = next;
   }
 
-  // Live crossfade rather than a View Transition: a snapshot would freeze the frosted
-  // glass for the length of the animation. Registered root palette colours retain
-  // the fade without creating independent transitions on every DOM element.
+  // Live palette change rather than a View Transition: a snapshot would freeze the
+  // frosted glass for the length of the animation. Registered root palette colours keep
+  // the fast fade without creating independent transitions on every DOM element.
   function toggle() {
     const next: Theme = theme === "light" ? "dark" : "light";
     const root = document.documentElement;
@@ -43,7 +43,7 @@
     window.clearTimeout(switchTimer);
     if (!reduce) {
       root.dataset.themeSwitching = "";
-      switchTimer = window.setTimeout(() => delete root.dataset.themeSwitching, 700);
+      switchTimer = window.setTimeout(() => delete root.dataset.themeSwitching, 320);
     } else {
       delete root.dataset.themeSwitching;
     }
