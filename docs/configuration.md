@@ -194,6 +194,6 @@ const iconMap: Record<string, JSX.Element> = {
 theme: {
   defaultTheme: 'system',   // 'light' | 'dark' | 'system'
   warmAccent: '#4a8a8f',    // 主色调
-  particleColor: '#4a8a8f', // 粒子颜色
+  particleColor: '#4a8a8f', // 旧粒子背景字段；当前静态背景不读取
 },
 ```
