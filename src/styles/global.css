@@ -406,9 +406,9 @@
   /* Small labels: mono caps, wide tracking, printed folio feel. */
   .eyebrow {
     font-family: var(--font-mono);
-    font-size: 0.6875rem;
+    font-size: 0.75rem;
     font-weight: 500;
-    letter-spacing: 0.16em;
+    letter-spacing: 0.12em;
     text-transform: uppercase;
     color: var(--ink-3);
     font-variant-numeric: tabular-nums;

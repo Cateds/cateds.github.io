@@ -65,20 +65,25 @@
 <style>
   .filter {
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     gap: 0.875rem;
     margin-bottom: 2rem;
+  }
+
+  .filter > .eyebrow {
+    padding-top: 0.35rem;
   }
 
   .filter-rule {
     width: 2rem;
     height: 1px;
+    margin-top: 0.95rem;
     background: var(--gold);
   }
 
   .filter :global(.tag) {
     font-family: var(--font-mono);
-    font-size: 0.6875rem;
+    font-size: 0.8125rem;
     letter-spacing: 0.04em;
     text-transform: uppercase;
     color: var(--ink-2);
@@ -103,6 +108,7 @@
     margin: 0;
     padding: 0;
     list-style: none;
+    background: var(--bg);
     border-top: 1px solid var(--line-strong);
   }
 
@@ -147,6 +153,12 @@
     color: var(--gold);
   }
 
+  .post time {
+    font-size: 0.8125rem;
+    letter-spacing: 0.08em;
+    color: var(--ink-2);
+  }
+
   .post-body {
     display: grid;
     gap: 0.375rem;
@@ -181,6 +193,9 @@
     display: grid;
     justify-items: end;
     gap: 0.25rem;
+    font-size: 0.8125rem;
+    letter-spacing: 0.08em;
+    color: var(--ink-2);
   }
 
   .empty {

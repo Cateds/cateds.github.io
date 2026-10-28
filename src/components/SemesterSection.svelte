@@ -344,6 +344,12 @@
     border-top: 1px solid var(--line);
   }
 
+  .subject-foot :global(.eyebrow) {
+    font-size: 0.8125rem;
+    letter-spacing: 0.08em;
+    color: var(--ink-2);
+  }
+
   :global(.subject-arrow) {
     color: var(--ink-3);
     transition:
