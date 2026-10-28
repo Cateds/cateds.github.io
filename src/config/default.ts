@@ -200,8 +200,8 @@ export const siteConfig: SiteConfig = {
     particleColor: "#4a8a8f",
   },
   features: {
-    blog: true,
-    repos: true,
+    blog: false,
+    repos: false,
     links: true,
   },
 };
